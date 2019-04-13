@@ -1,5 +1,6 @@
 *.sln
 *.vcxproj*
+.vs/
 
 # C++ objects and libs
 *.slo
