@@ -10,9 +10,9 @@ ApplicationWindow {
 
     Text {
         text: qsTr("你好世界！");
-        color: Qt.rgba(Math.random() / 10, 
+        color: Qt.rgba(Math.random() / 10,
                        Math.random() / 10,
-                       Math.random() / 10, 
+                       Math.random() / 10,
                        1.0);
         font.pointSize: 32;
         verticalAlignment: Text.AlignVCenter;
