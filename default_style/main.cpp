@@ -4,14 +4,14 @@
 int main(int argc, char ** argv) {
 
     sstd::QtApplication varApplication{ argc,argv,{
-            sstd::getLocalFileFullFilePath(
+            sstd::autoLocalPath<QString>(
                 QStringLiteral("appqml/default_style/qtquickcontrols2.conf"))
     } };
 
     QQmlApplicationEngine varEngine;
     {
         /*获得Qml文件绝对路径*/
-        auto varFullFileName = sstd::getLocalFileFullPath(
+        auto varFullFileName = sstd::autoLocalPath<QUrl>(
             QStringLiteral("appqml/default_style/main.qml"));
         /*加载Qml文件*/
         varEngine.load(varFullFileName);
