@@ -22,5 +22,6 @@ CONFIG(debug,debug|release){
 }
 export(QMAKE_POST_LINK)
 
-
+TRANSLATIONS += $$PWD/theqml_the_debug/simple_moudle/the_zh.ts \
+                $$PWD/theqml_the_debug/simple_moudle/the_en.ts
 

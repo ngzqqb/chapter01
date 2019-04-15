@@ -8,6 +8,10 @@ namespace sstd {
         };
     }
 
+    QString SomeData::getString() const{
+        return trUtf8(u8R"(你好世界！)");
+    }
+
 }/*namespace sstd*/
 
 

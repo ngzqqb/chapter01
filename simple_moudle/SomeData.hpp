@@ -8,6 +8,7 @@ namespace sstd {
         Q_OBJECT
     public:
         Q_SLOT QColor getRandomColor() const;
+        Q_SLOT QString getString() const;
     private:
         sstd_class(SomeData);
     };

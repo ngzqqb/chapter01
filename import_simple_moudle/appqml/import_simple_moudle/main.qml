@@ -12,11 +12,11 @@ ApplicationWindow {
     visible: true ;
 
     Text {
-        text: qsTr("你好世界！");
         SomeData{
-            id:idRandomColor
+            id:idSomeData
         }
-        color: idRandomColor.getRandomColor();
+        text: idSomeData.getString();
+        color: idSomeData.getRandomColor();
         font.pointSize: 32;
         verticalAlignment: Text.AlignVCenter;
         horizontalAlignment: Text.AlignHCenter;
@@ -26,7 +26,7 @@ ApplicationWindow {
             running: true;
             repeat: true;
             onTriggered:{
-                parent.color = idRandomColor.getRandomColor();
+                parent.color = idSomeData.getRandomColor();
             }
         }
     }
