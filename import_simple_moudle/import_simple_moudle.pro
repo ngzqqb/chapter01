@@ -17,7 +17,7 @@ DESTDIR = $${SSTD_LIBRARY_OUTPUT_PATH}
 CONFIG(debug,debug|release){
     DEFINES += CURRENT_DEBUG_PATH=\\\"$$PWD\\\"
 }else{
-    QMAKE_POST_LINK += $${DESTDIR}/sstd_copy_qml $${PWD}/appqml $${DESTDIR}/appqml release
+    QMAKE_POST_LINK += $$escape_expand(\\n\\t)$${DESTDIR}/sstd_copy_qml $${PWD}/appqml $${DESTDIR}/appqml release
     export(QMAKE_POST_LINK)
 }
 
