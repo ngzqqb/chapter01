@@ -3,7 +3,7 @@
 .vs/
 debug/
 release/
-
+sstd_create_default_project.exe
 
 # C++ objects and libs
 *.slo

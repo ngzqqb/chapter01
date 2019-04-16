@@ -1,0 +1,4 @@
+module theqml_the_debug.two_point_line_module
+plugin two_point_line_module
+typeinfo plugins.qmltypes
+#classname sstd::TheMoudle
