@@ -1,38 +1,38 @@
 ﻿#include "TwoPointLine.hpp"
 
-namespace sstd{
+namespace sstd {
 
     TwoPointLine::TwoPointLine(QQuickItem * arg) :Super(arg) {
         thisLineWidth = 1.;
-        thisFlags.set();
+        thisFlags = static_cast<std::size_t>(-1);
     }
 
-    void TwoPointLine::setTwoPoint(const TwoPoint & arg){
-        if( thisData == arg ) {
+    void TwoPointLine::setTwoPoint(const TwoPoint & arg) {
+        if (thisData == arg) {
             return;
         }
         thisData = arg;
-        thisFlags.set( PointChanged_ );
+        thisFlags |= PointChanged_;
         twoPointChanged();
         this->update();
     }
 
-    void TwoPointLine::setLineWidth(const double & arg){
-        if( thisLineWidth == arg ){
+    void TwoPointLine::setLineWidth(const double & arg) {
+        if (thisLineWidth == arg) {
             return;
         }
         thisLineWidth = arg;
-        thisFlags.set( LineWidthChanged_ );
+        thisFlags |= LineWidthChanged_;
         lineWidthChanged();
         this->update();
     }
 
-    void TwoPointLine::setLineColor(const QColor & arg){
-        if( thisLineColor == arg ){
+    void TwoPointLine::setLineColor(const QColor & arg) {
+        if (thisLineColor == arg) {
             return;
         }
         thisLineColor = arg;
-        thisFlags.set( LineColorChanged_ );
+        thisFlags |= LineColorChanged_;
         lineColorChanged();
         this->update();
     }
@@ -44,15 +44,16 @@ namespace sstd{
         inline TwoLineNode(TwoPointLine * arg) : thisSuper(arg) {
         }
 
-        inline void update(){
+        inline void update() {
 
-            if( thisSuper->thisFlags.test( TwoPointLine::PointChanged_ ) ||
-                thisSuper->thisFlags.test( TwoPointLine::LineWidthChanged_ ) ){
-
+            if ((thisSuper->thisFlags&TwoPointLine::PointChanged_) ||
+                (thisSuper->thisFlags&TwoPointLine::LineWidthChanged_)) {
+                thisSuper->thisFlags &= (~TwoPointLine::LineWidthChanged_);
+                thisSuper->thisFlags &= (~TwoPointLine::PointChanged_);
             }
 
-            if( thisSuper->thisFlags.test( TwoPointLine::LineColorChanged_ )  ){
-
+            if (thisSuper->thisFlags&TwoPointLine::LineColorChanged_) {
+                thisSuper->thisFlags &= (~TwoPointLine::LineColorChanged_);
             }
 
         }
@@ -60,10 +61,10 @@ namespace sstd{
         sstd_class(TwoLineNode);
     };
 
-    QSGNode * TwoPointLine::updatePaintNode(QSGNode * argNode, QQuickItem::UpdatePaintNodeData *){
-        auto varNode = static_cast< TwoLineNode * >(argNode);
-        if(varNode == nullptr){
-            varNode = sstd_new< TwoLineNode >();
+    QSGNode * TwoPointLine::updatePaintNode(QSGNode * argNode, QQuickItem::UpdatePaintNodeData *) {
+        auto varNode = static_cast<TwoLineNode *>(argNode);
+        if (varNode == nullptr) {
+            //varNode = sstd_new< TwoLineNode >();
         }
         varNode->update();
         return varNode;

@@ -3,9 +3,9 @@
 
 #include <sstd_qt_qml_quick_library.hpp>
 
-namespace sstd{
+namespace sstd {
 
-    class TwoPoint{
+    class TwoPoint {
         Q_GADGET
     private:
         QPointF thisFirstPoint;
@@ -26,14 +26,14 @@ namespace sstd{
         sstd_class(TwoPoint);
     };
 
-    inline bool operator==(const TwoPoint & a, const TwoPoint & b){
-        if(&a==&b){
+    inline bool operator==(const TwoPoint & a, const TwoPoint & b) {
+        if (&a == &b) {
             return true;
         }
-        if(a.thisFirstPoint!=b.thisFirstPoint){
+        if (a.thisFirstPoint != b.thisFirstPoint) {
             return false;
         }
-        return a.thisSecondPoint==b.thisSecondPoint;
+        return a.thisSecondPoint == b.thisSecondPoint;
     }
 
 }/*namespace sstd*/

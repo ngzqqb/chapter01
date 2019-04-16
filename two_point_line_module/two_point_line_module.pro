@@ -16,6 +16,9 @@ HEADERS += $$PWD/TwoPointLine.hpp
 SOURCES += $$PWD/TwoPoint.cpp
 HEADERS += $$PWD/TwoPoint.hpp
 
+SOURCES += $$PWD/StaticCreator.cpp
+HEADERS += $$PWD/StaticCreator.hpp
+
 include($$PWD/../../sstd_library/sstd_library.pri)
 include($$PWD/../../sstd_qt_qml_quick_library/sstd_qt_qml_quick_library.pri)
 
