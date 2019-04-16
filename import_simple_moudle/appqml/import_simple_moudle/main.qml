@@ -2,7 +2,7 @@
 import QtQuick.Controls 2.5
 
 /*begin:import*/
-import theqml_the_debug.simple_moudle 1.0
+import theqml_the_debug.simple_moudle 1.0 as SimpleMoudle
 /*end:import*/
 
 ApplicationWindow {
@@ -12,7 +12,7 @@ ApplicationWindow {
     visible: true ;
 
     Text {
-        SomeData{
+        SimpleMoudle.SomeData{
             id:idSomeData
         }
         text: idSomeData.getString();
