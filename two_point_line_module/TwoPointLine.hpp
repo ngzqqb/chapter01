@@ -2,10 +2,12 @@
 #pragma once
 
 #include "TwoPoint.hpp"
+#include <bitset>
 #include <sstd_qt_qml_quick_library.hpp>
 
 namespace sstd{
 
+    class TwoLineNode;
     class TwoPointLine : public QQuickItem {
         Q_OBJECT
     private:
@@ -20,20 +22,31 @@ namespace sstd{
         TwoPointLine(QQuickItem*parent=nullptr);
     public:
         inline TwoPoint getTwoPoint() const;
-        void setTwoPoint(const TwoPoint &);
+        void setTwoPoint(const TwoPoint &varTwoPoint);
         Q_SIGNAL void twoPointChanged();
     public:
         inline double getLineWidth() const;
-        void setLineWidth(const double &);
+        void setLineWidth(const double &varLineWidth);
         Q_SIGNAL void lineWidthChanged();
     public:
         inline QColor getLineColor() const;
-        void setLineColor(const QColor &);
+        void setLineColor(const QColor &varLineColor);
         Q_SIGNAL void lineColorChanged();
+    protected:
+        virtual QSGNode * updatePaintNode(QSGNode *, QQuickItem::UpdatePaintNodeData *) override;
     private:
         TwoPoint thisData;
         double thisLineWidth;
         QColor thisLineColor;
+        enum{
+            PointChanged_,
+            LineWidthChanged_,
+            LineColorChanged_,
+            FlagSize_,
+        };
+        std::bitset<FlagSize_> thisFlags;
+    private:
+        friend class TwoLineNode;
     private:
         sstd_class(TwoPointLine);
     };

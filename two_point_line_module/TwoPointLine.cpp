@@ -4,6 +4,7 @@ namespace sstd{
 
     TwoPointLine::TwoPointLine(QQuickItem * arg) :Super(arg) {
         thisLineWidth = 1.;
+        thisFlags.set();
     }
 
     void TwoPointLine::setTwoPoint(const TwoPoint & arg){
@@ -11,7 +12,9 @@ namespace sstd{
             return;
         }
         thisData = arg;
+        thisFlags.set( PointChanged_ );
         twoPointChanged();
+        this->update();
     }
 
     void TwoPointLine::setLineWidth(const double & arg){
@@ -19,7 +22,9 @@ namespace sstd{
             return;
         }
         thisLineWidth = arg;
+        thisFlags.set( LineWidthChanged_ );
         lineWidthChanged();
+        this->update();
     }
 
     void TwoPointLine::setLineColor(const QColor & arg){
@@ -27,7 +32,41 @@ namespace sstd{
             return;
         }
         thisLineColor = arg;
+        thisFlags.set( LineColorChanged_ );
         lineColorChanged();
+        this->update();
+    }
+
+    class TwoLineNode : public QSGNode {
+        TwoPointLine * const thisSuper;
+    public:
+
+        inline TwoLineNode(TwoPointLine * arg) : thisSuper(arg) {
+        }
+
+        inline void update(){
+
+            if( thisSuper->thisFlags.test( TwoPointLine::PointChanged_ ) ||
+                thisSuper->thisFlags.test( TwoPointLine::LineWidthChanged_ ) ){
+
+            }
+
+            if( thisSuper->thisFlags.test( TwoPointLine::LineColorChanged_ )  ){
+
+            }
+
+        }
+    private:
+        sstd_class(TwoLineNode);
+    };
+
+    QSGNode * TwoPointLine::updatePaintNode(QSGNode * argNode, QQuickItem::UpdatePaintNodeData *){
+        auto varNode = static_cast< TwoLineNode * >(argNode);
+        if(varNode == nullptr){
+            varNode = sstd_new< TwoLineNode >();
+        }
+        varNode->update();
+        return varNode;
     }
 
 }/*namespace sstd*/
