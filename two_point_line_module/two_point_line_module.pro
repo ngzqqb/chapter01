@@ -10,6 +10,12 @@ HEADERS += $$PWD/the_moudle.hpp
 SOURCES += $$PWD/Empty.cpp
 HEADERS += $$PWD/Empty.hpp
 
+SOURCES += $$PWD/TwoPointLine.cpp
+HEADERS += $$PWD/TwoPointLine.hpp
+
+SOURCES += $$PWD/TwoPoint.cpp
+HEADERS += $$PWD/TwoPoint.hpp
+
 include($$PWD/../../sstd_library/sstd_library.pri)
 include($$PWD/../../sstd_qt_qml_quick_library/sstd_qt_qml_quick_library.pri)
 
