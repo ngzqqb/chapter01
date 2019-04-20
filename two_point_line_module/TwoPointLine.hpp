@@ -14,7 +14,7 @@ namespace sstd {
     private:
         using Super = QQuickItem;
     public:
-        Q_PROPERTY(TwoPoint twoPoint READ getTwoPoint WRITE setTwoPoint NOTIFY twoPointChanged)
+        Q_PROPERTY(QVariant twoPoint READ getTwoPoint WRITE setTwoPoint NOTIFY twoPointChanged)
     public:
         Q_PROPERTY(double lineWidth READ getLineWidth WRITE setLineWidth NOTIFY lineWidthChanged)
     public:
@@ -25,8 +25,8 @@ namespace sstd {
     protected:
         virtual void componentComplete() override;
     public:
-        inline TwoPoint getTwoPoint() const;
-        void setTwoPoint(const TwoPoint &varTwoPoint);
+        inline QVariant getTwoPoint() const;
+        void setTwoPoint(const QVariant &varTwoPoint);
         Q_SIGNAL void twoPointChanged();
     public:
         inline double getLineWidth() const;
@@ -47,8 +47,8 @@ namespace sstd {
         sstd_class(TwoPointLine);
     };
 
-    inline TwoPoint TwoPointLine::getTwoPoint() const {
-        return thisNodeData->getTwoPoint();
+    inline QVariant TwoPointLine::getTwoPoint() const {
+        return QVariant::fromValue(thisNodeData->getTwoPoint());
     }
 
     inline double TwoPointLine::getLineWidth() const {

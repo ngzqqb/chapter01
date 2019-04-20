@@ -18,8 +18,12 @@ namespace sstd {
         thisNode = sstd_new<TwoPointLineNode>(thisNodeData);
     }
 
-    void TwoPointLine::setTwoPoint(const TwoPoint & arg) {
-        if (thisNodeData->setTwoPoint(arg)) {
+    void TwoPointLine::setTwoPoint(const QVariant & arg) {
+        if (qMetaTypeId<sstd::TwoPoint>() != arg.userType()) {
+            qWarning() << QStringLiteral("you input error type!") << arg;
+            return;
+        }
+        if (thisNodeData->setTwoPoint(arg.value<sstd::TwoPoint>())) {
             this->twoPointChanged();
         }
     }

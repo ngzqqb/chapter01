@@ -10,24 +10,12 @@ namespace sstd {
         Q_OBJECT
     public:
         Static();
-        Q_SLOT TwoPoint createTwoPoint(double fX,double fY,double sX,double sY) const;
+        Q_SLOT QVariant createTwoPoint(double fX,double fY,double sX,double sY) const;
     public:
         static QObject * instance(QQmlEngine *, QJSEngine *);
     private:
         sstd_class(Static);
     };
 
-
 }/*namespace sstd*/
-
-
-
-
-
-
-
-
-
-
-
 
