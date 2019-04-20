@@ -3,6 +3,7 @@
 
 #include <bitset>
 #include "TwoPoint.hpp"
+#include "TwoPointLineNode.hpp"
 #include <sstd_qt_qml_quick_library.hpp>
 
 namespace sstd {
@@ -20,6 +21,7 @@ namespace sstd {
         Q_PROPERTY(QColor lineColor READ getLineColor WRITE setLineColor NOTIFY lineColorChanged)
     public:
         TwoPointLine(QQuickItem*parent = nullptr);
+        ~TwoPointLine();
     public:
         inline TwoPoint getTwoPoint() const;
         void setTwoPoint(const TwoPoint &varTwoPoint);
@@ -35,31 +37,26 @@ namespace sstd {
     protected:
         virtual QSGNode * updatePaintNode(QSGNode *, QQuickItem::UpdatePaintNodeData *) override;
     private:
-        TwoPoint thisData;
-        double thisLineWidth;
-        QColor thisLineColor;
-        enum : std::size_t {
-            PointChanged_ = 1,
-            LineWidthChanged_ = 1 << 1,
-            LineColorChanged_ = 1 << 2,
-        };
-        std::size_t thisFlags;
-    private:
         friend class TwoLineNode;
+    private:
+        TwoPointLineNode * thisNode{nullptr};
     private:
         sstd_class(TwoPointLine);
     };
 
-    inline TwoPoint TwoPointLine::getTwoPoint() const {
-        return thisData;
+    inline TwoPoint TwoPointLine::getTwoPoint() const{
+        assert(thisNode);
+        return thisNode->getTwoPoint();
     }
 
-    inline double TwoPointLine::getLineWidth() const {
-        return thisLineWidth;
+    inline double TwoPointLine::getLineWidth() const{
+        assert(thisNode);
+        return thisNode->getLineWidth();
     }
 
-    inline QColor TwoPointLine::getLineColor() const {
-        return thisLineColor;
+    inline QColor TwoPointLine::getLineColor() const{
+        assert(thisNode);
+        return thisNode->getLineColor();
     }
 
 }/*namespace sstd*/

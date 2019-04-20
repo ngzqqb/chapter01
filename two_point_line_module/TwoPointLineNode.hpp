@@ -24,6 +24,7 @@ namespace sstd{
         bool setLineWidth(const double &);
         bool setLineColor(const QColor &);
     public:
+        template<bool/*is construct*/=false>
         void updateTheNode();
     private:
         TwoPoint thisPoints;
