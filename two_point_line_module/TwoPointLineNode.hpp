@@ -48,10 +48,14 @@ namespace sstd {
     class TwoPointLineNode : public QSGGeometryNode {
     public:
         TwoPointLineNode(std::shared_ptr<TwoPointLineNodeData>);
+    private:
+        void updateTheGeometry();
     public:
         void updateTheNode();
     private:
         std::shared_ptr<TwoPointLineNodeData> thisData;
+        QSGFlatColorMaterial thisMaterial;
+        QSGGeometry thisGeometry;
     private:
         sstd_class(TwoPointLineNode);
     };
