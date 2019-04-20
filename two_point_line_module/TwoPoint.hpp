@@ -37,5 +37,3 @@ namespace sstd {
     }
 
 }/*namespace sstd*/
-
-Q_DECLARE_METATYPE(sstd::TwoPoint)
