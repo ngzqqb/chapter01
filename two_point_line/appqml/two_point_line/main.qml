@@ -31,8 +31,8 @@ ApplicationWindow {
         SequentialAnimation on rotation {
             id : idAnimation
             loops: Animation.Infinite
-            NumberAnimation{ to : 360 ; duration: 2000}
-            NumberAnimation{ to : 0 ;duration: 2100}
+            NumberAnimation{ to : 360 ; duration: 5000}
+            NumberAnimation{ to : 0 ;duration: 5000}
         }
 
         Component.onDestruction: {
