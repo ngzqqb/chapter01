@@ -14,6 +14,39 @@ namespace sstd {
         Super::componentComplete();
     }
 
+    extern std::array< QPointF, 4 > updateGeometryByTwoPoints(QPointF varStartPoint,
+        QPointF varEndPoint,
+        double varLineWidth,
+        bool & argIsEmpty);
+
+    void TwoPointLine::updateWidthHeight() {
+        bool varIsEmpty{ false };
+        auto varTwoPoint = thisNodeData->getTwoPoint();
+        auto varPoints = updateGeometryByTwoPoints(varTwoPoint.getFirstPoint(),
+            varTwoPoint.getSecondPoint(),
+            thisNodeData->getLineWidth(),
+            varIsEmpty);
+        if (varIsEmpty) {
+            this->setWidth(0);
+            this->setHeight(0);
+        } else {
+            {
+                auto varXLimit = std::minmax_element(varPoints.begin(), varPoints.end(),
+                    [](const auto & varI, const auto & varJ) {
+                    return varI.x() < varJ.x();
+                });
+                this->setWidth(varXLimit.second->x() - varXLimit.first->x());
+            }
+            {
+                auto varXLimit = std::minmax_element(varPoints.begin(), varPoints.end(),
+                    [](const auto & varI, const auto & varJ) {
+                    return varI.y() < varJ.y();
+                });
+                this->setHeight(varXLimit.second->y() - varXLimit.first->y());
+            }
+        }
+    }
+
     void TwoPointLine::setTwoPoint(const QVariant & arg) {
         if (qMetaTypeId<sstd::TwoPoint>() != arg.userType()) {
             qWarning() << QStringLiteral("you input error type "
@@ -21,6 +54,7 @@ namespace sstd {
             return;
         }
         if (thisNodeData->setTwoPoint(arg.value<sstd::TwoPoint>())) {
+            this->updateWidthHeight();
             this->twoPointChanged();
             this->update();
         }
@@ -28,6 +62,7 @@ namespace sstd {
 
     void TwoPointLine::setLineWidth(const double & arg) {
         if (thisNodeData->setLineWidth(arg)) {
+            this->updateWidthHeight();
             this->lineWidthChanged();
             this->update();
         }

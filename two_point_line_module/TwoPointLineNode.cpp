@@ -46,17 +46,15 @@ namespace sstd {
 
     }
 
-    void TwoPointLineNode::updateTheGeometry() {
+    extern std::array< QPointF, 4 > updateGeometryByTwoPoints(QPointF varStartPoint,
+        QPointF varEndPoint,
+        double varLineWidth,
+        bool & argIsEmpty) {
 
         constexpr const auto varEpsilon =
             static_cast<qreal>(std::numeric_limits<GLfloat>::epsilon());
 
-        const auto varTwoPoint = thisData->getTwoPoint();
-        const auto varLineWidth = thisData->getLineWidth();
-
-        auto varEndPoint = varTwoPoint.getSecondPoint();
-        auto varStartPoint = varTwoPoint.getFirstPoint();
-
+        argIsEmpty = false;
         auto dx = varEndPoint.x() - varStartPoint.x();
         auto dy = varEndPoint.y() - varStartPoint.y();
 
@@ -67,14 +65,8 @@ namespace sstd {
 
         /*检查是不是零长度直线*/
         if ((varLength < varEpsilon) || (varLineWidth < varEpsilon)) {
-
-            auto varPoint = thisGeometry.vertexDataAsPoint2D();
-            varPoint[0].set(0, 0);
-            varPoint[1].set(0, 0);
-            varPoint[2].set(0, 0);
-            varPoint[3].set(0, 0);
-            return;
-
+            argIsEmpty = true;
+            return {};
         }
 
         /*调整点环绕方向*/
@@ -89,19 +81,48 @@ namespace sstd {
         dx *= varLength;
         dy *= varLength;
 
+        return { QPointF{ varStartPoint.x() - dy,varStartPoint.y() + dx },
+            QPointF{ varStartPoint.x() + dy,varStartPoint.y() - dx },
+            QPointF{ varEndPoint.x() - dy,varEndPoint.y() + dx },
+            QPointF{ varEndPoint.x() + dy,varEndPoint.y() - dx } };
+
+    }
+
+    void TwoPointLineNode::updateTheGeometry() {
+
+        const auto varTwoPoint = thisData->getTwoPoint();
+        const auto varLineWidth = thisData->getLineWidth();
+        bool varIsEmpty{ false };
+
+        auto varPoints = updateGeometryByTwoPoints(
+            varTwoPoint.getFirstPoint(),
+            varTwoPoint.getSecondPoint(),
+            varLineWidth,
+            varIsEmpty);
+
         auto varPoint = thisGeometry.vertexDataAsPoint2D();
-        varPoint[0].set(
-            static_cast<GLfloat>(varStartPoint.x() - dy),
-            static_cast<GLfloat>(varStartPoint.y() + dx));
-        varPoint[1].set(
-            static_cast<GLfloat>(varStartPoint.x() + dy),
-            static_cast<GLfloat>(varStartPoint.y() - dx));
-        varPoint[3].set(
-            static_cast<GLfloat>(varEndPoint.x() + dy),
-            static_cast<GLfloat>(varEndPoint.y() - dx));
-        varPoint[2].set(
-            static_cast<GLfloat>(varEndPoint.x() - dy),
-            static_cast<GLfloat>(varEndPoint.y() + dx));
+
+        /*检查是不是零长度直线*/
+        if (varIsEmpty) {
+            varPoint[0].set(0, 0);
+            varPoint[1].set(0, 0);
+            varPoint[2].set(0, 0);
+            varPoint[3].set(0, 0);
+            return;
+        } else {
+            varPoint[0].set(
+                static_cast<GLfloat>(varPoints[0].x()),
+                static_cast<GLfloat>(varPoints[0].y()));
+            varPoint[1].set(
+                static_cast<GLfloat>(varPoints[1].x()),
+                static_cast<GLfloat>(varPoints[1].y()));
+            varPoint[2].set(
+                static_cast<GLfloat>(varPoints[2].x()),
+                static_cast<GLfloat>(varPoints[2].y()));
+            varPoint[3].set(
+                static_cast<GLfloat>(varPoints[3].x()),
+                static_cast<GLfloat>(varPoints[3].y()));
+        }
 
     }
 

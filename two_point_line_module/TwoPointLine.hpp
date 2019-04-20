@@ -42,6 +42,7 @@ namespace sstd {
         friend class TwoLineNode;
     private:
         std::shared_ptr< TwoPointLineNodeData > thisNodeData ;
+        void updateWidthHeight();
     private:
         sstd_class(TwoPointLine);
     };
