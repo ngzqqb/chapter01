@@ -21,18 +21,21 @@ namespace sstd {
         }
         if (thisNodeData->setTwoPoint(arg.value<sstd::TwoPoint>())) {
             this->twoPointChanged();
+            this->update();
         }
     }
 
     void TwoPointLine::setLineWidth(const double & arg) {
         if (thisNodeData->setLineWidth(arg)) {
             this->lineWidthChanged();
+            this->update();
         }
     }
 
     void TwoPointLine::setLineColor(const QColor & arg) {
         if (thisNodeData->setLineColor(arg)) {
             this->lineColorChanged();
+            this->update();
         }
     }
 

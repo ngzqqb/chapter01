@@ -16,6 +16,35 @@ ApplicationWindow {
         anchors.centerIn: parent
 
         twoPoint: Static.createTwoPoint(0,0,200,200)
+        lineColor: "blue"
+        lineWidth: 5
+
+        onTwoPointChanged: {
+            var varFirst = twoPoint.getFirstPoint();
+            var varSecond = twoPoint.getSecondPoint();
+            width = Math.abs( varFirst.x - varSecond.x );
+            height = Math.abs( varFirst.y - varSecond.y );
+        }
+
+        transformOrigin : Item.Center
+
+        SequentialAnimation on lineColor {
+            id : idAnimationColor
+            loops: Animation.Infinite
+            ColorAnimation{ to : "yellow" ; duration: 5000}
+            ColorAnimation{ to : "blue" ;duration: 5000}
+        }
+
+        Component.onDestruction: {
+            idAnimationColor.stop();
+        }
+
+    }
+
+    TwoPointLine {
+        anchors.centerIn: parent
+
+        twoPoint: Static.createTwoPoint(0,0,200,200)
         lineColor: Qt.rgba(1,0.2,0.2,1)
         lineWidth: 5
 
