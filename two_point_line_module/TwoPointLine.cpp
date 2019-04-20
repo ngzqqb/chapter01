@@ -12,6 +12,11 @@ namespace sstd {
         }
     }
 
+    void TwoPointLine::componentComplete() {
+        thisNode = sstd_new<TwoPointLineNode>();
+        Super::componentComplete();
+    }
+
     void TwoPointLine::setTwoPoint(const TwoPoint & arg) {
         assert( thisNode );
         if( thisNode->setTwoPoint(arg) ){

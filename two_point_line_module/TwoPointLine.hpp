@@ -22,6 +22,8 @@ namespace sstd {
     public:
         TwoPointLine(QQuickItem*parent = nullptr);
         ~TwoPointLine();
+    protected:
+        virtual void  componentComplete() override;
     public:
         inline TwoPoint getTwoPoint() const;
         void setTwoPoint(const TwoPoint &varTwoPoint);
