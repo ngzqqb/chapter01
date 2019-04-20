@@ -22,7 +22,7 @@ namespace sstd {
     void TwoPointLine::updateWidthHeight() {
 
         double varWidth, varHeight;
-        auto varLineWidth = thisNodeData->getLineWidth()*0.5;
+        constexpr auto varLineWidth = 0.5;
 
         {
             auto varTwoPoint = thisNodeData->getTwoPoint();
