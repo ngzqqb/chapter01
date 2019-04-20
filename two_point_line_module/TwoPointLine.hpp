@@ -23,7 +23,7 @@ namespace sstd {
         TwoPointLine(QQuickItem*parent = nullptr);
         ~TwoPointLine();
     protected:
-        virtual void  componentComplete() override;
+        virtual void componentComplete() override;
     public:
         inline TwoPoint getTwoPoint() const;
         void setTwoPoint(const TwoPoint &varTwoPoint);
@@ -41,24 +41,22 @@ namespace sstd {
     private:
         friend class TwoLineNode;
     private:
+        std::shared_ptr< TwoPointLineNodeData > thisNodeData ;
         TwoPointLineNode * thisNode{nullptr};
     private:
         sstd_class(TwoPointLine);
     };
 
-    inline TwoPoint TwoPointLine::getTwoPoint() const{
-        assert(thisNode);
-        return thisNode->getTwoPoint();
+    inline TwoPoint TwoPointLine::getTwoPoint() const {
+        return thisNodeData->getTwoPoint();
     }
 
-    inline double TwoPointLine::getLineWidth() const{
-        assert(thisNode);
-        return thisNode->getLineWidth();
+    inline double TwoPointLine::getLineWidth() const {
+        return thisNodeData->getLineWidth();
     }
 
-    inline QColor TwoPointLine::getLineColor() const{
-        assert(thisNode);
-        return thisNode->getLineColor();
+    inline QColor TwoPointLine::getLineColor() const {
+        return thisNodeData->getLineColor();
     }
 
 }/*namespace sstd*/

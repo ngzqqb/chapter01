@@ -3,18 +3,18 @@
 #include <sstd_qt_qml_quick_library.hpp>
 #include "TwoPoint.hpp"
 
-namespace sstd{
+namespace sstd {
 
     enum class TwoPointLineNodeState : std::size_t {
         PointChanged,
-        LineWidthChanged ,
-        LineColorChanged ,
+        LineWidthChanged,
+        LineColorChanged,
         Size
     };
 
-    class TwoPointLineNode : public QSGGeometryNode {
+    class TwoPointLineNodeData {
     public:
-        TwoPointLineNode();
+        TwoPointLineNodeData();
     public:
         inline TwoPoint getTwoPoint() const;
         inline double getLineWidth() const;
@@ -24,26 +24,47 @@ namespace sstd{
         bool setLineWidth(const double &);
         bool setLineColor(const QColor &);
     public:
-        template<bool/*is construct*/=false>
-        void updateTheNode();
+        template<TwoPointLineNodeState>
+        inline bool isChanged() const;
+        inline void clearAllChanged();
     private:
         TwoPoint thisPoints;
         double thisLineWidth;
         QColor thisLineColor;
         sstd::QuickFlags<TwoPointLineNodeState::Size> thisState;
     private:
+        sstd_class(TwoPointLineNodeData);
+    };
+
+    template<TwoPointLineNodeState I>
+    inline bool TwoPointLineNodeData::isChanged() const {
+        return thisState.test<I>();
+    }
+
+    inline void TwoPointLineNodeData::clearAllChanged() {
+        thisState.clearAll();
+    }
+
+    class TwoPointLineNode : public QSGGeometryNode {
+    public:
+        TwoPointLineNode(std::shared_ptr<TwoPointLineNodeData>);
+    public:
+        void updateTheNode();
+    private:
+        std::shared_ptr<TwoPointLineNodeData> thisData;
+    private:
         sstd_class(TwoPointLineNode);
     };
 
-    inline TwoPoint TwoPointLineNode::getTwoPoint() const{
+    inline TwoPoint TwoPointLineNodeData::getTwoPoint() const {
         return thisPoints;
     }
 
-    inline double TwoPointLineNode::getLineWidth() const{
+    inline double TwoPointLineNodeData::getLineWidth() const {
         return thisLineWidth;
     }
 
-    inline QColor TwoPointLineNode::getLineColor() const {
+    inline QColor TwoPointLineNodeData::getLineColor() const {
         return thisLineColor;
     }
 

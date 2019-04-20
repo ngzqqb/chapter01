@@ -1,9 +1,9 @@
 ﻿#include "TwoPointLineNode.hpp"
 
-namespace sstd{
+namespace sstd {
 
-    bool TwoPointLineNode::setTwoPoint(const TwoPoint & arg){
-        if( arg == thisPoints ){
+    bool TwoPointLineNodeData::setTwoPoint(const TwoPoint & arg) {
+        if (arg == thisPoints) {
             return false;
         }
         thisPoints = arg;
@@ -11,8 +11,8 @@ namespace sstd{
         return true;
     }
 
-    bool TwoPointLineNode::setLineWidth(const double & arg){
-        if( arg == thisLineWidth ){
+    bool TwoPointLineNodeData::setLineWidth(const double & arg) {
+        if (arg == thisLineWidth) {
             return false;
         }
         thisLineWidth = arg;
@@ -20,8 +20,8 @@ namespace sstd{
         return true;
     }
 
-    bool TwoPointLineNode::setLineColor(const QColor & arg){
-        if( arg == thisLineColor ){
+    bool TwoPointLineNodeData::setLineColor(const QColor & arg) {
+        if (arg == thisLineColor) {
             return false;
         }
         thisLineColor = arg;
@@ -29,29 +29,25 @@ namespace sstd{
         return true;
     }
 
-    template<bool IsConstruct>
-    void TwoPointLineNode::updateTheNode(){
+    void TwoPointLineNode::updateTheNode() {
 
-        if( thisState.test<TwoPointLineNodeState::LineWidthChanged>() ||
-            thisState.test<TwoPointLineNodeState::PointChanged>()){
-
-            if constexpr(!IsConstruct){
-            }
+        if (thisData->isChanged<TwoPointLineNodeState::LineWidthChanged>() ||
+            thisData->isChanged<TwoPointLineNodeState::PointChanged>()) {
         }
 
-        if( thisState.test<TwoPointLineNodeState::LineColorChanged>() ){
-
-            if constexpr(!IsConstruct){
-            }
+        if (thisData->isChanged<TwoPointLineNodeState::LineColorChanged>()) {
         }
 
-        thisState.clearAll();
+        thisData->clearAllChanged();
 
     }
 
-    TwoPointLineNode::TwoPointLineNode(){
+    TwoPointLineNode::TwoPointLineNode(std::shared_ptr<TwoPointLineNodeData> arg) :
+        thisData{ std::move(arg) } {
+    }
+
+    TwoPointLineNodeData::TwoPointLineNodeData() {
         thisState.setAll();
-        updateTheNode();
     }
 
 }/*namespace sstd*/
