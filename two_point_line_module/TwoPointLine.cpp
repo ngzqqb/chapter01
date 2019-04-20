@@ -33,9 +33,20 @@ namespace sstd {
         }
 
         constexpr const auto varLimit = std::numeric_limits<float>::epsilon();
+        bool varLimitAns[3]{
+            (varWidth < varLimit),
+            (varHeight < varLimit)
+        };
+        varLimitAns[2] = (varLimitAns[1]) && (varLimitAns[0]);
 
-        this->setWidth((varWidth < varLimit) ? varLineWidth : varWidth);
-        this->setHeight((varHeight < varLimit) ? varLineWidth : varHeight);
+        if (varLimitAns[2]) {
+            this->setWidth(0);
+            this->setHeight(0);
+            return;
+        }
+
+        this->setWidth(varLimitAns[0] ? varLineWidth : varWidth);
+        this->setHeight(varLimitAns[1] ? varLineWidth : varHeight);
     }
 
     void TwoPointLine::setTwoPoint(const QVariant & arg) {
