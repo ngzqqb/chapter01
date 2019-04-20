@@ -8,14 +8,10 @@ namespace sstd {
     }
 
     TwoPointLine::~TwoPointLine() {
-        if (thisNode && (nullptr == thisNode->parent())) {
-            delete thisNode;
-        }
     }
 
     void TwoPointLine::componentComplete() {
         Super::componentComplete();
-        thisNode = sstd_new<TwoPointLineNode>(thisNodeData);
     }
 
     void TwoPointLine::setTwoPoint(const QVariant & arg) {
@@ -40,12 +36,14 @@ namespace sstd {
         }
     }
 
-    QSGNode * TwoPointLine::updatePaintNode(QSGNode *, QQuickItem::UpdatePaintNodeData *) {
-        thisNode->updateTheNode();
-        return thisNode;
+    QSGNode * TwoPointLine::updatePaintNode(QSGNode * argNode, QQuickItem::UpdatePaintNodeData *) {
+        auto varNode = static_cast<TwoPointLineNode*>(argNode);
+        if (varNode == nullptr) {
+            varNode = sstd_new<TwoPointLineNode>(thisNodeData);
+        }
+        varNode->updateTheNode();
+        return varNode;
     }
-
-    
 
 }/*namespace sstd*/
 

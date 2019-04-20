@@ -42,7 +42,6 @@ namespace sstd {
         friend class TwoLineNode;
     private:
         std::shared_ptr< TwoPointLineNodeData > thisNodeData ;
-        TwoPointLineNode * thisNode{nullptr};
     private:
         sstd_class(TwoPointLine);
     };

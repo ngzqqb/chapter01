@@ -3,7 +3,7 @@ import QtQuick 2.9
 import QtQuick.Controls 2.5
 
 /*begin:import*/
-import theqml_the_debug.two_point_line_module 1.0 as TwoPointLineModule
+import theqml_the_debug.two_point_line_module 1.0
 /*end:import*/
 
 ApplicationWindow {
@@ -12,10 +12,10 @@ ApplicationWindow {
     height: 200 ;
     visible: true ;
 
-    TwoPointLineModule.TwoPointLine {
+    TwoPointLine {
         anchors.centerIn: parent
 
-        twoPoint: TwoPointLineModule.Static.createTwoPoint(0,0,200,200)
+        twoPoint: Static.createTwoPoint(0,0,200,200)
         lineColor: Qt.rgba(1,0.2,0.2,1)
         lineWidth: 5
 
@@ -24,6 +24,19 @@ ApplicationWindow {
             var varSecond = twoPoint.getSecondPoint();
             width = Math.abs( varFirst.x - varSecond.x );
             height = Math.abs( varFirst.y - varSecond.y );
+        }
+
+        transformOrigin : Item.Center
+
+        SequentialAnimation on rotation {
+            id : idAnimation
+            loops: Animation.Infinite
+            NumberAnimation{ to : 360 ; duration: 2000}
+            NumberAnimation{ to : 0 ;duration: 2100}
+        }
+
+        Component.onDestruction: {
+            idAnimation.stop();
         }
 
     }
