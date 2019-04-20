@@ -20,31 +20,22 @@ namespace sstd {
         bool & argIsEmpty);
 
     void TwoPointLine::updateWidthHeight() {
-        bool varIsEmpty{ false };
-        auto varTwoPoint = thisNodeData->getTwoPoint();
-        auto varPoints = updateGeometryByTwoPoints(varTwoPoint.getFirstPoint(),
-            varTwoPoint.getSecondPoint(),
-            thisNodeData->getLineWidth(),
-            varIsEmpty);
-        if (varIsEmpty) {
-            this->setWidth(0);
-            this->setHeight(0);
-        } else {
-            {
-                auto varXLimit = std::minmax_element(varPoints.begin(), varPoints.end(),
-                    [](const auto & varI, const auto & varJ) {
-                    return varI.x() < varJ.x();
-                });
-                this->setWidth(varXLimit.second->x() - varXLimit.first->x());
-            }
-            {
-                auto varXLimit = std::minmax_element(varPoints.begin(), varPoints.end(),
-                    [](const auto & varI, const auto & varJ) {
-                    return varI.y() < varJ.y();
-                });
-                this->setHeight(varXLimit.second->y() - varXLimit.first->y());
-            }
+
+        double varWidth, varHeight;
+        auto varLineWidth = thisNodeData->getLineWidth()*0.5;
+
+        {
+            auto varTwoPoint = thisNodeData->getTwoPoint();
+            auto varP1 = varTwoPoint.getFirstPoint();
+            auto varP2 = varTwoPoint.getSecondPoint();
+            varWidth = std::abs(varP1.x() - varP2.x());
+            varHeight = std::abs(varP1.y() - varP2.y());
         }
+
+        constexpr const auto varLimit = std::numeric_limits<float>::epsilon();
+
+        this->setWidth((varWidth < varLimit) ? varLineWidth : varWidth);
+        this->setHeight((varHeight < varLimit) ? varLineWidth : varHeight);
     }
 
     void TwoPointLine::setTwoPoint(const QVariant & arg) {
