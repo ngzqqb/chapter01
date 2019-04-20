@@ -16,7 +16,8 @@ namespace sstd {
 
     void TwoPointLine::setTwoPoint(const QVariant & arg) {
         if (qMetaTypeId<sstd::TwoPoint>() != arg.userType()) {
-            qWarning() << QStringLiteral("you input error type , you should input sstd::TwoPoint!") << arg;
+            qWarning() << QStringLiteral("you input error type "
+                ", you should input sstd::TwoPoint!") << arg;
             return;
         }
         if (thisNodeData->setTwoPoint(arg.value<sstd::TwoPoint>())) {
