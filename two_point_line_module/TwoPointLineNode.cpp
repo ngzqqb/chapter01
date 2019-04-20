@@ -46,7 +46,7 @@ namespace sstd {
 
     }
 
-    extern std::array< QPointF, 4 > updateGeometryByTwoPoints(QPointF varStartPoint,
+    inline static std::array< QPointF, 4 > updateGeometryByTwoPoints(QPointF varStartPoint,
         QPointF varEndPoint,
         double varLineWidth,
         bool & argIsEmpty) {

@@ -3,7 +3,8 @@
 namespace sstd{
 
     TwoPoint::TwoPoint() : thisFirstPoint{0.,0.},
-        thisSecondPoint{1.,1.}{}
+        thisSecondPoint{1.,1.}{
+    }
 
     QPointF TwoPoint::getFirstPoint() const{
         return thisFirstPoint;
