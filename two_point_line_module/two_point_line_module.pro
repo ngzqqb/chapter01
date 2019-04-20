@@ -13,6 +13,9 @@ HEADERS += $$PWD/Empty.hpp
 SOURCES += $$PWD/TwoPointLine.cpp
 HEADERS += $$PWD/TwoPointLine.hpp
 
+SOURCES += $$PWD/TwoPointLineNode.cpp
+HEADERS += $$PWD/TwoPointLineNode.hpp
+
 SOURCES += $$PWD/TwoPoint.cpp
 HEADERS += $$PWD/TwoPoint.hpp
 
