@@ -17,30 +17,6 @@ ApplicationWindow {
         width : parent.width
         height : parent.height
 
-        twoPoint: Static.createTwoPoint(1,-1,-1,1)
-        lineColor: "blue"
-        lineWidth: 5
-
-        transformOrigin : Item.Center
-
-        SequentialAnimation on lineColor {
-            id : idAnimationColor
-            loops: 1
-            ColorAnimation{ to : "yellow" ; duration: 5000}
-            ColorAnimation{ to : "blue" ;duration: 5000}
-        }
-
-        Component.onDestruction: {
-            idAnimationColor.stop();
-        }
-
-    }
-
-    TwoPointLine {
-        anchors.centerIn: parent
-        width : parent.width
-        height : parent.height
-
         twoPoint: Static.createTwoPoint(-1,-1,1,1)
         lineColor: Qt.rgba(1,0.2,0.2,1)
         lineWidth: 5
@@ -56,6 +32,30 @@ ApplicationWindow {
 
         Component.onDestruction: {
             idAnimation.stop();
+        }
+
+    }
+
+    TwoPointLine {
+        anchors.centerIn: parent
+        width : parent.width
+        height : parent.height
+
+        twoPoint: Static.createTwoPoint(1,-1,-1,1)
+        lineColor: "blue"
+        lineWidth: 15
+
+        transformOrigin : Item.Center
+
+        SequentialAnimation on lineColor {
+            id : idAnimationColor
+            loops: 1
+            ColorAnimation{ to : Qt.rgba(0.2,0.2,0.2,0.5) ; duration: 5000}
+            ColorAnimation{ to : "blue" ;duration: 5000}
+        }
+
+        Component.onDestruction: {
+            idAnimationColor.stop();
         }
 
     }
