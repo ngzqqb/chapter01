@@ -17,7 +17,7 @@ ApplicationWindow {
         width : parent.width
         height : parent.height
 
-        twoPoint: Static.createTwoPoint(-1,-1,1,1)
+        twoPoint: Static.createTwoPoint(1,-1,-1,1)
         lineColor: "blue"
         lineWidth: 5
 
@@ -25,7 +25,7 @@ ApplicationWindow {
 
         SequentialAnimation on lineColor {
             id : idAnimationColor
-            loops: Animation.Infinite
+            loops: 1
             ColorAnimation{ to : "yellow" ; duration: 5000}
             ColorAnimation{ to : "blue" ;duration: 5000}
         }
@@ -49,7 +49,7 @@ ApplicationWindow {
 
         SequentialAnimation on rotation {
             id : idAnimation
-            loops: Animation.Infinite
+            loops: 1
             NumberAnimation{ to : 360 ; duration: 5000}
             NumberAnimation{ to : 0 ;duration: 5000}
         }

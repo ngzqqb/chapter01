@@ -117,10 +117,11 @@ namespace sstd {
 
         argScaleX *= 0.5;
         argScaleY *= 0.5;
+        const auto varPScaleY = -1 * argScaleY/*翻转Y坐轴*/;
 
         return updateGeometryByTwoPoints(
-            { std::fma(argScaleX , varStartPoint.x() , argScaleX),std::fma(argScaleY , varStartPoint.y(),argScaleY) },
-            { std::fma(argScaleX , varEndPoint.x() , argScaleX),std::fma(argScaleY , varEndPoint.y(),argScaleY) },
+            { std::fma(argScaleX , varStartPoint.x() , argScaleX),std::fma(varPScaleY , varStartPoint.y(),argScaleY) },
+            { std::fma(argScaleX , varEndPoint.x() , argScaleX),std::fma(varPScaleY , varEndPoint.y(),argScaleY) },
             varLineWidth,
             argIsEmpty);
     }
