@@ -20,6 +20,24 @@ namespace sstd {
         return true;
     }
 
+    bool TwoPointLineNodeData::setWidth(const double & arg) {
+        if (arg == thisItemWidth) {
+            return false;
+        }
+        thisItemWidth = arg;
+        thisState.set<TwoPointLineNodeState::WidthChanged>();
+        return true;
+    }
+
+    bool TwoPointLineNodeData::setHeight(const double & arg) {
+        if (arg == thisItemHeight) {
+            return false;
+        }
+        thisItemHeight = arg;
+        thisState.set<TwoPointLineNodeState::HeightChanged>();
+        return true;
+    }
+
     bool TwoPointLineNodeData::setLineColor(const QColor & arg) {
         if (arg == thisLineColor) {
             return false;
@@ -32,7 +50,9 @@ namespace sstd {
     void TwoPointLineNode::updateTheNode() {
 
         if (thisData->isChanged<TwoPointLineNodeState::LineWidthChanged>() ||
-            thisData->isChanged<TwoPointLineNodeState::PointChanged>()) {
+            thisData->isChanged<TwoPointLineNodeState::PointChanged>() ||
+            thisData->isChanged<TwoPointLineNodeState::WidthChanged>() ||
+            thisData->isChanged<TwoPointLineNodeState::HeightChanged>()) {
             this->markDirty(DirtyGeometry);
             this->updateTheGeometry();
         }
@@ -88,6 +108,23 @@ namespace sstd {
 
     }
 
+    inline static std::array< QPointF, 4 > updateGeometryByTwoPoints(const QPointF & varStartPoint,
+        const QPointF & varEndPoint,
+        double argScaleX,
+        double argScaleY,
+        double varLineWidth,
+        bool & argIsEmpty) {
+
+        argScaleX *= 0.5;
+        argScaleY *= 0.5;
+
+        return updateGeometryByTwoPoints(
+            { std::fma(argScaleX , varStartPoint.x() , argScaleX),std::fma(argScaleY , varStartPoint.y(),argScaleY) },
+            { std::fma(argScaleX , varEndPoint.x() , argScaleX),std::fma(argScaleY , varEndPoint.y(),argScaleY) },
+            varLineWidth,
+            argIsEmpty);
+    }
+
     void TwoPointLineNode::updateTheGeometry() {
 
         const auto varTwoPoint = thisData->getTwoPoint();
@@ -97,6 +134,8 @@ namespace sstd {
         auto varPoints = updateGeometryByTwoPoints(
             varTwoPoint.getFirstPoint(),
             varTwoPoint.getSecondPoint(),
+            thisData->getWidth(),
+            thisData->getHeight(),
             varLineWidth,
             varIsEmpty);
 
@@ -136,6 +175,8 @@ namespace sstd {
 
     TwoPointLineNodeData::TwoPointLineNodeData() {
         thisLineWidth = 1;
+        thisItemWidth = 0;
+        thisItemHeight = 0;
         thisState.setAll();
     }
 

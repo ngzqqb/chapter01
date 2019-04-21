@@ -14,8 +14,10 @@ ApplicationWindow {
 
     TwoPointLine {
         anchors.centerIn: parent
+        width : parent.width
+        height : parent.height
 
-        twoPoint: Static.createTwoPoint(0,0,200,200)
+        twoPoint: Static.createTwoPoint(-1,-1,1,1)
         lineColor: "blue"
         lineWidth: 5
 
@@ -36,8 +38,10 @@ ApplicationWindow {
 
     TwoPointLine {
         anchors.centerIn: parent
+        width : parent.width
+        height : parent.height
 
-        twoPoint: Static.createTwoPoint(0,0,200,200)
+        twoPoint: Static.createTwoPoint(-1,-1,1,1)
         lineColor: Qt.rgba(1,0.2,0.2,1)
         lineWidth: 5
 

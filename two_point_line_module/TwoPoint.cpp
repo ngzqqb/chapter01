@@ -2,7 +2,7 @@
 
 namespace sstd{
 
-    TwoPoint::TwoPoint() : thisFirstPoint{0.,0.},
+    TwoPoint::TwoPoint() : thisFirstPoint{-1.,0.},
         thisSecondPoint{1.,1.}{
     }
 

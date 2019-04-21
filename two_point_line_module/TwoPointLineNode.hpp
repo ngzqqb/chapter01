@@ -9,6 +9,8 @@ namespace sstd {
         PointChanged,
         LineWidthChanged,
         LineColorChanged,
+        WidthChanged,
+        HeightChanged,
         Size
     };
 
@@ -19,10 +21,14 @@ namespace sstd {
         inline TwoPoint getTwoPoint() const;
         inline double getLineWidth() const;
         inline QColor getLineColor() const;
+        inline double getWidth() const;
+        inline double getHeight() const;
     public:
         bool setTwoPoint(const TwoPoint &);
         bool setLineWidth(const double &);
         bool setLineColor(const QColor &);
+        bool setWidth(const double &);
+        bool setHeight(const double &);
     public:
         template<TwoPointLineNodeState>
         inline bool isChanged() const;
@@ -30,6 +36,8 @@ namespace sstd {
     private:
         TwoPoint thisPoints;
         double thisLineWidth;
+        double thisItemWidth;
+        double thisItemHeight;
         QColor thisLineColor;
         sstd::QuickFlags<TwoPointLineNodeState::Size> thisState;
     private:
@@ -70,6 +78,14 @@ namespace sstd {
 
     inline QColor TwoPointLineNodeData::getLineColor() const {
         return thisLineColor;
+    }
+
+    inline double TwoPointLineNodeData::getWidth() const {
+        return thisItemWidth;
+    }
+
+    inline double TwoPointLineNodeData::getHeight() const{ 
+        return thisItemHeight;
     }
 
 }/*namespace sstd*/

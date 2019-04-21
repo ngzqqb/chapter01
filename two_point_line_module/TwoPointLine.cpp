@@ -14,41 +14,6 @@ namespace sstd {
         Super::componentComplete();
     }
 
-    extern std::array< QPointF, 4 > updateGeometryByTwoPoints(QPointF varStartPoint,
-        QPointF varEndPoint,
-        double varLineWidth,
-        bool & argIsEmpty);
-
-    void TwoPointLine::updateWidthHeight() {
-
-        double varWidth, varHeight;
-        constexpr auto varLineWidth = 0.5;
-
-        {
-            auto varTwoPoint = thisNodeData->getTwoPoint();
-            auto varP1 = varTwoPoint.getFirstPoint();
-            auto varP2 = varTwoPoint.getSecondPoint();
-            varWidth = std::abs(varP1.x() - varP2.x());
-            varHeight = std::abs(varP1.y() - varP2.y());
-        }
-
-        constexpr const auto varLimit = std::numeric_limits<float>::epsilon();
-        bool varLimitAns[3]{
-            (varWidth < varLimit),
-            (varHeight < varLimit)
-        };
-        varLimitAns[2] = (varLimitAns[1]) && (varLimitAns[0]);
-
-        if (varLimitAns[2]) {
-            this->setWidth(0);
-            this->setHeight(0);
-            return;
-        }
-
-        this->setWidth(varLimitAns[0] ? varLineWidth : varWidth);
-        this->setHeight(varLimitAns[1] ? varLineWidth : varHeight);
-    }
-
     void TwoPointLine::setTwoPoint(const QVariant & arg) {
         if (qMetaTypeId<sstd::TwoPoint>() != arg.userType()) {
             qWarning() << QStringLiteral("you input error type "
@@ -56,7 +21,6 @@ namespace sstd {
             return;
         }
         if (thisNodeData->setTwoPoint(arg.value<sstd::TwoPoint>())) {
-            this->updateWidthHeight();
             this->twoPointChanged();
             this->update();
         }
@@ -64,7 +28,6 @@ namespace sstd {
 
     void TwoPointLine::setLineWidth(const double & arg) {
         if (thisNodeData->setLineWidth(arg)) {
-            this->updateWidthHeight();
             this->lineWidthChanged();
             this->update();
         }
@@ -82,6 +45,8 @@ namespace sstd {
         if (varNode == nullptr) {
             varNode = sstd_new<TwoPointLineNode>(thisNodeData);
         }
+        thisNodeData->setWidth(this->width());
+        thisNodeData->setHeight(this->height());
         varNode->updateTheNode();
         return varNode;
     }
