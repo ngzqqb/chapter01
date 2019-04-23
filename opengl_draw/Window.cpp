@@ -83,7 +83,7 @@ void main(void){
         Super::initializeGL();
         auto varContex = this->context();
 #if defined(_DEBUG)
-        auto varDebugLogger = new QOpenGLDebugLogger(varContex);
+        auto varDebugLogger = sstd_virtual_new<QOpenGLDebugLogger>(varContex);
         varDebugLogger->initialize();
         connect(varDebugLogger, &QOpenGLDebugLogger::messageLogged,
             varDebugLogger, [](const QOpenGLDebugMessage &debugMessage) {
@@ -116,7 +116,10 @@ void main(void){
             constexpr const GLfloat varDepth[]{ 1.0f };
             glClearNamedFramebufferfv(varFBO, GL_DEPTH, 0, varDepth);
         }
-        constexpr const GLfloat varMatrix[16]{ 1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1 };
+        constexpr const GLfloat varMatrix[16]{ 1,0,0,0, 
+            0,1,0,0, 
+            0,0,1,0, 
+            0,0,0,1 };
         glUseProgram(varOpenGLData->thisProgram);
         glBindVertexArray(varOpenGLData->thisVAO);
         glUniformMatrix4fv(2, 1, false, varMatrix);
