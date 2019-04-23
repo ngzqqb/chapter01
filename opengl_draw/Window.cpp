@@ -126,9 +126,7 @@ void main(void){
         glUseProgram(varOpenGLData->thisProgram);
         glBindVertexArray(varOpenGLData->thisVAO);
         glUniformMatrix4fv(2, 1, false, &(varMatrix[0][0]));
-        glDrawArrays(GL_TRIANGLES, 0, 3);
-        glDrawArrays(GL_TRIANGLES, 3, 3);
-        glDrawArrays(GL_TRIANGLES, 6, 3);
+        glDrawArrays(GL_TRIANGLES, 0, 9);
     } catch (...) {
     }
 
