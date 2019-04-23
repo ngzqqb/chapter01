@@ -76,8 +76,8 @@ void main(void){
         inline void destruct() {
             USING_SSTD_GLEW;
             glDeleteProgram(thisProgram);
-            glDeleteVertexArrays(1,&thisVAO);
-            glDeleteBuffers(1,&thisBuffer0);
+            glDeleteVertexArrays(1, &thisVAO);
+            glDeleteBuffers(1, &thisBuffer0);
         }
     };
 
