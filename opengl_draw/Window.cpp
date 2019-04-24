@@ -142,13 +142,9 @@ void main(void){
 
 }/*namespace sstd*/
 
+/*endl_input_of_latex_for_clanguage_lick*/
 /* https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glClearBuffer.xhtml */
 /* https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glViewportIndexed.xhtml */
 /* https://stackoverflow.com/questions/4124041/is-opengl-coordinate-system-left-handed-or-right-handed */
-//By default the Normalized Device Coordinate is left-handed.
-//The glDepthRange is by default [0, 1] (near, far) 
-//making the +z axis point into the screen and with +x 
-//to the right and +y up it is a left-handed system.
-//Quoting a previous answer from Nicol: 
-//(the strike-through is my work, explained below)
+
 
