@@ -114,6 +114,7 @@ void main(void){
         glBindFramebuffer(GL_FRAMEBUFFER, varFBO);
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_CULL_FACE);
+        glEnable(GL_DEPTH_CLAMP);
         {
             constexpr const GLfloat varColor[]{ 0.5f,0.5f,0.5f,1.0f };
             glClearNamedFramebufferfv(varFBO, GL_COLOR, 0, varColor);
