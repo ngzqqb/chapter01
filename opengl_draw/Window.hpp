@@ -9,8 +9,8 @@ namespace sstd{
         using Super = QOpenGLWindow;
     protected:
 
-        virtual void  initializeGL() override;
-        virtual void  paintGL() override;
+        virtual void initializeGL() override;
+        virtual void paintGL() override;
         virtual void resizeGL(int w, int h) override;
     private:
         std::weak_ptr< WindowOpenGLData > thisOpenGLData;
