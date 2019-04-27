@@ -81,6 +81,9 @@ void main(void){
         }
     };
 
+    Window::Window() {
+    }
+
     void Window::initializeGL() {
         if (thisOpenGLData.use_count() > 0) {
             return;
@@ -102,6 +105,27 @@ void main(void){
         connect(varContex, &QOpenGLContext::aboutToBeDestroyed,
             varContex, [varOpenGLData]() {varOpenGLData->destruct(); },
             Qt::DirectConnection);
+    }
+
+    void Window::paintOverGL() {
+        QPainter varPainter{ this };
+        constexpr const auto varStep = 32;
+        auto varY = std::max<int>(height() - varStep, varStep);
+        int varX = varStep / 2;
+        {
+            auto varFont = varPainter.font();
+            varFont.setPixelSize(varStep);
+            varPainter.setFont(varFont);
+        }
+        varPainter.setBrush(QBrush(QColor(255, 0, 0)));
+        varPainter.setPen(QPen(QColor(255, 0, 0), 3));
+        varPainter.drawText(QPoint{ varX,varY }, trUtf8(u8R"(红)"));
+        varPainter.setBrush(QBrush(QColor(0, 255, 0)));
+        varPainter.setPen(QPen(QColor(0, 255, 0), 3));
+        varPainter.drawText(QPoint{ varX += varStep,varY }, trUtf8(u8R"(绿)"));
+        varPainter.setBrush(QBrush(QColor(0, 0, 255)));
+        varPainter.setPen(QPen(QColor(0, 0, 255), 3));
+        varPainter.drawText(QPoint{ varX += varStep,varY }, trUtf8(u8R"(蓝)"));
     }
 
     void Window::paintGL() try {
