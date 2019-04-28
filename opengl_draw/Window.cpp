@@ -150,7 +150,8 @@ void main(void){
         const static auto varMatrix = glm::mat4x4{ 1 };
         glUseProgram(varOpenGLData->thisProgram);
         glBindVertexArray(varOpenGLData->thisVAO);
-        glUniformMatrix4fv(2, 1, false, &(varMatrix[0][0]));
+        glUniformMatrix4fv(2, 1, false, 
+            reinterpret_cast<const GLfloat *>(&varMatrix));
         glDrawArrays(GL_TRIANGLES, 0, 9);
     } catch (...) {
     }
