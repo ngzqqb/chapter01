@@ -81,7 +81,7 @@ void main(void){
         }
     };
 
-    Window::Window() {
+    Window::Window() :Super{} {
     }
 
     void Window::initializeGL() {
