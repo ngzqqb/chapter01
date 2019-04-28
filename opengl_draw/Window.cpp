@@ -162,6 +162,7 @@ void main(void){
         auto varFBO = this->defaultFramebufferObject();
         glBindFramebuffer(GL_FRAMEBUFFER, varFBO);
         glViewportIndexedf(0, 0, 0, varRatio*w, varRatio*h);
+        this->update();
     }
 
 }/*namespace sstd*/
