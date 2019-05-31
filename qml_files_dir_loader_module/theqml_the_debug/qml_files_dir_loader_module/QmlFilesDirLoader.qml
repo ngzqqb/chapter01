@@ -1,9 +1,9 @@
 ﻿import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
-import sstd.styled.app 1.0
 
 /*begin:import*/
+import theqml_the_debug.sstd.styled.app 1.0
 import theqml_the_debug.qml_files_dir_loader_module 1.0
 /*end:import*/
 
