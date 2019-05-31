@@ -34,6 +34,16 @@ QMLSOURCES += $$PWD/appqml/qml_files_dir_loader/main.qml
 QMLSOURCES += $$PWD/appqml/qml_files_dir_loader/QmlFiles/One.qml
 QMLSOURCES += $$PWD/appqml/qml_files_dir_loader/QmlFiles/Two.qml
 QMLSOURCES += $$PWD/appqml/qml_files_dir_loader/QmlFiles/Three.qml
+QMLSOURCES += $$PWD/appqml/qml_files_dir_loader/QmlFiles/Four.qml
+QMLSOURCES += $$PWD/appqml/qml_files_dir_loader/QmlFiles/Five.qml
+QMLSOURCES += $$PWD/appqml/qml_files_dir_loader/QmlFiles/Six.qml
+QMLSOURCES += $$PWD/appqml/qml_files_dir_loader/QmlFiles/Seven.qml
+QMLSOURCES += $$PWD/appqml/qml_files_dir_loader/QmlFiles/Eight.qml
+QMLSOURCES += $$PWD/appqml/qml_files_dir_loader/QmlFiles/Nine.qml
+QMLSOURCES += $$PWD/appqml/qml_files_dir_loader/QmlFiles/Ten.qml
+QMLSOURCES += $$PWD/appqml/qml_files_dir_loader/QmlFiles/Eleven.qml
+QMLSOURCES += $$PWD/appqml/qml_files_dir_loader/QmlFiles/Twelve.qml
+QMLSOURCES += $$PWD/appqml/qml_files_dir_loader/QmlFiles/Thirteen.qml
 QMLSOURCES += $$PWD/appqml/qml_files_dir_loader/QmlFiles/PrivateBasic.qml
 
 lupdate_only{

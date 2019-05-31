@@ -53,6 +53,19 @@ namespace sstd {
             }
         }
 
+        {/*排序名称*/
+            std::sort(thisItems.begin(), thisItems.end(), [](const auto & l, const auto & r) ->bool {
+                const auto & ln = l.fileName;
+                const auto & rn = r.fileName;
+                if (ln.size() < rn.size()) {
+                    return true;
+                } else if (ln.size() > rn.size()) {
+                    return false;
+                }
+                return ln < rn;
+            });
+        }
+
     }
 
     QHash<int, QByteArray> QmlFilesModel::roleNames() const {
