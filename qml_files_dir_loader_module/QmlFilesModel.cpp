@@ -2,7 +2,7 @@
 
 namespace sstd {
 
-    void QmlFilesModel::setQmlFilesDir(const QString & arg) {
+    void QmlFilesModel::setQmlFilesDir(const QUrl & arg) {
         if (arg == thisQmlFilesDir) {
             return;
         }
@@ -13,15 +13,7 @@ namespace sstd {
 
     void QmlFilesModel::updateTheModel() {
 
-        QUrl varUrl;
-        {
-            QQmlExpression varExp{
-                qmlContext(this),
-                this,
-                QStringLiteral("Qt.resolvedUrl(qmlFilesDir)") };
-            varUrl = varExp.evaluate().toUrl();
-        }
-        qDebug() << varUrl;
+        QString varLocalFileDir = thisQmlFilesDir.toLocalFile();
 
         class LockItem {
             QmlFilesModel * const thisp;
@@ -38,9 +30,11 @@ namespace sstd {
         thisItems.clear();
 
         {/*更新数据*/
-            QDirIterator varIt{ thisQmlFilesDir ,QDir::Files | QDir::NoSymLinks | QDir::NoDotAndDotDot };
+            QDirIterator varIt{ varLocalFileDir ,QDir::Files | QDir::NoSymLinks | QDir::NoDotAndDotDot };
             while (varIt.hasNext()) {
                 auto varFileName = varIt.next();
+                auto varFileInfo = varIt.fileInfo();
+                varFileName = varFileInfo.fileName();
                 if (varFileName.isEmpty()) {/*忽略空*/
                     continue;
                 }
@@ -54,8 +48,8 @@ namespace sstd {
                     continue;
                 }
                 auto & varAns = thisItems.emplace_back();
-                varAns.fileName = varFileName;
-                varAns.fileInfo = varIt.fileInfo();
+                varAns.fileName = std::move(varFileName);
+                varAns.fileInfo = std::move(varFileInfo);
             }
         }
 
@@ -89,7 +83,7 @@ namespace sstd {
         if (role == FileNameRole) {
             return thisItems[varRowIndex].fileName;
         } else if (role == FilePathRole) {
-            return thisItems[varRowIndex].fileInfo.canonicalFilePath();
+            return QUrl::fromLocalFile(thisItems[varRowIndex].fileInfo.canonicalFilePath());
         }
         return{};
     }

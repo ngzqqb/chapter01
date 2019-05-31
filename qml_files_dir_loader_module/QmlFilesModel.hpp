@@ -7,15 +7,15 @@ namespace sstd {
     class QmlFilesModel : public QAbstractListModel {
         Q_OBJECT
     private:
-        Q_PROPERTY(QString qmlFilesDir READ getQmlFilesDir WRITE setQmlFilesDir NOTIFY qmlFilesDirChanged)
+        Q_PROPERTY(QUrl qmlFilesDir READ getQmlFilesDir WRITE setQmlFilesDir NOTIFY qmlFilesDirChanged)
     public:
         enum AllRoles : int {
             FileNameRole = Qt::UserRole + 1,
             FilePathRole,
         };
     public:
-        inline QString getQmlFilesDir() const;
-        void setQmlFilesDir(const QString &);
+        inline QUrl getQmlFilesDir() const;
+        void setQmlFilesDir(const QUrl &);
         Q_SIGNAL void qmlFilesDirChanged();
     protected:
         int rowCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -24,7 +24,7 @@ namespace sstd {
     private:
         void updateTheModel();
     private:
-        QString thisQmlFilesDir;
+        QUrl thisQmlFilesDir;
         class Item {
         public:
             QString fileName;
@@ -37,7 +37,7 @@ namespace sstd {
         sstd_class(QmlFilesModel);
     };
 
-    inline QString QmlFilesModel::getQmlFilesDir() const {
+    inline QUrl QmlFilesModel::getQmlFilesDir() const {
         return thisQmlFilesDir;
     }
 

@@ -17,7 +17,7 @@ StyledApplicationWindow {
 
     QmlFilesDirLoader{
         anchors.fill : parent
-        qmlFilesDir  : "QmlFiles"
+        qmlFilesDir  : Qt.resolvedUrl("QmlFiles")
     }
 
 }
