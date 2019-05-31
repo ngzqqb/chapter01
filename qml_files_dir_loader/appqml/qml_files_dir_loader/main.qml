@@ -10,10 +10,15 @@ import theqml_the_debug.qml_files_dir_loader_module 1.0
 StyledApplicationWindow {
 
     width: 360 ;
-    height: 64 ;
+    height: 512 ;
     id : idRoot ; 
     Component.onCompleted: {
-     }
+    }
+
+    QmlFilesDirLoader{
+        anchors.fill : parent
+        qmlFilesDir  : "QmlFiles"
+    }
 
 }
 /*endl_input_of_latex_for_clanguage_lick*/

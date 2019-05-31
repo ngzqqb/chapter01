@@ -31,6 +31,11 @@ CONFIG(debug,debug|release){
 
 QMLSOURCES += $$PWD/appqml/qml_files_dir_loader/main.qml
 
+QMLSOURCES += $$PWD/appqml/qml_files_dir_loader/QmlFiles/One.qml
+QMLSOURCES += $$PWD/appqml/qml_files_dir_loader/QmlFiles/Two.qml
+QMLSOURCES += $$PWD/appqml/qml_files_dir_loader/QmlFiles/Three.qml
+QMLSOURCES += $$PWD/appqml/qml_files_dir_loader/QmlFiles/PrivateBasic.qml
+
 lupdate_only{
     SOURCES += $$QMLSOURCES
 }

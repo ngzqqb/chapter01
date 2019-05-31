@@ -2,3 +2,6 @@ module theqml_the_debug.qml_files_dir_loader_module
 plugin qml_files_dir_loader_module
 typeinfo plugins.qmltypes
 #classname sstd::TheMoudle
+
+QmlFilesDirLoader 1.0 QmlFilesDirLoader.qml
+
