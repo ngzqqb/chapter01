@@ -9,12 +9,18 @@ namespace sstd{
     private:
         Q_PROPERTY(QString qmlFilesDir READ getQmlFilesDir WRITE setQmlFilesDir NOTIFY qmlFilesDirChanged)
     public:
+        enum AllRoles : int {
+            FileNameRole = Qt::UserRole+1,
+            FilePathRole,
+        };
+    public:
         inline QString getQmlFilesDir() const;
         void setQmlFilesDir(const QString &);
         Q_SIGNAL void qmlFilesDirChanged();
     protected:
         int rowCount(const QModelIndex &parent = QModelIndex()) const override;
         QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+        QHash<int,QByteArray> roleNames() const override;
     private:
         void updateTheModel();
     private:

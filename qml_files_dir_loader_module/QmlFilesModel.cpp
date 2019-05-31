@@ -51,12 +51,36 @@ namespace sstd{
 
     }
 
+    QHash<int,QByteArray> QmlFilesModel::roleNames() const{
+        const static QHash<int,QByteArray> globalAns = [](){
+            QHash<int,QByteArray> varAns;
+            varAns[FileNameRole] =  QByteArrayLiteral("fileName");
+            varAns[FilePathRole] =  QByteArrayLiteral("filePath");
+            return std::move(varAns);
+        }();
+        return globalAns;
+    }
+
     int QmlFilesModel::rowCount(const QModelIndex &  ) const {
         return static_cast<int>( thisItems.size() );
     }
 
     QVariant QmlFilesModel::data(const QModelIndex &index, int role  ) const {
-
+        if(!index.isValid()){
+            return {};
+        }
+        const auto varRowIndex = index.row();
+        if(varRowIndex >= static_cast<int>( thisItems.size() ) ){
+            return {};
+        }
+        if(varRowIndex<0){
+            return {};
+        }
+        if( role == FileNameRole ){
+            return thisItems[varRowIndex].fileName;
+        }else if (role == FilePathRole) {
+            return thisItems[varRowIndex].fileInfo.canonicalFilePath();
+        }
     }
 
 }/*namespace sstd*/
