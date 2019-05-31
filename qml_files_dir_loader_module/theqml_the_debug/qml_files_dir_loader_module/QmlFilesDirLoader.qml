@@ -1,6 +1,7 @@
 ﻿import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
+import sstd.styled.app 1.0
 
 /*begin:import*/
 import theqml_the_debug.qml_files_dir_loader_module 1.0
@@ -37,17 +38,11 @@ ScrollView {
                     text: fileName
                 }
                 Button{
-                    text: qsTr("打开文件")
-                    onClicked: {
-                        var varComponent = Qt.createComponent(filePath);
-                        try{
-                            var varWindow = varComponent.createObject();
-                            if(varWindow.title !== undefined ){
-                                varWindow.title = fileName ;
-                            }
-                        }finally{
-                            varComponent.destroy();
-                        }
+                    text: qsTr("创建组件")
+                    onClicked: {/*不缓存文件，直接创建...*/
+                        Qt.createQmlObject(GlobalAppData.readLocalFile(filePath),
+                                           GlobalAppData.privateDefaultWindow,
+                                           filePath);
                     }
                 }
             }/* RowLayout */
