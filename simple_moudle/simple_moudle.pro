@@ -33,4 +33,3 @@ DISTFILES += $$PWD/theqml_the_debug/simple_moudle/qmldir
 
 TRANSLATIONS += $$PWD/theqml_the_debug/simple_moudle/the_zh.ts \
                 $$PWD/theqml_the_debug/simple_moudle/the_en.ts
-

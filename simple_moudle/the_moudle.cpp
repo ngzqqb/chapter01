@@ -4,4 +4,3 @@
 void sstd::TheMoudle::registerTypes(const char *uri){
     qmlRegisterType<SomeData>(uri, 1, 0, "SomeData");
 }
-

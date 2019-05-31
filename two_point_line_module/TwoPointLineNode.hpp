@@ -84,19 +84,10 @@ namespace sstd {
         return thisItemWidth;
     }
 
-    inline double TwoPointLineNodeData::getHeight() const{ 
+    inline double TwoPointLineNodeData::getHeight() const{
         return thisItemHeight;
     }
 
 }/*namespace sstd*/
 
 /*endl_input_of_latex_for_clanguage_lick*/
-
-
-
-
-
-
-
-
-

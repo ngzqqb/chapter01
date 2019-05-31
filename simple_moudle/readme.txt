@@ -1,4 +1,4 @@
-Using QML Modules with Plugins 
+Using QML Modules with Plugins
 
 QML modules may use plugins to expose components defined in C++ to QML applications. Qt Creator cannot load the plugins to determine the details of the contained components, and therefore, the modules must provide extra type information for code completion and the semantic checks to work correctly.
 To create a QML module and make it appear in the Library in the Design mode:
@@ -12,12 +12,3 @@ Make sure that the QML emulation layer used in the Design mode is built with the
 
 
 qmlplugindump My.Module 1.0 /tmp/imports > /tmp/imports/My/Module/mymodule.qmltypes
-
-
-
-
-
-
-
-
-

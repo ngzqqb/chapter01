@@ -150,7 +150,7 @@ void main(void){
         const static auto varMatrix = glm::mat4x4{ 1 };
         glUseProgram(varOpenGLData->thisProgram);
         glBindVertexArray(varOpenGLData->thisVAO);
-        glUniformMatrix4fv(2, 1, false, 
+        glUniformMatrix4fv(2, 1, false,
             reinterpret_cast<const GLfloat *>(&varMatrix));
         glDrawArrays(GL_TRIANGLES, 0, 9);
     } catch (...) {
@@ -172,5 +172,3 @@ void main(void){
 /* https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glClearBuffer.xhtml */
 /* https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glViewportIndexed.xhtml */
 /* https://stackoverflow.com/questions/4124041/is-opengl-coordinate-system-left-handed-or-right-handed */
-
-

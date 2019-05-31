@@ -52,5 +52,3 @@ namespace sstd {
     }
 
 }/*namespace sstd*/
-
-

@@ -14,5 +14,3 @@ namespace sstd {
     };
 
 }/*namespace sstd*/
-
-
