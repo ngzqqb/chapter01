@@ -28,7 +28,7 @@ CONFIG(debug,debug|release) {
 }else{
     DESTDIR = $${SSTD_LIBRARY_OUTPUT_PATH}/theqml/qml_files_dir_loader_module
     QMAKE_POST_LINK += $$escape_expand(\\n\\t)$${SSTD_LIBRARY_OUTPUT_PATH}/sstd_copy_qml $${PWD}/theqml_the_debug $${SSTD_LIBRARY_OUTPUT_PATH}/theqml release
-    QMAKE_POST_LINK += $$escape_expand(\\n\\t)$$[QT_INSTALL_BINS]/qmlplugindump -notrelocatable theqml.qml_files_dir_loader_module 1.0 $${SSTD_LIBRARY_OUTPUT_PATH} > $${SSTD_LIBRARY_OUTPUT_PATH}/theqml_the_debug/qml_files_dir_loader_module/plugins.qmltypes
+    #QMAKE_POST_LINK += $$escape_expand(\\n\\t)$$[QT_INSTALL_BINS]/qmlplugindump -notrelocatable theqml.qml_files_dir_loader_module 1.0 $${SSTD_LIBRARY_OUTPUT_PATH} > $${SSTD_LIBRARY_OUTPUT_PATH}/theqml_the_debug/qml_files_dir_loader_module/plugins.qmltypes
 }
 export(QMAKE_POST_LINK)
 
