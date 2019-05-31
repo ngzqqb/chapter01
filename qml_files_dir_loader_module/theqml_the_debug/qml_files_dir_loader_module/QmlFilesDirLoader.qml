@@ -1,5 +1,6 @@
 ﻿import QtQuick 2.12
 import QtQuick.Controls 2.12
+import QtQuick.Layouts 1.12
 
 /*begin:import*/
 import theqml_the_debug.qml_files_dir_loader_module 1.0
@@ -21,7 +22,7 @@ ScrollView {
         model: idTheModel
         delegate: Pane{
             width: idRootView.width
-            height: 32
+            height: 40
             leftPadding: 1
             rightPadding: 1
             topPadding: 1
@@ -30,9 +31,26 @@ ScrollView {
             rightInset: 0
             bottomInset: 0
             topInset: 0
-            Label{
-                text: fileName
-            }
+
+            RowLayout{
+                Label{
+                    text: fileName
+                }
+                Button{
+                    text: qsTr("打开文件")
+                    onClicked: {
+                        var varComponent = Qt.createComponent(filePath);
+                        try{
+                            var varWindow = varComponent.createObject();
+                            if(varWindow.title !== undefined ){
+                                varWindow.title = fileName ;
+                            }
+                        }finally{
+                            varComponent.destroy();
+                        }
+                    }
+                }
+            }/* RowLayout */
         }
 
     }/* ListView */
