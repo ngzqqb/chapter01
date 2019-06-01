@@ -14,10 +14,19 @@ ScrollView {
     ListView {
 
         id : idRootView
+
         QmlFilesModel{
             id : idTheModel
             /*filePath*/
             /*fileName*/
+        }
+
+        function setWindowTitle(window,titleName){
+            if( window ) {
+                if( winidow.title !== undefined ) {
+                    winidow.title = titleName;
+                }
+            }
         }
 
         model: idTheModel
@@ -42,15 +51,16 @@ ScrollView {
                     onClicked: {/*不缓存文件，直接创建...*/
                         /*begin:debug*/
                         if(true){
-                            Qt.createQmlObject(GlobalAppData.readLocalFile(filePath),
+                            idRootView.setWindowTitle( Qt.createQmlObject(GlobalAppData.readLocalFile(filePath),
                                                GlobalAppData.privateDefaultWindow,
-                                               filePath);
+                                               filePath) , fileName );
                         }else
                             /*end:debug*/
                         {
                            var varComponent = Qt.createComponent( filePath );
                             if(varComponent.status === Component.Ready) try{
-                                varComponent.createObject(GlobalAppData.privateDefaultWindow);
+                                idRootView.setWindowTitle( varComponent.createObject(GlobalAppData.privateDefaultWindow)
+                                                           , fileName );
                             }finally{
                                 varComponent.destroy();
                             }
