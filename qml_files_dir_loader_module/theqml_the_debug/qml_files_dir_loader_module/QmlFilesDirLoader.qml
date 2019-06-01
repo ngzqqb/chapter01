@@ -23,7 +23,7 @@ ScrollView {
         model: idTheModel
         delegate: Pane{
             width: idRootView.width
-            height: 40
+            height: 48
             leftPadding: 1
             rightPadding: 1
             topPadding: 1
