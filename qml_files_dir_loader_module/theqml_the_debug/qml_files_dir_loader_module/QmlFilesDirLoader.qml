@@ -50,7 +50,7 @@ ScrollView {
                         {
                            var varComponent = Qt.createComponent( filePath );
                             if(varComponent.status === Component.Ready) try{
-                                varComponent.createObject();
+                                varComponent.createObject(GlobalAppData.privateDefaultWindow);
                             }finally{
                                 varComponent.destroy();
                             }
