@@ -23,8 +23,8 @@ ScrollView {
 
         function setWindowTitle(window,titleName){
             if( window ) {
-                if( winidow.title !== undefined ) {
-                    winidow.title = titleName;
+                if( window.title !== undefined ) {
+                    window.title = titleName;
                 }
             }
         }
