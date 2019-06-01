@@ -18,7 +18,7 @@ StyledApplicationWindow {
 
     QmlFilesDirLoader{
         anchors.fill : parent
-        qmlFilesDir  : "QmlFiles"
+        qmlFilesDir  : "QmlFiles"/*Qt.resolvedUrl("QmlFiles")*/
     }
 
     /*begin:debug*/
@@ -33,6 +33,7 @@ StyledApplicationWindow {
     /*end:debug*/
 
 }
+
 /*endl_input_of_latex_for_clanguage_lick*/
 /*begin:debug*/
 /*end:debug*/
