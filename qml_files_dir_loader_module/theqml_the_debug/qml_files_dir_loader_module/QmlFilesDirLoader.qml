@@ -9,7 +9,7 @@ import theqml_the_debug.qml_files_dir_loader_module 1.0
 
 ScrollView {
 
-     property alias qmlFilesDir : idTheModel.qmlFilesDir
+    property alias qmlFilesDir : idTheModel.qmlFilesDir
 
     ListView {
 
@@ -40,9 +40,21 @@ ScrollView {
                 Button{
                     text: qsTr("创建组件")
                     onClicked: {/*不缓存文件，直接创建...*/
-                        Qt.createQmlObject(GlobalAppData.readLocalFile(filePath),
-                                           GlobalAppData.privateDefaultWindow,
-                                           filePath);
+                        /*begin:debug*/
+                        if(true){
+                            Qt.createQmlObject(GlobalAppData.readLocalFile(filePath),
+                                               GlobalAppData.privateDefaultWindow,
+                                               filePath);
+                        }else
+                            /*end:debug*/
+                        {
+                           var varComponent = Qt.createComponent( filePath );
+                            if(varComponent.status === Component.Ready) try{
+                                varComponent.createObject();
+                            }finally{
+                                varComponent.destroy();
+                            }
+                        }
                     }
                 }
             }/* RowLayout */
