@@ -48,14 +48,15 @@ ScrollView {
                 }
                 Button{
                     text: qsTr("创建组件")
-                    onClicked: {/*不缓存文件，直接创建...*/
+                    onClicked: {
                         /*begin:debug*/
+                        /*不缓存文件，直接创建...*/
                         if(true){
                             idRootView.setWindowTitle( Qt.createQmlObject(GlobalAppData.readLocalFile(filePath),
                                                GlobalAppData.privateDefaultWindow,
                                                filePath) , fileName );
                         }else
-                            /*end:debug*/
+                        /*end:debug*/
                         {
                            var varComponent = Qt.createComponent( filePath );
                             if(varComponent.status === Component.Ready) try{
