@@ -11,6 +11,16 @@ StyledWindow {
     width: 360
     height: 512
     visible: true
+    
+    /*begin:debug*/
+    Component.onDestruction: {
+        console.log("Destory Child Window")
+    }
+    /*end:debug*/
+
+    onClosing: {
+        idRoot.destroy();
+    }
 
 }
 
