@@ -60,7 +60,7 @@ ScrollView {
                         {
                            var varComponent = Qt.createComponent( filePath );
                             if(varComponent.status === Component.Ready) try{
-                                idRootView.setWindowTitle( varComponent.createObject(GlobalAppData.privateDefaultWindow)
+                                idRootView.setWindowTitle( varComponent.createObject(/*GlobalAppData.privateDefaultWindow*/) /*在Release模式下测试窗口没有父...*/
                                                            , fileName );
                             }finally{
                                 varComponent.destroy();
