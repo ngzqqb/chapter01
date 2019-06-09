@@ -52,6 +52,7 @@ ScrollView {
                         /*begin:debug*/
                         /*不缓存文件，直接创建...*/
                         if(true){
+                            //console(setParentWhenRelease);
                             idRootView.setWindowTitle( Qt.createQmlObject(GlobalAppData.readLocalFile(filePath),
                                                GlobalAppData.privateDefaultWindow,
                                                filePath) , fileName );
@@ -60,8 +61,13 @@ ScrollView {
                         {
                            var varComponent = Qt.createComponent( filePath );
                             if(varComponent.status === Component.Ready) try{
-                                idRootView.setWindowTitle( varComponent.createObject(/*GlobalAppData.privateDefaultWindow*/) /*在Release模式下测试窗口没有父...*/
+                                if(setParentWhenRelease){
+                                idRootView.setWindowTitle( varComponent.createObject(GlobalAppData.privateDefaultWindow) /*在Release模式下测试窗口有父...*/
                                                            , fileName );
+                                }else{
+                                idRootView.setWindowTitle( varComponent.createObject() /*在Release模式下测试窗口没有父...*/
+                                                           , fileName );
+                                }
                             }finally{
                                 varComponent.destroy();
                             }

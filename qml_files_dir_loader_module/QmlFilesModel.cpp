@@ -50,6 +50,16 @@ namespace sstd {
                 auto & varAns = thisItems.emplace_back();
                 varAns.fileName = std::move(varFileName);
                 varAns.fileInfo = std::move(varFileInfo);
+                {
+                    QFile varFile{ varAns.fileInfo.canonicalFilePath() };
+                    if (varFile.open(QIODevice::ReadOnly)) {
+                        QTextStream varRead{ &varFile };
+                        varRead.setCodec( QTextCodec::codecForName("UTF-8") );
+                        const auto varAllLines = varRead.readAll();
+                        varAns.setParentWhenRelease = varAllLines.indexOf( 
+                            QStringLiteral("//@setParentWhenRelease(true)") ) >= 0;
+                    }
+                }
             }
         }
 
@@ -73,6 +83,7 @@ namespace sstd {
             QHash<int, QByteArray> varAns;
             varAns[FileNameRole] = QByteArrayLiteral("fileName");
             varAns[FilePathRole] = QByteArrayLiteral("filePath");
+            varAns[SetParentWhenReleaseRole] = QByteArrayLiteral("setParentWhenRelease");
             return std::move(varAns);
         }();
         return globalAns;
@@ -97,6 +108,8 @@ namespace sstd {
             return thisItems[varRowIndex].fileName;
         } else if (role == FilePathRole) {
             return QUrl::fromLocalFile(thisItems[varRowIndex].fileInfo.canonicalFilePath());
+        } else if (role == SetParentWhenReleaseRole) {
+            return thisItems[varRowIndex].setParentWhenRelease;
         }
         return{};
     }

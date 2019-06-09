@@ -12,6 +12,7 @@ namespace sstd {
         enum AllRoles : int {
             FileNameRole = Qt::UserRole + 1,
             FilePathRole,
+            SetParentWhenReleaseRole,
         };
     public:
         inline QUrl getQmlFilesDir() const;
@@ -29,6 +30,7 @@ namespace sstd {
         public:
             QString fileName;
             QFileInfo fileInfo;
+            bool setParentWhenRelease{false};
         private:
             sstd_class(Item);
         };
