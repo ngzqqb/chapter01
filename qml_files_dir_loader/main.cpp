@@ -6,7 +6,7 @@ int main(int argc, char ** argv) {
 
     sstd::QtStyledApplication varApplication{ argc,argv };
 
-    QQmlApplicationEngine varEngine;
+    auto & varEngine = *varApplication.getStyledApplicatoinEngine();
     {
         /*获得Qml文件绝对路径*/
         auto varFullFileName = sstd::autoLocalPath<QUrl>(
