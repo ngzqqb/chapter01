@@ -11,7 +11,7 @@ StyledApplicationWindow {
 
     width: 360 ;
     height: 512 ;
-    id : idRoot ; 
+    id : idRoot ;
 
     Component.onCompleted: {
     }

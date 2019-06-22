@@ -9,10 +9,3 @@ PrivateBasic{
         font.pixelSize: 42
     }
 }
-
-
-
-
-
-
-

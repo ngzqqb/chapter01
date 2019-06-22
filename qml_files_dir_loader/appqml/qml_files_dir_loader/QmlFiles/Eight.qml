@@ -9,4 +9,3 @@ PrivateBasic{
         font.pointSize: 22
     }
 }
-

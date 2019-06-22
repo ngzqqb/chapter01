@@ -56,7 +56,7 @@ namespace sstd {
                         QTextStream varRead{ &varFile };
                         varRead.setCodec( QTextCodec::codecForName("UTF-8") );
                         const auto varAllLines = varRead.readAll();
-                        varAns.setParentWhenRelease = varAllLines.indexOf( 
+                        varAns.setParentWhenRelease = varAllLines.indexOf(
                             QStringLiteral("//@setParentWhenRelease(true)") ) >= 0;
                     }
                 }
@@ -115,4 +115,3 @@ namespace sstd {
     }
 
 }/*namespace sstd*/
-

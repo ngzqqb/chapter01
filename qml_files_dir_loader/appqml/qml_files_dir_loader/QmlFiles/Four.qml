@@ -8,10 +8,3 @@ PrivateBasic{
         anchors.centerIn: parent
     }
 }
-
-
-
-
-
-
-
