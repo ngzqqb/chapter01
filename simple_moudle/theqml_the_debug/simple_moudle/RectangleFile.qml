@@ -5,5 +5,3 @@ import QtQuick.Controls 2.12
 Rectangle{
     color : "gray"
 }
-
-
