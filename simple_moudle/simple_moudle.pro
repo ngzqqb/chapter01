@@ -33,3 +33,15 @@ DISTFILES += $$PWD/theqml_the_debug/simple_moudle/qmldir
 
 TRANSLATIONS += $$PWD/theqml_the_debug/simple_moudle/the_zh.ts \
                 $$PWD/theqml_the_debug/simple_moudle/the_en.ts
+
+QMLSOURCES += $$PWD/theqml_the_debug/simple_moudle/JSFile.js
+QMLSOURCES += $$PWD/theqml_the_debug/simple_moudle/RectangleFile.qml
+
+lupdate_only{
+    SOURCES += $$QMLSOURCES
+}
+
+DISTFILES += $$QMLSOURCES
+
+
+

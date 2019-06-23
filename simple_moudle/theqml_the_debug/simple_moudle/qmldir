@@ -1,14 +1,6 @@
-module theqml_the_debug.simple_moudle
+﻿module theqml_the_debug.simple_moudle
 plugin simple_moudle
 
-
-
-
-
-
-
-
-
-
-
+JSFile 1.0 JSFile.js
+RectangleFile 1.0 RectangleFile.qml
 

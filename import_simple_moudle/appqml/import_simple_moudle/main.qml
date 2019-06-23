@@ -11,22 +11,31 @@ ApplicationWindow {
     height: 64 ;
     visible: true ;
 
-    Text {
-        SimpleMoudle.SomeData{
-            id:idSomeData
+    SimpleMoudle.RectangleFile{
+        anchors.fill : parent ;
+        Text{
+            text : SimpleMoudle.JSFile.getSome();
+            x : 0
+            y : 0
+            font.pointSize: 8;
         }
-        text: idSomeData.getString();
-        color: idSomeData.getRandomColor();
-        font.pointSize: 32;
-        verticalAlignment: Text.AlignVCenter;
-        horizontalAlignment: Text.AlignHCenter;
-        anchors.centerIn: parent;
-        Timer{
-            interval: 1236;
-            running: true;
-            repeat: true;
-            onTriggered:{
-                parent.color = idSomeData.getRandomColor();
+        Text {
+            SimpleMoudle.SomeData{
+                id:idSomeData
+            }
+            text: idSomeData.getString();
+            color: idSomeData.getRandomColor();
+            font.pointSize: 32;
+            verticalAlignment: Text.AlignVCenter;
+            horizontalAlignment: Text.AlignHCenter;
+            anchors.centerIn: parent;
+            Timer{
+                interval: 1236;
+                running: true;
+                repeat: true;
+                onTriggered:{
+                    parent.color = idSomeData.getRandomColor();
+                }
             }
         }
     }
