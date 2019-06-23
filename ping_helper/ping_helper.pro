@@ -9,6 +9,8 @@ CONFIG(debug,debug|release){
 }
 
 SOURCES += $$PWD/main.cpp
+HEADERS += $$PWD/icmp_header.hpp
+HEADERS += $$PWD/ipv4_header.hpp
 
 include($$PWD/../../sstd_library/sstd_library.pri)
 include($$PWD/../../sstd_qt_qml_quick_library/sstd_qt_qml_quick_library.pri)
