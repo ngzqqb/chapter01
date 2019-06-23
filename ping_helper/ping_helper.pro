@@ -15,6 +15,9 @@ HEADERS += $$PWD/ipv4_header.hpp
 SOURCES += $$PWD/Ping.cpp
 HEADERS += $$PWD/Ping.hpp
 
+SOURCES += $$PWD/PingObject.cpp
+HEADERS += $$PWD/PingObject.hpp
+
 include($$PWD/../../sstd_library/sstd_library.pri)
 include($$PWD/../../sstd_qt_qml_quick_library/sstd_qt_qml_quick_library.pri)
 include($$PWD/../../sstd_library/add_vc_debug_console.pri)
