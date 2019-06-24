@@ -15,7 +15,7 @@ namespace sstd {
             return std::numeric_limits<std::int64_t>::max();
         }
         inline bool isInvalid() const {
-            return invalidTime() == time.load();
+            return invalidTime() == finalTime;
         }
         std::atomic< std::int64_t > time{ 
             invalidTime()
