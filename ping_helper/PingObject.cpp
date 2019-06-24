@@ -86,8 +86,8 @@ namespace sstd {
     }
 
     PingObject::~PingObject() {
-        //delete thisPing;
     }
+
 
 }/*namespace sstd*/
 

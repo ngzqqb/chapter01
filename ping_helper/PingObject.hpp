@@ -12,7 +12,6 @@ namespace sstd{
         Q_INVOKABLE void start( const QString & );
         ~PingObject();
     private:
-        Ping * thisPing{nullptr};
         QByteArray thisSource;
     private:
         sstd_class ( PingObject );

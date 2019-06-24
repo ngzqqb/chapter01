@@ -7,24 +7,26 @@ namespace sstd {
     using The = Ping;
 
     The::Ping(boost::asio::io_context& io_context, std::string_view destination) :
-        resolver_(io_context),
         socket_(io_context, icmp::v4()),
-        timer_(io_context),
-        sequence_number_(0),
-        num_replies_(0) {
-        /*There will throw some exception ... */
-        destination_ = *resolver_.resolve(icmp::v4(), destination, ""sv).begin();
+        sequence_number_(0) {
+            {
+                /*There may throw some exception ... */
+                icmp::resolver resolver_{ io_context };
+                destination_ = *resolver_.resolve(icmp::v4(), destination, ""sv).begin();
+            }
+        thisAns = sstd_make_shared<PingAns>();
+        thisAns->destination = destination;
     }
 
     std::shared_ptr<PingAns> The::start() {
-        thisAns = sstd_make_shared<PingAns>();
+        auto varAns = thisAns;
         if (thisAns) {
             start_send();
         }
         if (thisAns) {
             start_receive();
         }
-        return thisAns;
+        return std::move(varAns);
     }
 
     void The::start_send() try {
@@ -50,35 +52,9 @@ namespace sstd {
         time_sent_ = steady_timer::clock_type::now();
         socket_.send_to(request_buffer.data(), destination_);
 
-        /* Wait up to five seconds for a reply. */
-        //num_replies_ = 0;
-        //timer_.expires_at(time_sent_ + chrono::seconds(5));
-        //timer_.async_wait([varThis = this->shared_from_this()](const auto &) {
-        //    varThis->handle_timeout();
-        //});
-
     } catch (const std::exception & e) {
         std::cout << e.what() << std::endl;
         thisAns.reset();
-    }
-
-    void The::handle_timeout() try {
-
-        using boost::asio::steady_timer;
-        namespace chrono = boost::asio::chrono;
-
-        if (num_replies_ == 0) {
-            std::cout << "Request timed out" << std::endl;
-        }
-
-        /* Requests must be sent no less than one second apart. */
-        timer_.expires_at(time_sent_ + chrono::seconds(1));
-        timer_.async_wait([varThis = this->shared_from_this()](const auto &) {
-            varThis->start_send();
-        });
-
-    } catch (const std::exception & e) {
-        std::cout << e.what() << std::endl;
     }
 
     void The::start_receive()  try {
@@ -104,6 +80,10 @@ namespace sstd {
         /* can extract it using a std::istream object. */
         reply_buffer_.commit(length);
 
+        if (!thisAns) {
+            return;
+        }
+
         /* Decode the reply packet. */
         std::istream is(&reply_buffer_);
         ipv4_header ipv4_hdr;
@@ -117,25 +97,36 @@ namespace sstd {
             && icmp_hdr.identifier() == get_identifier()
             && icmp_hdr.sequence_number() == sequence_number_) {
 
-            /* If this is the first reply, interrupt the five second timeout. */
-            //if (num_replies_++ == 0) {
-            //    timer_.cancel();
-            //}
-
             /* Print out some information about the reply packet. */
             auto elapsed = boost::asio::chrono::steady_clock::now() - time_sent_;
+            thisAns->time = chrono::duration_cast<chrono::milliseconds>(elapsed).count();
+            thisAns->IPV4Destination = ipv4_hdr.source_address().to_string();
+
+#if defined(_DEBUG)
             std::cout << length - ipv4_hdr.header_length()
-                << " bytes from "sv << ipv4_hdr.source_address()
+                << " "<< thisAns->destination
+                << " bytes from "sv << thisAns->IPV4Destination
                 << ": icmp_seq="sv << icmp_hdr.sequence_number()
                 << ", ttl="sv << ipv4_hdr.time_to_live()
                 << ", time="sv
-                << chrono::duration_cast<chrono::milliseconds>(elapsed).count()
+                <<  thisAns->time
                 << std::endl;
+#endif 
+
         }
 
-        //start_receive();
     } catch (const std::exception & e) {
         std::cout << e.what() << std::endl;
+    }
+
+    Ping::~Ping() {
+#if defined(_DEBUG)
+        if(thisAns){ 
+            std::cout << "~Ping : " << thisAns->destination << std::endl;
+        } else {
+            std::cout << "~Ping" << std::endl;
+        }
+#endif
     }
 
     unsigned short The::get_identifier() {
