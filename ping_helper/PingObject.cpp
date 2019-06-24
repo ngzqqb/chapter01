@@ -18,7 +18,7 @@ namespace sstd {
     public:
         inline auto & getContex() {
             if (!thisContex) {
-                throw std::exception("the app has exit!");
+                throw std::runtime_error ("the app has exit!");
             }
             return *thisContex;
         }

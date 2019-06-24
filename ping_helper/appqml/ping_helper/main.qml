@@ -27,6 +27,11 @@ StyledApplicationWindow {
                 id : idUrl
                 Layout.fillWidth: true
                 text: "PingList.txt"
+                readOnly: false
+                canPaste: true
+                canRedo: true
+                canUndo: true
+                selectByMouse: true
             }
             Button{
                 text: qsTr("启动")
