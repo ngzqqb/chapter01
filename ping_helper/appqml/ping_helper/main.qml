@@ -29,7 +29,10 @@ StyledApplicationWindow {
                 text: "PingList.txt"
                 readOnly: false
                 selectByMouse: true
+                TextFieldMenu{
+                }
             }
+
             Button{
                 text: qsTr("启动")
                 onClicked: {
@@ -38,12 +41,15 @@ StyledApplicationWindow {
                 enabled:!idPing.isPing;
             }
         }
+
         ScrollView {
             Layout.fillWidth: true
             Layout.fillHeight: true
             TextArea{
                 id : idTextArea
                 selectByMouse: true
+                TextAreaMenu{
+                }
                 Connections{
                     target: idPing
                     onIsPingChanged : {
@@ -55,6 +61,7 @@ StyledApplicationWindow {
                 }
             }
         }
+
     }
 
     Timer{
@@ -63,7 +70,7 @@ StyledApplicationWindow {
         running : idPing.isPing
         triggeredOnStart : true
         onTriggered: {
-             idTextArea.text = idPing.pingAnsToString();
+            idTextArea.text = idPing.pingAnsToString();
         }
     }
 

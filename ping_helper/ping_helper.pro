@@ -38,6 +38,8 @@ CONFIG(debug,debug|release){
 }
 
 QMLSOURCES += $$PWD/appqml/ping_helper/main.qml
+QMLSOURCES += $$PWD/appqml/ping_helper/TextFieldMenu.qml
+QMLSOURCES += $$PWD/appqml/ping_helper/TextAreaMenu.qml
 
 lupdate_only{
     SOURCES += $$QMLSOURCES
