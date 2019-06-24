@@ -15,6 +15,14 @@ MouseArea{
     property int selectionEnd : 1;
     property bool isTextChanged: false;
 
+    Connections{
+        target: textInput;
+        onTextChanged:{
+            idUrlMenu.visible = false ;
+        }
+        enabled:idUrlMenu.visible
+    }
+
     function reSelect(){
         if(idUrlMouseArea.isTextChanged){
             idUrlMouseArea.isTextChanged= false ;
