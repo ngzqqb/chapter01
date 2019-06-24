@@ -118,8 +118,13 @@ namespace sstd {
     }
 
     QString PingObject::pingAnsToString() {
+        std::size_t varIsFinished = 0;
         for (auto & varI : thisPingAns) {
             varI->setToFinal();
+            varIsFinished += !varI->isInvalid();
+        }
+        if (varIsFinished==thisPingAns.size()) {
+            setIsPing(false);
         }
         std::sort(thisPingAns.begin(), thisPingAns.end(),
             [](const auto & argL, const auto & argR) {
@@ -139,6 +144,7 @@ namespace sstd {
                     << '['
                     << QString::fromUtf8(varI->IPV4Destination.c_str())
                     << ']'
+                    << QStringLiteral(" Time : ")
                     << varI->finalTime
                     << '\n';
             }

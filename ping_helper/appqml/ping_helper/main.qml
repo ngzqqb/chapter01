@@ -54,6 +54,17 @@ StyledApplicationWindow {
         }
     }
 
+    Timer{
+        interval : 100
+        repeat : true
+        running : idPing.isPing
+        triggeredOnStart : true
+        onTriggered: {
+             idTextArea.text = idPing.pingAnsToString();
+        }
+    }
+
+
 }
 /*endl_input_of_latex_for_clanguage_lick*/
 /*begin:debug*/
