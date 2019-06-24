@@ -50,14 +50,15 @@ namespace sstd {
 
         /* Send the request. */
         time_sent_ = steady_timer::clock_type::now();
-        socket_.send_to(request_buffer.data(), destination_);
+        socket_.async_send_to(request_buffer.data(), destination_,
+                              [](const auto &,auto){});
 
     } catch (const std::exception & e) {
         std::cout << e.what() << std::endl;
         thisAns.reset();
     }
 
-    void The::start_receive()  try {
+    void The::start_receive() try {
         /* Discard any data already in the buffer. */
         reply_buffer_.consume(reply_buffer_.size());
 

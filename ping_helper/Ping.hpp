@@ -51,6 +51,7 @@ namespace sstd {
         boost::asio::chrono::steady_clock::time_point time_sent_;
         boost::asio::streambuf reply_buffer_;
         std::shared_ptr<PingAns> thisAns;
+        int thisTryCount{ 0 };
     private:
         sstd_class(Ping);
     };
