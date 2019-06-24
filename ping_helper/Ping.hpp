@@ -17,11 +17,11 @@ namespace sstd {
         inline bool isInvalid() const {
             return invalidTime() == finalTime;
         }
-        std::atomic< std::int64_t > time{ 
+        std::atomic< std::int64_t > time{
             invalidTime()
         };
-        std::int64_t finalTime{ 
-            invalidTime() 
+        std::int64_t finalTime{
+            invalidTime()
         };
         std::string destination;
         std::string IPV4Destination;
@@ -34,7 +34,7 @@ namespace sstd {
 
     class Ping : public std::enable_shared_from_this<Ping> {
     public:
-        Ping(std::shared_ptr<PingAns> argPingAns, boost::asio::io_context& io_context );
+        Ping(std::shared_ptr<PingAns> argPingAns, boost::asio::io_context& io_context);
         ~Ping();
     public:
         std::shared_ptr<PingAns> start();

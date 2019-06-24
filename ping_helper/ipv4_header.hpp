@@ -54,7 +54,7 @@ public:
         return decode(10, 11);
     }
 
-    inline boost::asio::ip::address_v4 source_address() const{
+    inline boost::asio::ip::address_v4 source_address() const {
         boost::asio::ip::address_v4::bytes_type bytes = {
             { rep_[12], rep_[13], rep_[14], rep_[15] }
         };
@@ -70,14 +70,13 @@ public:
 
     inline friend std::istream& operator>>(std::istream& is, ipv4_header& header) {
         is.read(reinterpret_cast<char*>(header.rep_), 20);
-        if (header.version() != 4){
+        if (header.version() != 4) {
             is.setstate(std::ios::failbit);
         }
         std::streamsize options_length = header.header_length() - 20;
-        if (options_length < 0 || options_length > 40){
+        if (options_length < 0 || options_length > 40) {
             is.setstate(std::ios::failbit);
-        }
-        else{
+        } else {
             is.read(reinterpret_cast<char*>(header.rep_) + 20, options_length);
         }
         return is;

@@ -89,13 +89,12 @@ private:
 
 template <typename Iterator>
 inline void compute_checksum(icmp_header& header,
-                             Iterator body_begin, Iterator body_end) {
+    Iterator body_begin, Iterator body_end) {
     unsigned int sum = (header.type() << 8) + header.code()
-            + header.identifier() + header.sequence_number();
+        + header.identifier() + header.sequence_number();
 
     Iterator body_iter = body_begin;
-    while (body_iter != body_end)
-    {
+    while (body_iter != body_end) {
         sum += (static_cast<unsigned char>(*body_iter++) << 8);
         if (body_iter != body_end)
             sum += static_cast<unsigned char>(*body_iter++);

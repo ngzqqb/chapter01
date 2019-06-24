@@ -7,7 +7,7 @@ namespace sstd {
     using The = Ping;
 
     The::Ping(std::shared_ptr<PingAns> argPingAns,
-              boost::asio::io_context& io_context) :
+        boost::asio::io_context& io_context) :
         socket_(io_context, icmp::v4()),
         sequence_number_(0) {
             {
@@ -15,7 +15,7 @@ namespace sstd {
                 icmp::resolver resolver_{ io_context };
                 destination_ = *resolver_.resolve(icmp::v4(), argPingAns->destination, ""sv).begin();
             }
-        thisAns = std::move(argPingAns);
+            thisAns = std::move(argPingAns);
     }
 
     std::shared_ptr<PingAns> The::start() {
@@ -104,12 +104,12 @@ namespace sstd {
 
 #if defined(_DEBUG)
             std::cout << length - ipv4_hdr.header_length()
-                << " "<< thisAns->destination
+                << " " << thisAns->destination
                 << " bytes from "sv << thisAns->IPV4Destination
                 << ": icmp_seq="sv << icmp_hdr.sequence_number()
                 << ", ttl="sv << ipv4_hdr.time_to_live()
                 << ", time="sv
-                <<  thisAns->time
+                << thisAns->time
                 << std::endl;
 #endif 
 
@@ -121,7 +121,7 @@ namespace sstd {
 
     Ping::~Ping() {
 #if defined(_DEBUG)
-        if(thisAns){ 
+        if (thisAns) {
             std::cout << "~Ping : " << thisAns->destination << std::endl;
         } else {
             std::cout << "~Ping" << std::endl;
