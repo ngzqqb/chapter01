@@ -9,7 +9,7 @@ namespace sstd{
         Q_OBJECT
     public:
         PingObject(QObject * argParent = nullptr);
-        void start( const QString & );
+        Q_INVOKABLE void start( const QString & );
         ~PingObject();
     private:
         Ping * thisPing{nullptr};

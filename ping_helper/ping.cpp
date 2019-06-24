@@ -4,24 +4,28 @@ using namespace std::string_view_literals;
 
 namespace sstd {
 
-    using The = Ping ;
+    using The = Ping;
 
-    The::Ping(boost::asio::io_context& io_context, const char* destination):
+    The::Ping(boost::asio::io_context& io_context, std::string_view destination) :
         resolver_(io_context),
         socket_(io_context, icmp::v4()),
         timer_(io_context),
         sequence_number_(0),
-        num_replies_(0){
-        destination_ = *resolver_.resolve(icmp::v4(), destination, "").begin();
-        start_send();
-        start_receive();
+        num_replies_(0) {
+        try {
+            destination_ = *resolver_.resolve(icmp::v4(), destination, ""sv).begin();
+            start_send();
+            start_receive();
+        } catch (const std::exception & e) {
+            std::cout << e.what() << std::endl;
+        }
     }
 
-    void The::start_send() {
+    void The::start_send() try {
         using boost::asio::steady_timer;
         namespace chrono = boost::asio::chrono;
 
-        const static std::string_view body = "\"Hello!\" from Asio ping."sv ;
+        constexpr auto body = "\"Hello!\" from Asio ping."sv;
 
         /* Create an ICMP header for an echo request. */
         icmp_header echo_request;
@@ -33,10 +37,8 @@ namespace sstd {
 
         /* Encode the request packet. */
         boost::asio::streambuf request_buffer;
-        if constexpr(false ) {
-            std::ostream os(&request_buffer);
-            os << echo_request << body;
-        }
+        std::ostream os(&request_buffer);
+        os << echo_request << body;
 
         /* Send the request. */
         time_sent_ = steady_timer::clock_type::now();
@@ -45,15 +47,19 @@ namespace sstd {
         /* Wait up to five seconds for a reply. */
         num_replies_ = 0;
         timer_.expires_at(time_sent_ + chrono::seconds(5));
-        timer_.async_wait(boost::bind(&The::handle_timeout, this));
+        timer_.async_wait([varThis=this->shared_from_this()](const auto &) {
+            varThis->handle_timeout( );
+        });
+    } catch (const std::exception & e) {
+        std::cout << e.what() << std::endl;
     }
 
-    void The::handle_timeout() {
+    void The::handle_timeout() try {
 
         using boost::asio::steady_timer;
         namespace chrono = boost::asio::chrono;
 
-        if (num_replies_ == 0){
+        if (num_replies_ == 0) {
             std::cout << "Request timed out" << std::endl;
         }
 
@@ -61,18 +67,22 @@ namespace sstd {
         timer_.expires_at(time_sent_ + chrono::seconds(1));
         timer_.async_wait(boost::bind(&The::start_send, this));
 
+    } catch (const std::exception & e) {
+        std::cout << e.what() << std::endl;
     }
 
-    void The::start_receive()  {
+    void The::start_receive()  try {
         /* Discard any data already in the buffer. */
         reply_buffer_.consume(reply_buffer_.size());
 
         /* Wait for a reply. We prepare the buffer to receive up to 64KB. */
         socket_.async_receive(reply_buffer_.prepare(65536),
-                              boost::bind(&The::handle_receive, this, _2));
+            boost::bind(&The::handle_receive, this, _2));
+    } catch (const std::exception & e) {
+        std::cout << e.what() << std::endl;
     }
 
-    void The::handle_receive(std::size_t length) {
+    void The::handle_receive(std::size_t length)try {
         using boost::asio::steady_timer;
         namespace chrono = boost::asio::chrono;
 
@@ -91,25 +101,27 @@ namespace sstd {
         /* expected sequence number. */
         if (is && icmp_hdr.type() == icmp_header::echo_reply
             && icmp_hdr.identifier() == get_identifier()
-            && icmp_hdr.sequence_number() == sequence_number_)  {
+            && icmp_hdr.sequence_number() == sequence_number_) {
 
             /* If this is the first reply, interrupt the five second timeout. */
-            if (num_replies_++ == 0){
+            if (num_replies_++ == 0) {
                 timer_.cancel();
             }
 
             /* Print out some information about the reply packet. */
-            auto elapsed = boost::asio::chrono::steady_clock::now() - time_sent_ ;
+            auto elapsed = boost::asio::chrono::steady_clock::now() - time_sent_;
             std::cout << length - ipv4_hdr.header_length()
-                      << " bytes from "sv << ipv4_hdr.source_address()
-                      << ": icmp_seq="sv << icmp_hdr.sequence_number()
-                      << ", ttl="sv << ipv4_hdr.time_to_live()
-                      << ", time="sv
-                      << chrono::duration_cast<chrono::milliseconds>(elapsed).count()
-                      << std::endl;
+                << " bytes from "sv << ipv4_hdr.source_address()
+                << ": icmp_seq="sv << icmp_hdr.sequence_number()
+                << ", ttl="sv << ipv4_hdr.time_to_live()
+                << ", time="sv
+                << chrono::duration_cast<chrono::milliseconds>(elapsed).count()
+                << std::endl;
         }
 
         start_receive();
+    } catch (const std::exception & e) {
+        std::cout << e.what() << std::endl;
     }
 
     unsigned short The::get_identifier() {
@@ -123,8 +135,6 @@ namespace sstd {
         return static_cast<unsigned short>(::getpid());
 #endif
     }
-
-
 
 }/*namespace sstd*/
 

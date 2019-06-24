@@ -4,12 +4,14 @@
 #include "ipv4_header.hpp"
 #include <sstd/boost/asio.hpp>
 #include <sstd/boost/bind.hpp>
+#include <string_view>
+#include <sstd_library.hpp>
 
 namespace sstd{
 
-    class Ping {
+    class Ping : public std::enable_shared_from_this<Ping> {
     public:
-        Ping(boost::asio::io_context& io_context, const char* destination);
+        Ping(boost::asio::io_context& io_context, std::string_view destination);
     private:
         void start_send();
         void handle_timeout();
