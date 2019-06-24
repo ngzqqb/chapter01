@@ -51,7 +51,8 @@ namespace sstd {
         /* Send the request. */
         time_sent_ = steady_timer::clock_type::now();
         socket_.async_send_to(request_buffer.data(), destination_,
-                              [](const auto &,auto){});
+                              [varThis = this->shared_from_this()](const auto &,auto){
+        });
 
     } catch (const std::exception & e) {
         std::cout << e.what() << std::endl;
