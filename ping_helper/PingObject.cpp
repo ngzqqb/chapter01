@@ -71,9 +71,9 @@ namespace sstd {
        
         auto & varContex = GlobalPingObject::instance().getContex();
         const auto varSource = argSource.toUtf8();
-        static auto varPing = 
+        auto varPing = 
             std::make_shared<Ping>(varContex , varSource.constData());
-
+        varPing->start();
 
         return true;
     } catch (const std::exception & e) {

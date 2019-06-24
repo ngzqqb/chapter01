@@ -12,13 +12,19 @@ namespace sstd {
         timer_(io_context),
         sequence_number_(0),
         num_replies_(0) {
-        try {
-            destination_ = *resolver_.resolve(icmp::v4(), destination, ""sv).begin();
+        /*There will throw some exception ... */
+        destination_ = *resolver_.resolve(icmp::v4(), destination, ""sv).begin();
+    }
+
+    std::shared_ptr<PingAns> The::start() {
+        thisAns = sstd_make_shared<PingAns>();
+        if (thisAns) {
             start_send();
-            start_receive();
-        } catch (const std::exception & e) {
-            std::cout << e.what() << std::endl;
         }
+        if (thisAns) {
+            start_receive();
+        }
+        return thisAns;
     }
 
     void The::start_send() try {
@@ -45,13 +51,15 @@ namespace sstd {
         socket_.send_to(request_buffer.data(), destination_);
 
         /* Wait up to five seconds for a reply. */
-        num_replies_ = 0;
-        timer_.expires_at(time_sent_ + chrono::seconds(5));
-        timer_.async_wait([varThis=this->shared_from_this()](const auto &) {
-            varThis->handle_timeout( );
-        });
+        //num_replies_ = 0;
+        //timer_.expires_at(time_sent_ + chrono::seconds(5));
+        //timer_.async_wait([varThis = this->shared_from_this()](const auto &) {
+        //    varThis->handle_timeout();
+        //});
+
     } catch (const std::exception & e) {
         std::cout << e.what() << std::endl;
+        thisAns.reset();
     }
 
     void The::handle_timeout() try {
@@ -65,7 +73,9 @@ namespace sstd {
 
         /* Requests must be sent no less than one second apart. */
         timer_.expires_at(time_sent_ + chrono::seconds(1));
-        timer_.async_wait(boost::bind(&The::start_send, this));
+        timer_.async_wait([varThis = this->shared_from_this()](const auto &) {
+            varThis->start_send();
+        });
 
     } catch (const std::exception & e) {
         std::cout << e.what() << std::endl;
@@ -77,9 +87,13 @@ namespace sstd {
 
         /* Wait for a reply. We prepare the buffer to receive up to 64KB. */
         socket_.async_receive(reply_buffer_.prepare(65536),
-            boost::bind(&The::handle_receive, this, _2));
+            [varThis = this->shared_from_this()](const auto &, std::size_t argLength) {
+            varThis->handle_receive(argLength);
+        });
+
     } catch (const std::exception & e) {
         std::cout << e.what() << std::endl;
+        thisAns.reset();
     }
 
     void The::handle_receive(std::size_t length)try {
@@ -104,9 +118,9 @@ namespace sstd {
             && icmp_hdr.sequence_number() == sequence_number_) {
 
             /* If this is the first reply, interrupt the five second timeout. */
-            if (num_replies_++ == 0) {
-                timer_.cancel();
-            }
+            //if (num_replies_++ == 0) {
+            //    timer_.cancel();
+            //}
 
             /* Print out some information about the reply packet. */
             auto elapsed = boost::asio::chrono::steady_clock::now() - time_sent_;
@@ -119,7 +133,7 @@ namespace sstd {
                 << std::endl;
         }
 
-        start_receive();
+        //start_receive();
     } catch (const std::exception & e) {
         std::cout << e.what() << std::endl;
     }

@@ -9,9 +9,20 @@
 
 namespace sstd{
 
+    class PingAns {
+    public:
+        std::atomic< std::int64_t > time{ 
+            std::numeric_limits<std::int64_t>::max() 
+        };
+    private:
+        sstd_class(PingAns);
+    };
+
     class Ping : public std::enable_shared_from_this<Ping> {
     public:
         Ping(boost::asio::io_context& io_context, std::string_view destination);
+    public:
+        std::shared_ptr<PingAns> start();
     private:
         void start_send();
         void handle_timeout();
@@ -28,6 +39,9 @@ namespace sstd{
         boost::asio::chrono::steady_clock::time_point time_sent_;
         boost::asio::streambuf reply_buffer_;
         std::size_t num_replies_;
+        std::shared_ptr<PingAns> thisAns;
+    private:
+        sstd_class(Ping);
     };
 
 }/*namespace sstd*/
