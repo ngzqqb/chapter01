@@ -6,16 +6,16 @@ namespace sstd {
 
     using The = Ping;
 
-    The::Ping(boost::asio::io_context& io_context, std::string_view destination) :
+    The::Ping(std::shared_ptr<PingAns> argPingAns,
+              boost::asio::io_context& io_context) :
         socket_(io_context, icmp::v4()),
         sequence_number_(0) {
             {
                 /*There may throw some exception ... */
                 icmp::resolver resolver_{ io_context };
-                destination_ = *resolver_.resolve(icmp::v4(), destination, ""sv).begin();
+                destination_ = *resolver_.resolve(icmp::v4(), argPingAns->destination, ""sv).begin();
             }
-        thisAns = sstd_make_shared<PingAns>();
-        thisAns->destination = destination;
+        thisAns = std::move(argPingAns);
     }
 
     std::shared_ptr<PingAns> The::start() {

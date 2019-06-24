@@ -13,7 +13,7 @@ StyledApplicationWindow {
 
     width: 512 ;
     height: 360 ;
-    id : idRoot ; 
+    id : idRoot ;
 
     Ping{
         id : idPing
@@ -26,18 +26,31 @@ StyledApplicationWindow {
             TextField{
                 id : idUrl
                 Layout.fillWidth: true
-                text: "www.baidu.com"
+                text: "PingList.txt"
             }
             Button{
                 text: qsTr("启动")
                 onClicked: {
-                    idPing.start( idUrl.text )
+                    idPing.start( Qt.resolvedUrl( idUrl.text ) )
                 }
+                enabled:!idPing.isPing;
             }
         }
-        TextArea{
+        ScrollView {
             Layout.fillWidth: true
             Layout.fillHeight: true
+            TextArea{
+                id : idTextArea
+                Connections{
+                    target: idPing
+                    onIsPingChanged : {
+                        if( idPing.isPing ){
+                            return;
+                        }
+                        idTextArea.text = idPing.pingAnsToString();
+                    }
+                }
+            }
         }
     }
 

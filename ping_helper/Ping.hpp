@@ -7,22 +7,34 @@
 #include <string_view>
 #include <sstd_library.hpp>
 
-namespace sstd{
+namespace sstd {
 
     class PingAns {
     public:
+        inline constexpr static std::int64_t invalidTime() {
+            return std::numeric_limits<std::int64_t>::max();
+        }
+        inline bool isInvalid() const {
+            return invalidTime() == time.load();
+        }
         std::atomic< std::int64_t > time{ 
-            std::numeric_limits<std::int64_t>::max() 
+            invalidTime()
+        };
+        std::int64_t finalTime{ 
+            invalidTime() 
         };
         std::string destination;
         std::string IPV4Destination;
+        inline void setToFinal() {
+            finalTime = time.load();
+        }
     private:
         sstd_class(PingAns);
     };
 
     class Ping : public std::enable_shared_from_this<Ping> {
     public:
-        Ping(boost::asio::io_context& io_context, std::string_view destination);
+        Ping(std::shared_ptr<PingAns> argPingAns, boost::asio::io_context& io_context );
         ~Ping();
     public:
         std::shared_ptr<PingAns> start();
