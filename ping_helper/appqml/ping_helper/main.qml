@@ -28,9 +28,6 @@ StyledApplicationWindow {
                 Layout.fillWidth: true
                 text: "PingList.txt"
                 readOnly: false
-                canPaste: true
-                canRedo: true
-                canUndo: true
                 selectByMouse: true
             }
             Button{
@@ -46,6 +43,7 @@ StyledApplicationWindow {
             Layout.fillHeight: true
             TextArea{
                 id : idTextArea
+                selectByMouse: true
                 Connections{
                     target: idPing
                     onIsPingChanged : {
