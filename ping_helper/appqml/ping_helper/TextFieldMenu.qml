@@ -18,7 +18,7 @@ MouseArea{
     function reSelect(){
         if(idUrlMouseArea.isTextChanged){
             idUrlMouseArea.isTextChanged= false ;
-            idUrlMouseArea.textInput.select(  idUrlMouseArea.selectionStart,idUrlMouseArea.selectionEnd   )
+            idUrlMouseArea.textInput.select( idUrlMouseArea.selectionStart,idUrlMouseArea.selectionEnd )
         }
     }
 
