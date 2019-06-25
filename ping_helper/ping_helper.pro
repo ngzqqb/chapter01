@@ -9,8 +9,9 @@ CONFIG(debug,debug|release){
 }
 
 SOURCES += $$PWD/main.cpp
-HEADERS += $$PWD/icmp_header.hpp
-HEADERS += $$PWD/ipv4_header.hpp
+
+HEADERS += $$PWD/ICMPHeader.hpp
+HEADERS += $$PWD/IPV4Header.hpp
 
 SOURCES += $$PWD/Ping.cpp
 HEADERS += $$PWD/Ping.hpp
