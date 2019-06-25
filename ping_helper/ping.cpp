@@ -8,12 +8,12 @@ namespace sstd {
 
     The::Ping(std::shared_ptr<PingAns> argPingAns,
         boost::asio::io_context& io_context) :
-        socket_(io_context, icmp::v4()),
-        sequence_number_(0) {
+        thisSocket(io_context, icmp::v4()),
+        thisSequenceNumber(0) {
             {
                 /*There may throw some exception ... */
                 icmp::resolver resolver_{ io_context };
-                destination_ = *resolver_.resolve(icmp::v4(), argPingAns->destination, ""sv).begin();
+                thisDestination = *resolver_.resolve(icmp::v4(), argPingAns->destination, ""sv).begin();
             }
             thisAns = std::move(argPingAns);
     }
@@ -40,7 +40,7 @@ namespace sstd {
         echo_request.type(ICMPHeader::echo_request);
         echo_request.code(0);
         echo_request.identifier(get_identifier());
-        echo_request.sequence_number(++sequence_number_);
+        echo_request.sequence_number(++thisSequenceNumber);
         computeCheckSum(echo_request, body.begin(), body.end());
 
         /* Encode the request packet. */
@@ -49,8 +49,8 @@ namespace sstd {
         os << echo_request << body;
 
         /* Send the request. */
-        time_sent_ = steady_timer::clock_type::now();
-        socket_.send_to(request_buffer.data(), destination_);
+        thisTimeSent = steady_timer::clock_type::now();
+        thisSocket.send_to(request_buffer.data(), thisDestination);
 
     } catch (const std::exception & e) {
         std::cout << e.what() << std::endl;
@@ -59,10 +59,10 @@ namespace sstd {
 
     void The::start_receive() try {
         /* Discard any data already in the buffer. */
-        reply_buffer_.consume(reply_buffer_.size());
+        thisReplyBuffer.consume(thisReplyBuffer.size());
 
         /* Wait for a reply. We prepare the buffer to receive up to 64KB. */
-        socket_.async_receive(reply_buffer_.prepare(65536),
+        thisSocket.async_receive(thisReplyBuffer.prepare(65536),
             [varThis = this->shared_from_this()](const auto &, std::size_t argLength) {
             varThis->handle_receive(argLength);
         });
@@ -78,14 +78,14 @@ namespace sstd {
 
         /* The actual number of bytes received is committed to the buffer so that we */
         /* can extract it using a std::istream object. */
-        reply_buffer_.commit(length);
+        thisReplyBuffer.commit(length);
 
         if (!thisAns) {
             return;
         }
 
         /* Decode the reply packet. */
-        std::istream is(&reply_buffer_);
+        std::istream is(&thisReplyBuffer);
         IPV4Header ipv4_hdr;
         ICMPHeader icmp_hdr;
         is >> ipv4_hdr >> icmp_hdr;
@@ -95,10 +95,10 @@ namespace sstd {
         /* expected sequence number. */
         if (is && icmp_hdr.type() == ICMPHeader::echo_reply
             && icmp_hdr.identifier() == get_identifier()
-            && icmp_hdr.sequence_number() == sequence_number_) {
+            && icmp_hdr.sequence_number() == thisSequenceNumber) {
 
             /* Print out some information about the reply packet. */
-            auto elapsed = boost::asio::chrono::steady_clock::now() - time_sent_;
+            auto elapsed = boost::asio::chrono::steady_clock::now() - thisTimeSent;
             thisAns->time = chrono::duration_cast<chrono::milliseconds>(elapsed).count();
             thisAns->IPV4Destination = ipv4_hdr.sourceAddress().to_string();
 

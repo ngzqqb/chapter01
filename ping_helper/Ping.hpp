@@ -39,17 +39,17 @@ namespace sstd {
     public:
         std::shared_ptr<PingAns> start();
     private:
-        void start_send();
-        void start_receive();
-        void handle_receive(std::size_t length);
+        void startSend();
+        void startReceive();
+        void handleReceive(std::size_t length);
     private:
         static inline unsigned short get_identifier();
         using icmp = boost::asio::ip::icmp;
-        icmp::endpoint destination_;
-        icmp::socket socket_;
-        unsigned short sequence_number_;
-        boost::asio::chrono::steady_clock::time_point time_sent_;
-        boost::asio::streambuf reply_buffer_;
+        icmp::endpoint thisDestination;
+        icmp::socket thisSocket;
+        unsigned short thisSequenceNumber;
+        boost::asio::chrono::steady_clock::time_point thisTimeSent;
+        boost::asio::streambuf thisReplyBuffer;
         std::shared_ptr<PingAns> thisAns;
     private:
         sstd_class(Ping);
