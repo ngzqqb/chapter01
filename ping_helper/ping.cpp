@@ -7,12 +7,12 @@ namespace sstd {
     using The = Ping;
 
     The::Ping(std::shared_ptr<PingAns> argPingAns,
-        boost::asio::io_context& io_context) :
-        thisSocket(io_context, icmp::v4()),
+        boost::asio::io_context& argIOContext) :
+        thisSocket(argIOContext, icmp::v4()),
         thisSequenceNumber(0) {
             {
                 /*There may throw some exception ... */
-                icmp::resolver resolver_{ io_context };
+                icmp::resolver resolver_{ argIOContext };
                 thisDestination = *resolver_.resolve(icmp::v4(), argPingAns->destination, ""sv).begin();
             }
             thisAns = std::move(argPingAns);
@@ -33,24 +33,24 @@ namespace sstd {
         using boost::asio::steady_timer;
         namespace chrono = boost::asio::chrono;
 
-        constexpr auto body = "\"Hello!\" from Asio ping."sv;
+        constexpr auto varBody = "\"Hello!\" from Asio ping."sv;
 
         /* Create an ICMP header for an echo request. */
-        ICMPHeader echo_request;
-        echo_request.type(ICMPHeader::echo_request);
-        echo_request.code(0);
-        echo_request.identifier(get_identifier());
-        echo_request.sequence_number(++thisSequenceNumber);
-        computeCheckSum(echo_request, body.begin(), body.end());
+        ICMPHeader varEchoRequest;
+        varEchoRequest.type(ICMPHeader::echo_request);
+        varEchoRequest.code(0);
+        varEchoRequest.identifier(get_identifier());
+        varEchoRequest.sequenceNumber(++thisSequenceNumber);
+        computeCheckSum(varEchoRequest, varBody.begin(), varBody.end());
 
         /* Encode the request packet. */
-        boost::asio::streambuf request_buffer;
-        std::ostream os(&request_buffer);
-        os << echo_request << body;
+        boost::asio::basic_streambuf<sstd::allocator<char>> varRequestBuffer;
+        std::ostream os(&varRequestBuffer);
+        os << varEchoRequest << varBody;
 
         /* Send the request. */
         thisTimeSent = steady_timer::clock_type::now();
-        thisSocket.send_to(request_buffer.data(), thisDestination);
+        thisSocket.send_to(varRequestBuffer.data(), thisDestination);
 
     } catch (const std::exception & e) {
         std::cout << e.what() << std::endl;
@@ -85,29 +85,29 @@ namespace sstd {
         }
 
         /* Decode the reply packet. */
-        std::istream is(&thisReplyBuffer);
-        IPV4Header ipv4_hdr;
-        ICMPHeader icmp_hdr;
-        is >> ipv4_hdr >> icmp_hdr;
+        std::istream varIs(&thisReplyBuffer);
+        IPV4Header varIPV4HDR;
+        ICMPHeader varIMCPHDR;
+        varIs >> varIPV4HDR >> varIMCPHDR;
 
         /* We can receive all ICMP packets received by the host, so we need to */
         /* filter out only the echo replies that match the our identifier and */
         /* expected sequence number. */
-        if (is && icmp_hdr.type() == ICMPHeader::echo_reply
-            && icmp_hdr.identifier() == get_identifier()
-            && icmp_hdr.sequence_number() == thisSequenceNumber) {
+        if (varIs && varIMCPHDR.type() == ICMPHeader::echo_reply
+            && varIMCPHDR.identifier() == get_identifier()
+            && varIMCPHDR.sequenceNumber() == thisSequenceNumber) {
 
             /* Print out some information about the reply packet. */
             auto elapsed = boost::asio::chrono::steady_clock::now() - thisTimeSent;
             thisAns->time = chrono::duration_cast<chrono::milliseconds>(elapsed).count();
-            thisAns->IPV4Destination = ipv4_hdr.sourceAddress().to_string();
+            thisAns->IPV4Destination = varIPV4HDR.sourceAddress().to_string();
 
 #if defined(_DEBUG)
-            std::cout << length - ipv4_hdr.headerLength()
+            std::cout << length - varIPV4HDR.headerLength()
                 << " " << thisAns->destination
                 << " bytes from "sv << thisAns->IPV4Destination
-                << ": icmp_seq="sv << icmp_hdr.sequence_number()
-                << ", ttl="sv << ipv4_hdr.timeToLive()
+                << ": icmp_seq="sv << varIMCPHDR.sequenceNumber()
+                << ", ttl="sv << varIPV4HDR.timeToLive()
                 << ", time="sv
                 << thisAns->time
                 << std::endl;

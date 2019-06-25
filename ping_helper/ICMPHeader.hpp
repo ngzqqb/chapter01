@@ -45,7 +45,7 @@ namespace sstd {
             return decode(4, 5);
         }
 
-        inline unsigned short sequence_number() const {
+        inline unsigned short sequenceNumber() const {
             return decode(6, 7);
         }
 
@@ -65,7 +65,7 @@ namespace sstd {
             encode(4, 5, n);
         }
 
-        inline void sequence_number(unsigned short n) {
+        inline void sequenceNumber(unsigned short n) {
             encode(6, 7, n);
         }
 
@@ -96,7 +96,7 @@ namespace sstd {
     inline void computeCheckSum(ICMPHeader& header,
         Iterator body_begin, Iterator body_end) {
         unsigned int sum = (header.type() << 8) + header.code()
-            + header.identifier() + header.sequence_number();
+            + header.identifier() + header.sequenceNumber();
 
         Iterator body_iter = body_begin;
         while (body_iter != body_end) {
