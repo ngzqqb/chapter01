@@ -41,7 +41,7 @@ namespace sstd {
         echo_request.code(0);
         echo_request.identifier(get_identifier());
         echo_request.sequence_number(++sequence_number_);
-        compute_checksum(echo_request, body.begin(), body.end());
+        computeCheckSum(echo_request, body.begin(), body.end());
 
         /* Encode the request packet. */
         boost::asio::streambuf request_buffer;

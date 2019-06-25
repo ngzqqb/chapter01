@@ -90,7 +90,7 @@ namespace sstd {
     };
 
     template <typename Iterator>
-    inline void compute_checksum(ICMPHeader& header,
+    inline void computeCheckSum(ICMPHeader& header,
         Iterator body_begin, Iterator body_end) {
         unsigned int sum = (header.type() << 8) + header.code()
             + header.identifier() + header.sequence_number();
