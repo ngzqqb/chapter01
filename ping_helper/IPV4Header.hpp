@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <iostream>
 #include <sstd/boost/asio/ip/address_v4.hpp>
+#include <sstd_library.hpp>
 
 namespace sstd {
 
@@ -90,6 +91,8 @@ namespace sstd {
         }
 
         unsigned char thisRep[60];
+    private:
+        sstd_class(IPV4Header);
     };
 
 }/*namespace sstd*/

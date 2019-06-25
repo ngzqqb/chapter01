@@ -3,6 +3,7 @@
 #include <istream>
 #include <ostream>
 #include <algorithm>
+#include <sstd_library.hpp>
 
 namespace sstd {
 
@@ -87,6 +88,8 @@ namespace sstd {
         }
 
         unsigned char thisRep[8];
+    private:
+        sstd_class(ICMPHeader);
     };
 
     template <typename Iterator>
