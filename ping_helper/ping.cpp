@@ -36,8 +36,8 @@ namespace sstd {
         constexpr auto body = "\"Hello!\" from Asio ping."sv;
 
         /* Create an ICMP header for an echo request. */
-        icmp_header echo_request;
-        echo_request.type(icmp_header::echo_request);
+        ICMPHeader echo_request;
+        echo_request.type(ICMPHeader::echo_request);
         echo_request.code(0);
         echo_request.identifier(get_identifier());
         echo_request.sequence_number(++sequence_number_);
@@ -86,14 +86,14 @@ namespace sstd {
 
         /* Decode the reply packet. */
         std::istream is(&reply_buffer_);
-        ipv4_header ipv4_hdr;
-        icmp_header icmp_hdr;
+        IPV4Header ipv4_hdr;
+        ICMPHeader icmp_hdr;
         is >> ipv4_hdr >> icmp_hdr;
 
         /* We can receive all ICMP packets received by the host, so we need to */
         /* filter out only the echo replies that match the our identifier and */
         /* expected sequence number. */
-        if (is && icmp_hdr.type() == icmp_header::echo_reply
+        if (is && icmp_hdr.type() == ICMPHeader::echo_reply
             && icmp_hdr.identifier() == get_identifier()
             && icmp_hdr.sequence_number() == sequence_number_) {
 
