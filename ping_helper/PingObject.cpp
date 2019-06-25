@@ -58,10 +58,10 @@ namespace sstd {
     };
 
     inline static std::shared_ptr<PingAns> startAPing(const QString & argSource) {
-        auto varAns = sstd_make_shared<PingAns>();
+        std::shared_ptr<PingAns> varAns;
         {
             const auto varSource = argSource.toUtf8();
-            varAns->destination = varSource.constData();
+            varAns = sstd_make_shared<PingAns>(varSource.constData());
         }
         auto varPingStartFunction = [varAns]() {
             try {

@@ -23,10 +23,12 @@ namespace sstd {
         std::int64_t finalTime{
             invalidTime()
         };
-        std::string destination;
+        const std::string destination;
         std::string IPV4Destination;
         inline void setToFinal() {
             finalTime = time.load();
+        }
+        inline PingAns(std::string_view arg) : destination{arg} {
         }
     private:
         sstd_class(PingAns);

@@ -21,15 +21,15 @@ namespace sstd {
     std::shared_ptr<PingAns> The::start() {
         auto varAns = thisAns;
         if (thisAns) {
-            start_send();
+            startSend();
         }
         if (thisAns) {
-            start_receive();
+            startReceive();
         }
         return std::move(varAns);
     }
 
-    void The::start_send() try {
+    void The::startSend() try {
         using boost::asio::steady_timer;
         namespace chrono = boost::asio::chrono;
 
@@ -57,14 +57,14 @@ namespace sstd {
         thisAns.reset();
     }
 
-    void The::start_receive() try {
+    void The::startReceive() try {
         /* Discard any data already in the buffer. */
         thisReplyBuffer.consume(thisReplyBuffer.size());
 
         /* Wait for a reply. We prepare the buffer to receive up to 64KB. */
         thisSocket.async_receive(thisReplyBuffer.prepare(65536),
             [varThis = this->shared_from_this()](const auto &, std::size_t argLength) {
-            varThis->handle_receive(argLength);
+            varThis->handleReceive(argLength);
         });
 
     } catch (const std::exception & e) {
@@ -72,7 +72,7 @@ namespace sstd {
         thisAns.reset();
     }
 
-    void The::handle_receive(std::size_t length)try {
+    void The::handleReceive(std::size_t length)try {
         using boost::asio::steady_timer;
         namespace chrono = boost::asio::chrono;
 
