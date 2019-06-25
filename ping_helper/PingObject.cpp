@@ -18,7 +18,7 @@ namespace sstd {
     public:
         inline auto & getContex() {
             if (!thisContex) {
-                throw std::runtime_error ("the app has exit!");
+                throw std::runtime_error("the app has exit!");
             }
             return *thisContex;
         }
@@ -59,17 +59,21 @@ namespace sstd {
 
     inline static std::shared_ptr<PingAns> startAPing(const QString & argSource) {
         auto varAns = sstd_make_shared<PingAns>();
-        auto & varContex = GlobalPingObject::instance().getContex();
         {
             const auto varSource = argSource.toUtf8();
             varAns->destination = varSource.constData();
         }
-        try {
-            auto varPing = std::make_shared<Ping>(varAns, varContex);
-            varPing->start();
-        } catch (const std::exception & e) {
-            qDebug() << e.what();
-        }
+        auto varPingStartFunction = [varAns]() {
+            try {
+                auto & varContex = GlobalPingObject::instance().getContex();
+                auto varPing = std::make_shared<Ping>(varAns, varContex);
+                varPing->start();
+            } catch (const std::exception & e) {
+                qDebug() << e.what();
+            }
+        };
+        auto & varContex = GlobalPingObject::instance().getContex();
+        varContex.post(std::move(varPingStartFunction));
         return std::move(varAns);
     }
 
@@ -123,7 +127,7 @@ namespace sstd {
             varI->setToFinal();
             varIsFinished += !varI->isInvalid();
         }
-        if (varIsFinished==thisPingAns.size()) {
+        if (varIsFinished == thisPingAns.size()) {
             setIsPing(false);
         }
         std::sort(thisPingAns.begin(), thisPingAns.end(),
