@@ -50,6 +50,7 @@ namespace sstd {
 
         /* Send the request. */
         time_sent_ = steady_timer::clock_type::now();
+        socket_.send_to(request_buffer.data(), destination_);
 
     } catch (const std::exception & e) {
         std::cout << e.what() << std::endl;
