@@ -100,14 +100,14 @@ namespace sstd {
             /* Print out some information about the reply packet. */
             auto elapsed = boost::asio::chrono::steady_clock::now() - time_sent_;
             thisAns->time = chrono::duration_cast<chrono::milliseconds>(elapsed).count();
-            thisAns->IPV4Destination = ipv4_hdr.source_address().to_string();
+            thisAns->IPV4Destination = ipv4_hdr.sourceAddress().to_string();
 
 #if defined(_DEBUG)
             std::cout << length - ipv4_hdr.headerLength()
                 << " " << thisAns->destination
                 << " bytes from "sv << thisAns->IPV4Destination
                 << ": icmp_seq="sv << icmp_hdr.sequence_number()
-                << ", ttl="sv << ipv4_hdr.time_to_live()
+                << ", ttl="sv << ipv4_hdr.timeToLive()
                 << ", time="sv
                 << thisAns->time
                 << std::endl;

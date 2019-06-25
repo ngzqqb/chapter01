@@ -20,11 +20,11 @@ namespace sstd {
             return (thisRep[0] & 0xF) * 4;
         }
 
-        inline unsigned char type_of_service() const {
+        inline unsigned char typeOfService() const {
             return thisRep[1];
         }
 
-        inline unsigned short total_length() const {
+        inline unsigned short totalLength() const {
             return decode(2, 3);
         }
 
@@ -32,19 +32,19 @@ namespace sstd {
             return decode(4, 5);
         }
 
-        inline bool dont_fragment() const {
+        inline bool dontFragment() const {
             return (thisRep[6] & 0x40) != 0;
         }
 
-        inline bool more_fragments() const {
+        inline bool moreFragments() const {
             return (thisRep[6] & 0x20) != 0;
         }
 
-        inline unsigned short fragment_offset() const {
+        inline unsigned short fragmentOffset() const {
             return decode(6, 7) & 0x1FFF;
         }
 
-        inline unsigned int time_to_live() const {
+        inline unsigned int timeToLive() const {
             return thisRep[8];
         }
 
@@ -52,36 +52,36 @@ namespace sstd {
             return thisRep[9];
         }
 
-        inline unsigned short header_checksum() const {
+        inline unsigned short headerChecksum() const {
             return decode(10, 11);
         }
 
-        inline boost::asio::ip::address_v4 source_address() const {
+        inline boost::asio::ip::address_v4 sourceAddress() const {
             boost::asio::ip::address_v4::bytes_type bytes = {
                 { thisRep[12], thisRep[13], thisRep[14], thisRep[15] }
             };
             return boost::asio::ip::address_v4(bytes);
         }
 
-        inline boost::asio::ip::address_v4 destination_address() const {
+        inline boost::asio::ip::address_v4 destinationAddress() const {
             boost::asio::ip::address_v4::bytes_type bytes = {
                 { thisRep[16], thisRep[17], thisRep[18], thisRep[19] }
             };
             return boost::asio::ip::address_v4(bytes);
         }
 
-        inline friend std::istream& operator>>(std::istream& is, IPV4Header& header) {
-            is.read(reinterpret_cast<char*>(header.thisRep), 20);
-            if (header.version() != 4) {
-                is.setstate(std::ios::failbit);
+        inline friend std::istream& operator>>(std::istream& argIs, IPV4Header& argHeader) {
+            argIs.read(reinterpret_cast<char*>(argHeader.thisRep), 20);
+            if (argHeader.version() != 4) {
+                argIs.setstate(std::ios::failbit);
             }
-            std::streamsize options_length = header.headerLength() - 20;
-            if (options_length < 0 || options_length > 40) {
-                is.setstate(std::ios::failbit);
+            std::streamsize varOptionsLength = argHeader.headerLength() - 20;
+            if (varOptionsLength < 0 || varOptionsLength > 40) {
+                argIs.setstate(std::ios::failbit);
             } else {
-                is.read(reinterpret_cast<char*>(header.thisRep) + 20, options_length);
+                argIs.read(reinterpret_cast<char*>(argHeader.thisRep) + 20, varOptionsLength);
             }
-            return is;
+            return argIs;
         }
 
     private:
