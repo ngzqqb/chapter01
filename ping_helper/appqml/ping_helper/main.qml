@@ -29,8 +29,7 @@ StyledApplicationWindow {
                 text: "PingList.txt"
                 readOnly: false
                 selectByMouse: true
-                TextFieldMenu{
-                }
+                TextFieldMenu{ }
             }
 
             Button{
@@ -48,8 +47,7 @@ StyledApplicationWindow {
             TextArea{
                 id : idTextArea
                 selectByMouse: true
-                TextAreaMenu{
-                }
+                TextAreaMenu{ }
                 Connections{
                     target: idPing
                     onIsPingChanged : {
