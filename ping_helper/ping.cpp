@@ -103,7 +103,7 @@ namespace sstd {
             thisAns->IPV4Destination = ipv4_hdr.source_address().to_string();
 
 #if defined(_DEBUG)
-            std::cout << length - ipv4_hdr.header_length()
+            std::cout << length - ipv4_hdr.headerLength()
                 << " " << thisAns->destination
                 << " bytes from "sv << thisAns->IPV4Destination
                 << ": icmp_seq="sv << icmp_hdr.sequence_number()

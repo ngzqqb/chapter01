@@ -25,15 +25,15 @@ namespace sstd {
         };
 
         inline ICMPHeader() {
-            std::fill(rep_, rep_ + sizeof(rep_), 0);
+            std::fill(thisRep, thisRep + sizeof(thisRep), 0);
         }
 
         inline unsigned char type() const {
-            return rep_[0];
+            return thisRep[0];
         }
 
         inline unsigned char code() const {
-            return rep_[1];
+            return thisRep[1];
         }
 
         inline unsigned short checksum() const {
@@ -49,11 +49,11 @@ namespace sstd {
         }
 
         inline void type(unsigned char n) {
-            rep_[0] = n;
+            thisRep[0] = n;
         }
 
         inline void code(unsigned char n) {
-            rep_[1] = n;
+            thisRep[1] = n;
         }
 
         inline void checksum(unsigned short n) {
@@ -69,24 +69,24 @@ namespace sstd {
         }
 
         inline friend std::istream& operator>>(std::istream& is, ICMPHeader& header) {
-            return is.read(reinterpret_cast<char*>(header.rep_), 8);
+            return is.read(reinterpret_cast<char*>(header.thisRep), 8);
         }
 
         inline friend std::ostream& operator<<(std::ostream& os, const ICMPHeader& header) {
-            return os.write(reinterpret_cast<const char*>(header.rep_), 8);
+            return os.write(reinterpret_cast<const char*>(header.thisRep), 8);
         }
 
     private:
         inline unsigned short decode(int a, int b) const {
-            return (rep_[a] << 8) + rep_[b];
+            return (thisRep[a] << 8) + thisRep[b];
         }
 
         inline void encode(int a, int b, unsigned short n) {
-            rep_[a] = static_cast<unsigned char>(n >> 8);
-            rep_[b] = static_cast<unsigned char>(n & 0xFF);
+            thisRep[a] = static_cast<unsigned char>(n >> 8);
+            thisRep[b] = static_cast<unsigned char>(n & 0xFF);
         }
 
-        unsigned char rep_[8];
+        unsigned char thisRep[8];
     };
 
     template <typename Iterator>

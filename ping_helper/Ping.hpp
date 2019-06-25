@@ -1,7 +1,7 @@
 ﻿#pragma once
 
-#include "icmp_header.hpp"
-#include "ipv4_header.hpp"
+#include "ICMPHeader.hpp"
+#include "IPV4Header.hpp"
 #include <sstd/boost/asio.hpp>
 #include <sstd/boost/bind.hpp>
 #include <string_view>

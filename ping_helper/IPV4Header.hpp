@@ -9,19 +9,19 @@ namespace sstd {
     class IPV4Header {
     public:
         inline IPV4Header() {
-            std::fill(rep_, rep_ + sizeof(rep_), 0);
+            std::fill(thisRep, thisRep + sizeof(thisRep), 0);
         }
 
         inline unsigned char version() const {
-            return (rep_[0] >> 4) & 0xF;
+            return (thisRep[0] >> 4) & 0xF;
         }
 
-        inline unsigned short header_length() const {
-            return (rep_[0] & 0xF) * 4;
+        inline unsigned short headerLength() const {
+            return (thisRep[0] & 0xF) * 4;
         }
 
         inline unsigned char type_of_service() const {
-            return rep_[1];
+            return thisRep[1];
         }
 
         inline unsigned short total_length() const {
@@ -33,11 +33,11 @@ namespace sstd {
         }
 
         inline bool dont_fragment() const {
-            return (rep_[6] & 0x40) != 0;
+            return (thisRep[6] & 0x40) != 0;
         }
 
         inline bool more_fragments() const {
-            return (rep_[6] & 0x20) != 0;
+            return (thisRep[6] & 0x20) != 0;
         }
 
         inline unsigned short fragment_offset() const {
@@ -45,11 +45,11 @@ namespace sstd {
         }
 
         inline unsigned int time_to_live() const {
-            return rep_[8];
+            return thisRep[8];
         }
 
         inline unsigned char protocol() const {
-            return rep_[9];
+            return thisRep[9];
         }
 
         inline unsigned short header_checksum() const {
@@ -58,38 +58,38 @@ namespace sstd {
 
         inline boost::asio::ip::address_v4 source_address() const {
             boost::asio::ip::address_v4::bytes_type bytes = {
-                { rep_[12], rep_[13], rep_[14], rep_[15] }
+                { thisRep[12], thisRep[13], thisRep[14], thisRep[15] }
             };
             return boost::asio::ip::address_v4(bytes);
         }
 
         inline boost::asio::ip::address_v4 destination_address() const {
             boost::asio::ip::address_v4::bytes_type bytes = {
-                { rep_[16], rep_[17], rep_[18], rep_[19] }
+                { thisRep[16], thisRep[17], thisRep[18], thisRep[19] }
             };
             return boost::asio::ip::address_v4(bytes);
         }
 
         inline friend std::istream& operator>>(std::istream& is, IPV4Header& header) {
-            is.read(reinterpret_cast<char*>(header.rep_), 20);
+            is.read(reinterpret_cast<char*>(header.thisRep), 20);
             if (header.version() != 4) {
                 is.setstate(std::ios::failbit);
             }
-            std::streamsize options_length = header.header_length() - 20;
+            std::streamsize options_length = header.headerLength() - 20;
             if (options_length < 0 || options_length > 40) {
                 is.setstate(std::ios::failbit);
             } else {
-                is.read(reinterpret_cast<char*>(header.rep_) + 20, options_length);
+                is.read(reinterpret_cast<char*>(header.thisRep) + 20, options_length);
             }
             return is;
         }
 
     private:
         inline unsigned short decode(int a, int b) const {
-            return (rep_[a] << 8) + rep_[b];
+            return (thisRep[a] << 8) + thisRep[b];
         }
 
-        unsigned char rep_[60];
+        unsigned char thisRep[60];
     };
 
 }/*namespace sstd*/
