@@ -1,23 +1,23 @@
 ﻿#include "BoostPolygonDemo.hpp"
 #include <sstd/boost/polygon/polygon.hpp>
 
-namespace sstd{
+namespace sstd {
 
     using Polygon = boost::polygon::polygon_data<float>;
     using Point = boost::polygon::polygon_traits< Polygon >::point_type/*点*/;
 
     template<typename T>
-    inline static QPolygonF toQPolygon(const T & arg){
+    inline static QPolygonF toQPolygon(const T & arg) {
         QVector< QPointF > varPoints;
-        for(const auto & varI : arg){
-            varPoints.push_back ({varI.x() ,varI.y ()});
+        for (const auto & varI : arg) {
+            varPoints.push_back({ varI.x() ,varI.y() });
         }
-        return {std::move(varPoints)};
+        return { std::move(varPoints) };
     }
 
     BoostPolygonDemo::BoostPolygonDemo()
-        : SubWindowBasic(QStringLiteral ("BoostPolygonDemo")) {
-        auto varScene = this->scene ();
+        : SubWindowBasic(QStringLiteral("BoostPolygonDemo")) {
+        auto varScene = this->scene();
         Polygon varPolygon;
 
         {
@@ -28,7 +28,7 @@ namespace sstd{
                 Point{100,100},
                 Point{0,100}
             };
-            varPolygon.set( varPoints.begin (),varPoints.end());
+            varPolygon.set(varPoints.begin(), varPoints.end());
         }
 
         {/*与另一个多边形相加*/
@@ -38,39 +38,39 @@ namespace sstd{
                 Point{150,50},
             };
             Polygon varAdd;
-            varAdd.set(varPoints.begin (),varPoints.end());
+            varAdd.set(varPoints.begin(), varPoints.end());
             std::vector < Polygon > varPolygonSet;
             using namespace boost::polygon::operators;
             varPolygonSet += std::move(varPolygon);
             varPolygonSet += std::move(varAdd);
-            varPolygon=std::move(varPolygonSet[0]);
+            varPolygon = std::move(varPolygonSet[0]);
         }
 
         {/*获得外接矩形*/
             boost::polygon::rectangle_data<float>  varBoundRect;
-            extents(varBoundRect, varPolygon) ;
-            QPointF varPoint1,varPoint2;
+            extents(varBoundRect, varPolygon);
+            QPointF varPoint1, varPoint2;
             {
-                auto varRectangleData = varBoundRect.get (boost::polygon::HORIZONTAL) ;
-                varPoint1 .setX (varRectangleData.low () );
-                varPoint2.setX( varRectangleData.high () );
+                auto varRectangleData = varBoundRect.get(boost::polygon::HORIZONTAL);
+                varPoint1.setX(varRectangleData.low());
+                varPoint2.setX(varRectangleData.high());
             }
             {
-                auto varRectangleData = varBoundRect.get (boost::polygon::VERTICAL) ;
-                varPoint1.setY (varRectangleData.low () );
-                varPoint2.setY (varRectangleData.high ());
+                auto varRectangleData = varBoundRect.get(boost::polygon::VERTICAL);
+                varPoint1.setY(varRectangleData.low());
+                varPoint2.setY(varRectangleData.high());
             }
-            varScene->addRect ({varPoint1,varPoint2},QPen{QColor(1,1,1)});
+            varScene->addRect({ varPoint1,varPoint2 }, QPen{ QColor(1,1,1) });
         }
 
         /*计算面积并显示*/
-        varScene->addText ( tr (u8R"(面积 ： )") +
-                            QString::number (  area( varPolygon ) ))
-                ->setParentItem (
-                    varScene->addPolygon (toQPolygon(varPolygon),
-                                          QPen{QColor(255,1,1)},
-                                          QBrush{QColor(1,128,1)} )
-                    );
+        varScene->addText(tr(u8R"(面积 ： )") +
+            QString::number(area(varPolygon)))
+            ->setParentItem(
+                varScene->addPolygon(toQPolygon(varPolygon),
+                    QPen{ QColor(255,1,1) },
+                    QBrush{ QColor(1,128,1) })
+            );
 
     }
 

@@ -2,7 +2,7 @@
 
 #include "SubWindowBasic.hpp"
 
-namespace sstd{
+namespace sstd {
 
     class BoostPolygonDemo : public SubWindowBasic {
         Q_OBJECT
