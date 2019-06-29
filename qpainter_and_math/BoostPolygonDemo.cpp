@@ -31,7 +31,7 @@ namespace sstd{
             varPolygon.set( varPoints.begin (),varPoints.end());
         }
 
-        {
+        {/*与另一个多边形相加*/
             std::array varPoints{
                 Point{-30,-10},
                 Point{-10,50},
@@ -63,6 +63,7 @@ namespace sstd{
             varScene->addRect ({varPoint1,varPoint2},QPen{QColor(1,1,1)});
         }
 
+        /*计算面积并显示*/
         varScene->addText ( tr (u8R"(面积 ： )") +
                             QString::number (  area( varPolygon ) ))
                 ->setParentItem (
