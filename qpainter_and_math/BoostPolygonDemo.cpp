@@ -32,7 +32,6 @@ namespace sstd{
         }
 
         {
-            using namespace boost::polygon::operators;
             std::array varPoints{
                 Point{-30,-10},
                 Point{-10,50},
@@ -41,6 +40,7 @@ namespace sstd{
             Polygon varAdd;
             varAdd.set(varPoints.begin (),varPoints.end());
             std::vector < Polygon > varPolygonSet;
+            using namespace boost::polygon::operators;
             varPolygonSet += std::move(varPolygon);
             varPolygonSet += std::move(varAdd);
             varPolygon=std::move(varPolygonSet[0]);
@@ -63,7 +63,13 @@ namespace sstd{
             varScene->addRect ({varPoint1,varPoint2},QPen{QColor(1,1,1)});
         }
 
-        varScene->addPolygon (toQPolygon(varPolygon),QPen{QColor(255,1,1)},QBrush{QColor(1,128,1)} );
+        varScene->addText ( tr (u8R"(面积 ： )") +
+                            QString::number (  area( varPolygon ) ))
+                ->setParentItem (
+                    varScene->addPolygon (toQPolygon(varPolygon),
+                                          QPen{QColor(255,1,1)},
+                                          QBrush{QColor(1,128,1)} )
+                    );
 
     }
 
