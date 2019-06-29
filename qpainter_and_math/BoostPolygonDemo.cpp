@@ -2,8 +2,8 @@
 
 namespace sstd{
 
-    BoostPolygonDemo::BoostPolygonDemo(){
-        this->setObjectName (QStringLiteral ("BoostPolygonDemo"));
+    BoostPolygonDemo::BoostPolygonDemo()
+        : SubWindowBasic(QStringLiteral ("BoostPolygonDemo")) {
     }
 
 

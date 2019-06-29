@@ -12,6 +12,9 @@ SOURCES += $$PWD/main.cpp
 SOURCES += $$PWD/MainWindow.cpp
 HEADERS += $$PWD/MainWindow.hpp
 
+SOURCES += $$PWD/SubWindowBasic.cpp
+HEADERS += $$PWD/SubWindowBasic.hpp
+
 SOURCES += $$PWD/QRegionDemo.cpp
 HEADERS += $$PWD/QRegionDemo.hpp
 

@@ -1,10 +1,10 @@
 ﻿#pragma once
 
-#include <sstd_qt_qml_quick_library.hpp>
+#include "SubWindowBasic.hpp"
 
 namespace sstd{
 
-    class QRegionDemo : public QWidget {
+    class QRegionDemo : public SubWindowBasic {
         Q_OBJECT
     public:
         QRegionDemo();
