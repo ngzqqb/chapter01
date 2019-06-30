@@ -111,7 +111,7 @@ namespace sstd {
                 << ", time="sv
                 << thisAns->time
                 << std::endl;
-#endif 
+#endif
 
         }
 
@@ -142,6 +142,3 @@ namespace sstd {
     }
 
 }/*namespace sstd*/
-
-
-

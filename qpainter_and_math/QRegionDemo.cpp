@@ -22,5 +22,3 @@ namespace sstd {
 }/*namespace sstd*/
 
 //QRegion 用于求整形 矩形和椭圆形的 +() -() &() ^()
-
-

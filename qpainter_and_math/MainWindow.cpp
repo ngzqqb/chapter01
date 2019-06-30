@@ -1,6 +1,7 @@
 ﻿#include "MainWindow.hpp"
 #include "QRegionDemo.hpp"
 #include "BoostPolygonDemo.hpp"
+#include "BoostGeometryDemo.hpp"
 
 namespace sstd {
 
@@ -16,8 +17,7 @@ namespace sstd {
         this->resize(1024, 768);
         theAddSubWindow<QRegionDemo>(this);
         theAddSubWindow<BoostPolygonDemo>(this);
+        theAddSubWindow<BoostGeometryDemo>(this);
     }
 
 }/*namespace sstd*/
-
-

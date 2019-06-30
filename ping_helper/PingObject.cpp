@@ -165,17 +165,3 @@ inline static void regesterThis() {
     qmlRegisterType<sstd::PingObject>("sstd.ping", 1, 0, "Ping");
 }
 Q_COREAPP_STARTUP_FUNCTION(regesterThis)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
