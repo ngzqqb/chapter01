@@ -3,35 +3,55 @@
 
 namespace sstd {
 
+    template<typename T>
+    inline static QPolygonF toQPolygonF(const T & arg) {
+        QVector<QPointF> varAns;
+        for (const auto & varI : arg) {
+            varAns.push_back({ varI.x(),varI.y() });
+        }
+        return { std::move(varAns) };
+    }
+
     BoostGeometryDemo::BoostGeometryDemo()
         : SubWindowBasic(QStringLiteral("BoostGeometryDemo")) {
 
         namespace bg = boost::geometry;
         using Point = bg::model::d2::point_xy<float>;
-        using Polygon = bg::model::polygon<Point,false>;
+        using Polygon = bg::model::polygon<Point, false>;
+        std::vector< Polygon > varAns;
 
-        Polygon varPolygon{ {
-            Point{0,0},
-            Point{222,0},
-            Point{222,222},
-            Point{0,222}
-        } };
+        {
+            Polygon varPolygon{ {
+                Point{0,0},
+                Point{222,0},
+                Point{222,222},
+                Point{0,222}
+            } };
+            Polygon varHole{ {
+                Point{70,70},
+                Point{140,70},
+                Point{140,140},
+                Point{70,140}
+            } };
+            bg::difference(varPolygon, varHole, varAns);
+        }
 
-        Polygon varHole{ {
-            Point{70,70},
-            Point{140,70},
-            Point{140,140},
-            Point{70,140}
-        } };
-       
-       std::vector< Polygon > varAns;
-       bg::difference(varPolygon,varHole,varAns);
+        assert(varAns.size() == 1);
+        assert(varAns[0].inners().size() == 1);
 
-       qDebug() << varAns.size() << ",";
-        qDebug() << varAns[0].inners().size() << ",";
-        qDebug() << bg::area(varPolygon);
-        qDebug() << bg::area(varHole);
-        qDebug() << bg::area(varAns[0]);
+        QPainterPath varPath;
+        varPath.addPolygon(toQPolygonF(varAns[0].outer()));
+        varPath.addPolygon(toQPolygonF(varAns[0].inners()[0]));
+
+        auto varScene = this->scene();
+
+        varScene->addText(tr(u8R"(面积 ： )") +
+            QString::number(bg::area(varAns[0])))
+            ->setParentItem(
+                varScene->addPath(varPath,
+                    QPen{ QColor(255,1,1) },
+                    QBrush{ QColor(1,128,1) })
+            );
     }
 
 }/*namespace sstd*/
