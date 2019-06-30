@@ -18,12 +18,13 @@ namespace sstd {
             Point{100,-100},
             Point{150,50},
             Point{100,100},
+            Point{15,22},
             Point{0,100}
         };
 
         /*绘制点*/
         for (const auto & varI : varPoints) {
-            varScene->addEllipse(varI.x() - 5, varI.y() - 5, 10, 10, 
+            varScene->addEllipse(varI.x() - 5, varI.y() - 5, 10, 10,
                 QPen{ QColor{},1 }, QBrush{ QColor{} });
         }
 
@@ -34,35 +35,35 @@ namespace sstd {
             varPoints.end(),
             &varVoronoiDiagram);
 
+        const QPen varBoundPen{ QColor(84,22,22),2 };
         /*绘制边界*/
-        auto & varEdges = varVoronoiDiagram.edges();
-        for (const auto & varI : varEdges) {
-
-            if (varI.is_finite()) {
-                auto varV0 = varI.vertex0();
-                auto varV1 = varI.vertex1();
-                varScene->addLine({ {varV0->x(),varV0->y()},{varV1->x(),varV1->y()} },
-                    QPen{ QColor(64,22,22),2 });
-            } else if (varI.vertex0()) {
-
-                const auto & varCell1 = varI.cell();
-                const auto & varCell2 = varI.twin()->cell();
-
-                auto varPoint0 = varPoints[varCell1->source_index()];
-                auto varPoint1 = varPoints[varCell2->source_index()];
-
-                auto varX = 0.5*(varPoint1.x() + varPoint0.x());
-                auto varY = 0.5*(varPoint1.y() + varPoint0.y());
-
-                auto varV0 = varI.vertex0();
-                varScene->addLine({
-                    { varV0->x(),varV0->y() },
-                    { varV0->x() + 3 * (varX - varV0->x()),
-                      varV0->y() + 3 * (varY - varV0->y()) }
-                    }, QPen{ QColor(64,22,22),2 });
-
-            }
-
+        auto & varCells = varVoronoiDiagram.cells();
+        for (const auto & varI : varCells) {
+            auto varEdge = varI.incident_edge();
+            do {
+                if (varEdge->is_primary()) {
+                    if (varEdge->is_finite()) {
+                        if (varEdge->cell()->source_index() <
+                            varEdge->twin()->cell()->source_index()) {
+                            varScene->addLine({ 
+                                { varEdge->vertex0()->x(), varEdge->vertex0()->y() },
+                                { varEdge->vertex1()->x(), varEdge->vertex1()->y() } 
+                                }, varBoundPen);
+                        }
+                    } else {
+                        auto v0 = varEdge->vertex0();
+                        if (v0) {
+                            auto p1 = varPoints[varEdge->cell()->source_index()];
+                            auto p2 = varPoints[varEdge->twin()->cell()->source_index()];
+                            auto end_x = (p1.y() - p2.y()) * 8;
+                            auto end_y = (p1.x() - p2.x()) * -8;
+                            varScene->addLine({ {v0->x(), v0->y()},
+                                {end_x, end_y} }, varBoundPen);
+                        }
+                    }
+                }
+                varEdge = varEdge->next();
+            } while (varEdge != varI.incident_edge());
         }
 
     }
