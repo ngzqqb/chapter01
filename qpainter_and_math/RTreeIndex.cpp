@@ -1,4 +1,5 @@
 ﻿#include "RTreeIndex.hpp"
+#include <sstd/boost/geometry/index/rtree.hpp>
 
 namespace sstd{
 

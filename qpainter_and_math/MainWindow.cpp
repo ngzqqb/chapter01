@@ -3,6 +3,7 @@
 #include "BoostPolygonDemo.hpp"
 #include "BoostGeometryDemo.hpp"
 #include "VoronoiPolygon.hpp"
+#include "RTreeIndex.hpp"
 
 namespace sstd {
 
@@ -20,6 +21,7 @@ namespace sstd {
         theAddSubWindow<BoostPolygonDemo>(this);
         theAddSubWindow<BoostGeometryDemo>(this);
         theAddSubWindow<VoronoiPolygon>(this);
+        theAddSubWindow<RTreeIndex>(this);
     }
 
 }/*namespace sstd*/
