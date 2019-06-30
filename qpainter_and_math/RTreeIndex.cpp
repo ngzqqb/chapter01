@@ -75,7 +75,6 @@ namespace sstd {
             varI.second->setBrush(globalSelectColor);
             varI.second->setPen(globalSelectColor);
         }
-        qDebug() << varAns.size();
 
     }
 
