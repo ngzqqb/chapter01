@@ -72,13 +72,14 @@ namespace sstd {
 
         /*绘制三角形*/
         for (auto & varI : varCells) {
-            varI.color(1);
+            constexpr const auto globalColor = 1;
+            varI.color(globalColor);
             auto varEdge = varI.incident_edge();
             varThisEdge = varEdge;
             const auto & varPoint1 = varPoints[varI.source_index()];
             do {
                 auto varCell2 = varEdge->twin()->cell();
-                if (1!=varCell2->color()) {
+                if (globalColor != varCell2->color()) {
                     const auto & varPoint2 = varPoints[varCell2->source_index()];
                     varScene->addLine({ {varPoint1.x(),varPoint1.y()},
                         {varPoint2.x(),varPoint2.y()} });

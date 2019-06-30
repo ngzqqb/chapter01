@@ -64,14 +64,17 @@ namespace sstd {
         }
 
         /*计算面积并显示*/
-        varScene->addText(tr(u8R"(面积 ： )") +
-            QString::number(area(varPolygon)))
-            ->setParentItem(
-                varScene->addPolygon(toQPolygon(varPolygon),
-                    QPen{ QColor(255,1,1) },
-                    QBrush{ QColor(1,128,1) })
-            );
-
+        auto varText = varScene->addText(tr(u8R"(面积 ： )") +
+            QString::number(area(varPolygon)));
+        varText->setParentItem(
+            varScene->addPolygon(toQPolygon(varPolygon),
+                QPen{ QColor(255,1,1) },
+                QBrush{ QColor(1,128,255) })
+        );
+        auto varFont = varText->font();
+        varFont.setPixelSize(16);
+        varFont.setBold(true);
+        varText->setFont(std::move(varFont));
     }
 
 }/*namespace sstd*/
