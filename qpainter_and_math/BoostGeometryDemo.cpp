@@ -12,6 +12,8 @@ namespace sstd {
         return { std::move(varAns) };
     }
 
+    const static auto globalTheColor = QColor(255, 128, 255);
+
     BoostGeometryDemo::BoostGeometryDemo()
         : SubWindowBasic(QStringLiteral("BoostGeometryDemo")) {
 
@@ -49,8 +51,8 @@ namespace sstd {
             QString::number(bg::area(varAns[0])));
         varText->setParentItem(
             varScene->addPath(varPath,
-                QPen{ QColor(255,1,1) },
-                QBrush{ QColor(255,128,255) })
+                QPen{ globalTheColor },
+                QBrush{ globalTheColor })
         );
         auto varFont = varText->font();
         varFont.setPixelSize(16);

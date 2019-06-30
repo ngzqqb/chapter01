@@ -15,6 +15,8 @@ namespace sstd {
         return { std::move(varPoints) };
     }
 
+    const static auto globalTheColor = QColor(1, 128, 255);
+
     BoostPolygonDemo::BoostPolygonDemo()
         : SubWindowBasic(QStringLiteral("BoostPolygonDemo")) {
         auto varScene = this->scene();
@@ -68,8 +70,8 @@ namespace sstd {
             QString::number(area(varPolygon)));
         varText->setParentItem(
             varScene->addPolygon(toQPolygon(varPolygon),
-                QPen{ QColor(255,1,1) },
-                QBrush{ QColor(1,128,255) })
+                QPen{ globalTheColor },
+                QBrush{ globalTheColor })
         );
         auto varFont = varText->font();
         varFont.setPixelSize(16);
