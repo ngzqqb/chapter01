@@ -19,7 +19,8 @@ namespace sstd {
             Point{150,50},
             Point{100,100},
             Point{15,22},
-            Point{0,100}
+            Point{0,100},
+            Point{72,37}
         };
 
         /*绘制点*/
@@ -28,7 +29,7 @@ namespace sstd {
                 QPen{ QColor{},1 }, QBrush{ QColor{} });
         }
 
-        /*进行三角形剖分*/
+        /*进行剖分*/
         boost::polygon::voronoi_diagram<double> varVoronoiDiagram;
         boost::polygon::construct_voronoi(
             varPoints.begin(),
@@ -36,18 +37,21 @@ namespace sstd {
             &varVoronoiDiagram);
 
         const QPen varBoundPen{ QColor(84,22,22),2 };
+
         /*绘制边界*/
         auto & varCells = varVoronoiDiagram.cells();
+        const boost::polygon::voronoi_diagram<double>::edge_type * varThisEdge;
         for (const auto & varI : varCells) {
             auto varEdge = varI.incident_edge();
+            varThisEdge = varEdge;
             do {
                 if (varEdge->is_primary()) {
                     if (varEdge->is_finite()) {
                         if (varEdge->cell()->source_index() <
                             varEdge->twin()->cell()->source_index()) {
-                            varScene->addLine({ 
+                            varScene->addLine({
                                 { varEdge->vertex0()->x(), varEdge->vertex0()->y() },
-                                { varEdge->vertex1()->x(), varEdge->vertex1()->y() } 
+                                { varEdge->vertex1()->x(), varEdge->vertex1()->y() }
                                 }, varBoundPen);
                         }
                     } else {
@@ -63,7 +67,24 @@ namespace sstd {
                     }
                 }
                 varEdge = varEdge->next();
-            } while (varEdge != varI.incident_edge());
+            } while (varEdge != varThisEdge);
+        }
+
+        /*绘制三角形*/
+        for (auto & varI : varCells) {
+            varI.color(1);
+            auto varEdge = varI.incident_edge();
+            varThisEdge = varEdge;
+            const auto & varPoint1 = varPoints[varI.source_index()];
+            do {
+                auto varCell2 = varEdge->twin()->cell();
+                if (!varCell2->color()) {
+                    const auto & varPoint2 = varPoints[varCell2->source_index()];
+                    varScene->addLine({ {varPoint1.x(),varPoint1.y()},
+                        {varPoint2.x(),varPoint2.y()} });
+                }
+                varEdge = varEdge->next();
+            } while (varEdge != varThisEdge);
         }
 
     }
