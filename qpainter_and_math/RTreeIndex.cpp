@@ -36,7 +36,7 @@ namespace sstd {
 
         using Point = bg::model::point<double, 2, bg::cs::cartesian>;
         using Box = bg::model::box<Point>;
-        using KeyValue = std::pair<Box, QGraphicsRectItem * >;
+        using KeyValue = std::pair<Box, QAbstractGraphicsShapeItem * >;
         using RTree = bgi::rtree< KeyValue, bgi::rstar<16> >;
 
         RTree varRTree;
