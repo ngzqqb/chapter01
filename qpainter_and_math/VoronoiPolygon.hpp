@@ -8,6 +8,10 @@ namespace sstd{
         Q_OBJECT
     public:
         VoronoiPolygon();
+    public:
+        inline virtual int bestWidth() const override {
+            return 512;
+        }
     private:
         sstd_class(VoronoiPolygon);
     };
