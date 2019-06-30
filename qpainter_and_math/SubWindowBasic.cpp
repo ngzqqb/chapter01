@@ -9,6 +9,11 @@ namespace sstd {
             auto varScene = sstd_virtual_new<QGraphicsScene>(this);
             this->setScene(varScene);
         }
+        this->setRenderHints(
+            QPainter::Antialiasing |
+            QPainter::TextAntialiasing |
+            QPainter::SmoothPixmapTransform |
+            QPainter::HighQualityAntialiasing  );
     }
 
 }/*namespace sstd*/

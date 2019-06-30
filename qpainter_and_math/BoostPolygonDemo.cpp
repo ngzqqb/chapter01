@@ -74,7 +74,6 @@ namespace sstd {
 
     }
 
-
 }/*namespace sstd*/
 
 // https://www.boost.org/doc/libs/1_70_0/libs/polygon/doc/gtl_isotropy.htm
