@@ -19,7 +19,7 @@ namespace sstd {
 
         namespace bg = boost::geometry;
         using Point = bg::model::d2::point_xy<float>;
-        using Polygon = bg::model::polygon<Point, false>;
+        using Polygon = bg::model::polygon<Point, false, false>;
         std::vector< Polygon > varAns;
 
         {
