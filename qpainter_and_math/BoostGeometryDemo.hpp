@@ -4,13 +4,12 @@
 
 namespace sstd {
 
-    class BoostGeometryDemo: public SubWindowBasic{
-                Q_OBJECT
+    class BoostGeometryDemo : public SubWindowBasic {
+        Q_OBJECT
     public:
         BoostGeometryDemo();
     private:
         sstd_class(BoostGeometryDemo);
     };
-
 
 }/*namespace sstd*/
