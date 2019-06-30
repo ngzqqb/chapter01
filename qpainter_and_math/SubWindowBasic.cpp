@@ -13,7 +13,7 @@ namespace sstd {
             QPainter::Antialiasing |
             QPainter::TextAntialiasing |
             QPainter::SmoothPixmapTransform |
-            QPainter::HighQualityAntialiasing  );
+            QPainter::HighQualityAntialiasing );
     }
 
 }/*namespace sstd*/
