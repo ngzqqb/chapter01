@@ -78,7 +78,7 @@ namespace sstd {
             const auto & varPoint1 = varPoints[varI.source_index()];
             do {
                 auto varCell2 = varEdge->twin()->cell();
-                if (!varCell2->color()) {
+                if (1!=varCell2->color()) {
                     const auto & varPoint2 = varPoints[varCell2->source_index()];
                     varScene->addLine({ {varPoint1.x(),varPoint1.y()},
                         {varPoint2.x(),varPoint2.y()} });
