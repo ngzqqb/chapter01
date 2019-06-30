@@ -57,8 +57,8 @@ namespace sstd {
                     } else {
                         auto varV0 = varEdge->vertex0();
                         if (varV0) {
-                            auto varP1 = varPoints[varEdge->cell()->source_index()];
-                            auto varP2 = varPoints[varEdge->twin()->cell()->source_index()];
+                            const auto & varP1 = varPoints[varEdge->cell()->source_index()];
+                            const auto & varP2 = varPoints[varEdge->twin()->cell()->source_index()];
                             auto varEndX = (varP1.y() - varP2.y()) * 8;
                             auto varEndY = (varP1.x() - varP2.x()) * -8;
                             varScene->addLine({ {varV0->x(), varV0->y()},
