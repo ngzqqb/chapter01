@@ -1,4 +1,4 @@
-﻿#include "TrianglePolygon.hpp"
+﻿#include "VoronoiPolygon.hpp"
 
 #include <sstd/boost/polygon/polygon.hpp>
 #include <sstd/boost/polygon/voronoi.hpp>
@@ -8,8 +8,8 @@ namespace sstd {
     using Polygon = boost::polygon::polygon_data< float >;
     using Point = boost::polygon::polygon_traits< Polygon >::point_type/*点*/;
 
-    TrianglePolygon::TrianglePolygon()
-        :SubWindowBasic(QStringLiteral("TrianglePolygon")) {
+    VoronoiPolygon::VoronoiPolygon()
+        :SubWindowBasic(QStringLiteral("VoronoiPolygon")) {
 
         auto varScene = this->scene();
 
@@ -51,14 +51,14 @@ namespace sstd {
                                 }, varBoundPen);
                         }
                     } else {
-                        auto v0 = varEdge->vertex0();
-                        if (v0) {
-                            auto p1 = varPoints[varEdge->cell()->source_index()];
-                            auto p2 = varPoints[varEdge->twin()->cell()->source_index()];
-                            auto end_x = (p1.y() - p2.y()) * 8;
-                            auto end_y = (p1.x() - p2.x()) * -8;
-                            varScene->addLine({ {v0->x(), v0->y()},
-                                {end_x, end_y} }, varBoundPen);
+                        auto varV0 = varEdge->vertex0();
+                        if (varV0) {
+                            auto varP1 = varPoints[varEdge->cell()->source_index()];
+                            auto varP2 = varPoints[varEdge->twin()->cell()->source_index()];
+                            auto varEndX = (varP1.y() - varP2.y()) * 8;
+                            auto varEndY = (varP1.x() - varP2.x()) * -8;
+                            varScene->addLine({ {varV0->x(), varV0->y()},
+                                {varEndX, varEndY} }, varBoundPen);
                         }
                     }
                 }
@@ -73,4 +73,5 @@ namespace sstd {
 // https://www.boost.org/doc/libs/1_70_0/libs/polygon/doc/voronoi_basic_tutorial.htm
 // voronoi_basic_tutorial.cpp
 // https://www.boost.org/doc/libs/1_70_0/libs/polygon/doc/gtl_segment_concept.htm
+// https://stackoverflow.com/questions/14281724/how-to-give-make-infinite-edge-in-boost-to-a-finite-edge/54584710#54584710
 

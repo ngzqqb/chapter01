@@ -4,12 +4,12 @@
 
 namespace sstd{
 
-    class TrianglePolygon : public SubWindowBasic {
+    class VoronoiPolygon : public SubWindowBasic {
         Q_OBJECT
     public:
-        TrianglePolygon();
+        VoronoiPolygon();
     private:
-        sstd_class(TrianglePolygon);
+        sstd_class(VoronoiPolygon);
     };
 
 }/*namespace sstd*/

@@ -2,7 +2,7 @@
 #include "QRegionDemo.hpp"
 #include "BoostPolygonDemo.hpp"
 #include "BoostGeometryDemo.hpp"
-#include "TrianglePolygon.hpp"
+#include "VoronoiPolygon.hpp"
 
 namespace sstd {
 
@@ -19,7 +19,7 @@ namespace sstd {
         theAddSubWindow<QRegionDemo>(this);
         theAddSubWindow<BoostPolygonDemo>(this);
         theAddSubWindow<BoostGeometryDemo>(this);
-        theAddSubWindow<TrianglePolygon>(this);
+        theAddSubWindow<VoronoiPolygon>(this);
     }
 
 }/*namespace sstd*/

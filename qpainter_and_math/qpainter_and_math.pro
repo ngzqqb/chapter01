@@ -24,8 +24,8 @@ HEADERS += $$PWD/BoostPolygonDemo.hpp
 SOURCES += $$PWD/BoostGeometryDemo.cpp
 HEADERS += $$PWD/BoostGeometryDemo.hpp
 
-SOURCES += $$PWD/TrianglePolygon.cpp
-HEADERS += $$PWD/TrianglePolygon.hpp
+SOURCES += $$PWD/VoronoiPolygon.cpp
+HEADERS += $$PWD/VoronoiPolygon.hpp
 
 include($$PWD/../../sstd_library/sstd_library.pri)
 include($$PWD/../../sstd_qt_qml_quick_library/sstd_qt_qml_quick_library.pri)
