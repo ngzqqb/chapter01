@@ -107,3 +107,4 @@ namespace sstd {
 
 /*endl_input_of_latex_for_clanguage_lick*/
 // https://doc.cgal.org/latest/Triangulation_2/
+// https://doc.cgal.org/latest/Triangulation_2/classCGAL_1_1Constrained__triangulation__2.html
