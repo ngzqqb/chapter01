@@ -44,6 +44,53 @@ namespace sstd {
     using Point = CDT::Point;
     using Polygon_2 = CGAL::Polygon_2<K>;
 
+    inline void mark_domains(CDT& ct,
+        CDT::Face_handle start,
+        int index,
+        std::list<CDT::Edge>& border) {
+        if (start->info().nesting_level != -1) {
+            return;
+        }
+        std::list<CDT::Face_handle> queue;
+        queue.push_back(start);
+        while (!queue.empty()) {
+            CDT::Face_handle fh = queue.front();
+            queue.pop_front();
+            if (fh->info().nesting_level == -1) {
+                fh->info().nesting_level = index;
+                for (int i = 0; i < 3; ++i) {
+                    CDT::Edge e(fh, i);
+                    CDT::Face_handle n = fh->neighbor(i);
+                    if (n->info().nesting_level == -1) {
+                        if (ct.is_constrained(e)) {
+                            border.push_back(e);
+                        } else {
+                            queue.push_back(n);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    inline void mark_domains(CDT& cdt) {
+        for (CDT::All_faces_iterator it = cdt.all_faces_begin();
+            it != cdt.all_faces_end();
+            ++it) {
+            it->info().nesting_level = -1;
+        }
+        std::list<CDT::Edge> border;
+        mark_domains(cdt, cdt.infinite_face(), 0, border);
+        while (!border.empty()) {
+            CDT::Edge e = border.front();
+            border.pop_front();
+            CDT::Face_handle n = e.first->neighbor(e.second);
+            if (n->info().nesting_level == -1) {
+                mark_domains(cdt, n, e.first->info().nesting_level + 1, border);
+            }
+        }
+    }
+
     CGALDemo::CGALDemo() :
         SubWindowBasic(QStringLiteral("CGALDemo")) {
 
@@ -69,9 +116,9 @@ namespace sstd {
         drawPolygon(varScene,
             polygon1.vertices_begin(), polygon1.vertices_end(),
             globalPolygonBoundColor)->setZValue(100);
-        drawPolygon(varScene,
-            polygon2.vertices_begin(), polygon2.vertices_end(),
-            globalPolygonBoundColor)->setZValue(100);
+       drawPolygon(varScene,
+           polygon2.vertices_begin(), polygon2.vertices_end(),
+           globalPolygonBoundColor)->setZValue(100);
 
         CDT cdt;
         cdt.insert_constraint(polygon1.vertices_begin(), polygon1.vertices_end(),
@@ -79,26 +126,27 @@ namespace sstd {
         cdt.insert_constraint(polygon2.vertices_begin(), polygon2.vertices_end(),
             true/*要求闭合曲线*/);
 
+        mark_domains(cdt);
+
         auto varFace = cdt.finite_faces_begin();
         const auto varFaceEnd = cdt.finite_faces_end();
 
         std::array< QPointF, 3 > varTriangle;
         for (; varFace != varFaceEnd; ++varFace) {
 
-            varFace->info().nesting_level = varFace->is_constrained(0)
-                + varFace->is_constrained(1) + 
-                varFace->is_constrained(2);
-
             if (!varFace->info().in_domain()) {
                 continue;
             }
+
             for (int varI = 0; varI < 3; ++varI) {
                 const auto & varPoint = varFace->vertex(varI)->point();
                 varTriangle[varI].setX(varPoint.x());
                 varTriangle[varI].setY(varPoint.y());
             }
+
             drawPolygon(varScene, varTriangle.begin(), varTriangle.end(), 
                 { QColor{},2 }, QColor{ 200,200,200 });
+
         }
 
     }
