@@ -25,10 +25,10 @@ namespace sstd {
         theAddSubWindow<QRegionDemo>(this);
         theAddSubWindow<BoostPolygonDemo>(this);
         theAddSubWindow<BoostGeometryDemo>(this);
-        theAddSubWindow<VoronoiPolygon>(this);
         theAddSubWindow<RTreeIndex>(this);
-        theAddSubWindow<CGALDemo>(this);
         theAddSubWindow<NearestPoint>(this);
+        theAddSubWindow<VoronoiPolygon>(this);
+        theAddSubWindow<CGALDemo>(this);
     }
 
 }/*namespace sstd*/
