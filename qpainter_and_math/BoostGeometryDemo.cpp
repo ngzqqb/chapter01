@@ -62,6 +62,7 @@ namespace sstd {
 
 }/*namespace sstd*/
 
+/*endl_input_of_latex_for_clanguage_lick*/
 // intersection : 
 // https://www.boost.org/doc/libs/1_64_0/libs/geometry/doc/html/geometry/reference/algorithms/intersection/intersection_3.html
 // algorithm : 

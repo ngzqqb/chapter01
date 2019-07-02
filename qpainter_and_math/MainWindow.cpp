@@ -4,6 +4,7 @@
 #include "BoostGeometryDemo.hpp"
 #include "VoronoiPolygon.hpp"
 #include "RTreeIndex.hpp"
+#include "CGALDemo.hpp"
 
 namespace sstd {
 
@@ -16,12 +17,16 @@ namespace sstd {
     }
 
     MainWindow::MainWindow() {
-        this->resize(1024, 768);
+        {/*初始化为最大桌面大小*/
+            auto varDesktop = qApp->desktop();
+            this->resize(varDesktop->availableGeometry(this).size());
+        }
         theAddSubWindow<QRegionDemo>(this);
         theAddSubWindow<BoostPolygonDemo>(this);
         theAddSubWindow<BoostGeometryDemo>(this);
         theAddSubWindow<VoronoiPolygon>(this);
         theAddSubWindow<RTreeIndex>(this);
+        theAddSubWindow<CGALDemo>(this);
     }
 
 }/*namespace sstd*/

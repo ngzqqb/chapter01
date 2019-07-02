@@ -7,7 +7,7 @@ namespace sstd {
     class CGALDemo : public SubWindowBasic {
         Q_OBJECT
     public:
-        CGALDemo();l
+        CGALDemo();
     private:
         sstd_class(CGALDemo);
     };

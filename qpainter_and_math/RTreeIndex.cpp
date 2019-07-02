@@ -80,7 +80,7 @@ namespace sstd {
 
 }/*namespace sstd*/
 
-
+/*endl_input_of_latex_for_clanguage_lick*/
 // https://www.boost.org/doc/libs/1_63_0/libs/geometry/doc/html/geometry/spatial_indexes/rtree_examples/quick_start.html
 
 

@@ -21,4 +21,5 @@ namespace sstd {
 
 }/*namespace sstd*/
 
+/*endl_input_of_latex_for_clanguage_lick*/
 //QRegion 用于求整形 矩形和椭圆形的 +() -() &() ^()

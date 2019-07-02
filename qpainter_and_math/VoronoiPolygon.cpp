@@ -92,6 +92,7 @@ namespace sstd {
 
 }/*namespace sstd*/
 
+/*endl_input_of_latex_for_clanguage_lick*/
 // https://www.boost.org/doc/libs/1_70_0/libs/polygon/doc/voronoi_basic_tutorial.htm
 // voronoi_basic_tutorial.cpp
 // https://www.boost.org/doc/libs/1_70_0/libs/polygon/doc/gtl_segment_concept.htm

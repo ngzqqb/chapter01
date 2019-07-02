@@ -6,7 +6,7 @@ int main(int argc, char ** argv) {
     sstd::QtApplication varApplication{ argc,argv };
 
     sstd::MainWindow varWindow;
-    varWindow.show();
+    varWindow.showMaximized();
 
     return varApplication.exec();
 

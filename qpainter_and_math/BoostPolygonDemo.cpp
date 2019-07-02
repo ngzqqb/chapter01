@@ -81,6 +81,7 @@ namespace sstd {
 
 }/*namespace sstd*/
 
+/*endl_input_of_latex_for_clanguage_lick*/
 // https://www.boost.org/doc/libs/1_70_0/libs/polygon/doc/gtl_isotropy.htm
 // https://www.youtube.com/watch?v=6MGLiIwc1_0
 // https://www.boost.org/doc/libs/1_70_0/libs/polygon/doc/gtl_polygon_set_concept.htm

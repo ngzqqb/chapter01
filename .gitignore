@@ -1,3 +1,5 @@
+mocinclude.opt
+
 *.sln
 *.vcxproj*
 .vs/
