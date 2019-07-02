@@ -5,6 +5,7 @@
 #include "VoronoiPolygon.hpp"
 #include "RTreeIndex.hpp"
 #include "CGALDemo.hpp"
+#include "NearestPoint.hpp"
 
 namespace sstd {
 
@@ -27,6 +28,7 @@ namespace sstd {
         theAddSubWindow<VoronoiPolygon>(this);
         theAddSubWindow<RTreeIndex>(this);
         theAddSubWindow<CGALDemo>(this);
+        theAddSubWindow<NearestPoint>(this);
     }
 
 }/*namespace sstd*/

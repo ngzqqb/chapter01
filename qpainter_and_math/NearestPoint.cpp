@@ -3,16 +3,18 @@
 #include <sstd/boost/geometry.hpp>
 #include <sstd/boost/geometry/index/rtree.hpp>
 
-namespace sstd{
+namespace sstd {
 
     template<typename T, typename A, typename B>
-    inline static auto drawRect(T * argScene,
+    inline static auto drawPoint(T * argScene,
         const A & argX, const B & argY,
         const QPen & argPen = {},
         const QBrush &argBrush = {}) {
-        return argScene->addRect(argX - 5, argY - 5,
+        auto varAns = argScene->addEllipse(-5, -5,
             10, 10,
             argPen, argBrush);
+        varAns->setPos(argX, argY);
+        return varAns;
     }
 
     template<typename T>
@@ -28,7 +30,7 @@ namespace sstd{
     const QColor globalSelectColor{ 255,122,122 };
 
     NearestPoint::NearestPoint()
-        : SubWindowBasic(QStringLiteral("NearestPoint")){
+        : SubWindowBasic(QStringLiteral("NearestPoint")) {
 
         auto varScene = this->scene();
 
@@ -45,24 +47,26 @@ namespace sstd{
             for (int varJ = 0; varJ < 10; ++varJ) {
                 auto varX = varI * 15;
                 auto varY = varJ * 15;
-                auto varItem = drawRect(varScene, varX, varY, globalUnSelectColor, globalUnSelectColor);
+                auto varItem = drawPoint(varScene, varX, varY, globalUnSelectColor, globalUnSelectColor);
                 varRTree.insert(KeyValue{ Point(varX,varY) , varItem });
             }
         }
 
-        const bg::model::polygon< Point, false, false > varSelectPolygon{ {
-            Point{10,10},
-            Point{50,15},
-            Point{55,75},
-            Point{15,65}
-            } };
-        varScene->addPolygon(toQPolygon(varSelectPolygon.outer()));
+        const QPointF varPoint{ 52,75 };
+        varScene->addEllipse(-3, -3, 6, 6, {}, QColor{0,0,0})->setPos(varPoint);
 
-        std::vector< KeyValue > varAns;
-        varRTree.query(bgi::intersects(varSelectPolygon), std::back_inserter(varAns));
-        for (auto & varI : varAns) {
-            varI.second->setBrush(globalSelectColor);
-            varI.second->setPen(globalSelectColor);
+        {
+            auto varAns = varRTree.qbegin(bgi::nearest(Point{ varPoint.x(),varPoint.y() }, 8));
+            auto varAnsEnd = varRTree.qend();
+            int varIndex{ 0 };
+            for (;varAns!=varAnsEnd;++varAns) {
+                auto & varI = *varAns;
+                varI.second->setBrush(globalSelectColor);
+                varI.second->setPen(globalSelectColor);
+                auto varText = varScene->addText(QString::number(++varIndex));
+                varText->setParentItem(varI.second);
+                varText->setPos(-5, -5);
+            }
         }
 
     }
