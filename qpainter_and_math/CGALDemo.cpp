@@ -28,7 +28,7 @@ namespace sstd {
         }
         int nesting_level{ 0 };
         inline bool in_domain() const {
-            return (nesting_level & 1) == 1;
+            return (nesting_level & 1) != 0;
         }
     private:
         sstd_class(FaceInfo2);
@@ -77,6 +77,7 @@ namespace sstd {
     1.将所有三角形域标记为-1；
     2.将所有与非限定性边相邻的三角形域标记为0；
     3.如果一个标记为-1的域与一个标记为非-1的域相邻于限定性边，则非-1域+1；
+    nesting_level为偶数，则为外，为奇数则为内。
     */
     inline void mark_domains(CDT& cdt) {
         for (CDT::All_faces_iterator it = cdt.all_faces_begin();
