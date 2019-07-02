@@ -30,6 +30,9 @@ HEADERS += $$PWD/VoronoiPolygon.hpp
 SOURCES += $$PWD/RTreeIndex.cpp
 HEADERS += $$PWD/RTreeIndex.hpp
 
+SOURCES += $$PWD/NearestPoint.cpp
+HEADERS += $$PWD/NearestPoint.hpp
+
 SOURCES += $$PWD/CGALDemo.cpp
 HEADERS += $$PWD/CGALDemo.hpp
 
