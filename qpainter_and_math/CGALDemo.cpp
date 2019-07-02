@@ -58,12 +58,15 @@ namespace sstd {
             queue.pop_front();
             if (fh->info().nesting_level == -1) {
                 fh->info().nesting_level = index;
-                for (int i = 0; i < 3; i++) {
+                for (int i = 0; i < 3; ++i) {
                     CDT::Edge e(fh, i);
                     CDT::Face_handle n = fh->neighbor(i);
                     if (n->info().nesting_level == -1) {
-                        if (ct.is_constrained(e)) border.push_back(e);
-                        else queue.push_back(n);
+                        if (ct.is_constrained(e)) {
+                            border.push_back(e);
+                        } else {
+                            queue.push_back(n);
+                        }
                     }
                 }
             }
@@ -98,6 +101,7 @@ namespace sstd {
         /*准备数据 ... */
         Polygon_2 polygon1;
         polygon1.push_back(Point(0, 0));
+        polygon1.push_back(Point(100, -50));
         polygon1.push_back(Point(200, 0));
         polygon1.push_back(Point(200, 200));
         polygon1.push_back(Point(0, 200));
