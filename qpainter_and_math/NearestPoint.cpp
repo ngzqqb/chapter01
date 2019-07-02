@@ -21,7 +21,7 @@ namespace sstd {
     inline static QPolygonF toQPolygon(const T & arg) {
         QVector< QPointF > varPoints;
         for (const auto & varI : arg) {
-            varPoints.push_back({ varI.get<0>() ,varI.get<1>() });
+            varPoints.push_back({ varI.template get<0>() ,varI.template get<1>() });
         }
         return { std::move(varPoints) };
     }
