@@ -30,8 +30,12 @@ HEADERS += $$PWD/VoronoiPolygon.hpp
 SOURCES += $$PWD/RTreeIndex.cpp
 HEADERS += $$PWD/RTreeIndex.hpp
 
+SOURCES += $$PWD/CGALDemo.cpp
+HEADERS += $$PWD/CGALDemo.hpp
+
 include($$PWD/../../sstd_library/sstd_library.pri)
 include($$PWD/../../sstd_qt_qml_quick_library/sstd_qt_qml_quick_library.pri)
 include($$PWD/../../sstd_library/add_vc_debug_console.pri)
+include($$PWD/../../sstd_cgal/sstd_cgal.pri)
 
 DESTDIR = $${SSTD_LIBRARY_OUTPUT_PATH}
