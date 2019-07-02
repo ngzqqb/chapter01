@@ -141,7 +141,8 @@ namespace sstd {
                 varTriangle[varI].setX(varPoint.x());
                 varTriangle[varI].setY(varPoint.y());
             }
-            drawPolygon(varScene, varTriangle.begin(), varTriangle.end());
+            drawPolygon(varScene, varTriangle.begin(), varTriangle.end(), 
+                { QColor{},2 }, QColor{ 200,200,200 });
         }
 
     }
