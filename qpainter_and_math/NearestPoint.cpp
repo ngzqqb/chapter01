@@ -63,6 +63,7 @@ namespace sstd {
                 auto & varI = *varAns;
                 varI.second->setBrush(globalSelectColor);
                 varI.second->setPen(globalSelectColor);
+                varI.second->setZValue(100-varIndex);
                 auto varText = varScene->addText(QString::number(++varIndex));
                 varText->setParentItem(varI.second);
                 varText->setPos(-5, -5);
