@@ -63,12 +63,12 @@ namespace sstd {
         auto varLineLength = std::hypot(varDx, varDy);
 
         if (varLineLength <= std::numeric_limits<float>::epsilon()) {
-            this->setLine(var0.x(), var0.y(), var1.x(), var1.y());
-            return;
+            varDx = 1;
+            varDy = 0;
+        } else {
+            varDx /= varLineLength;
+            varDy /= varLineLength;
         }
-
-        varDx /= varLineLength;
-        varDy /= varLineLength;
 
         varDx *= globalVisibleNodeItemSize * 0.5;
         varDy *= globalVisibleNodeItemSize * 0.5;
