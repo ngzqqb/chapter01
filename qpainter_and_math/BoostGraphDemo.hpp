@@ -8,9 +8,7 @@ namespace sstd {
     class ConnectVisibleNodeLine;
 
     class VisibleNodeItem :
-        public QObject,
         public QGraphicsEllipseItem {
-        Q_OBJECT
     public:
         VisibleNodeItem(const QString &, const qreal &, const qreal &);
         void attacheLine(ConnectVisibleNodeLine *);
@@ -24,9 +22,7 @@ namespace sstd {
     };
 
     class ConnectVisibleNodeLine :
-        public QObject,
         public QGraphicsLineItem {
-        Q_OBJECT
     public:
         ConnectVisibleNodeLine(VisibleNodeItem*, VisibleNodeItem*);
         void visibleItemChanged();
