@@ -1,6 +1,113 @@
 ﻿#include "BoostGraphDemo.hpp"
 
+#include <sstd/boost/graph/adjacency_list.hpp>
+#include <sstd/boost/graph/depth_first_search.hpp>
+#include <sstd/boost/graph/breadth_first_search.hpp>
+
 namespace sstd {
+
+    class NodeData {
+    public:
+        std::size_t depth{ 0 };
+        std::size_t breadth{ 0 };
+        VisibleNodeItem * item{ nullptr };
+    private:
+        sstd_class(NodeData);
+    };
+
+    class DFSVisiter : public boost::default_dfs_visitor {
+    public:
+        template<typename V, typename G>
+        inline void finish_vertex(const V & v, const G & g) const {
+            const_cast<G &>(g)[v].depth = --thisIndex;
+        }
+        template<typename G>
+        inline DFSVisiter(const G & g) {
+            thisIndex = boost::num_vertices(g);
+        }
+        mutable std::size_t thisIndex{ 0 };
+    };
+
+    class BFSVisiter : public boost::default_bfs_visitor {
+    public:
+        template<typename E, typename G>
+        inline void tree_edge(const E & e, const G & g) const {
+            const auto & v0 = boost::source(e, g);
+            const auto & v1 = boost::target(e, g);
+            const_cast<G &>(g)[v1].breadth = g[v0].breadth + 1;
+        }
+    };
+
+    class DrawVisiter : public boost::default_bfs_visitor {
+    public:
+        template<typename V, typename G>
+        inline void discover_vertex(const V & v, const G & g) const {
+            auto varRow = g[v].breadth;
+            if (varRow != thisCurrentRow) {
+                thisColumnPos = 0;
+                thisRowPos += 36;
+                thisCurrentRow = varRow;
+            } else {
+                thisColumnPos += 40;
+            }
+            g[v].item->setPos(thisColumnPos, thisRowPos);
+        }
+        template<typename E, typename G>
+        inline void tree_edge(const E & e, const G & g) const {
+            const auto & v0 = boost::source(e, g);
+            const auto & v1 = boost::target(e, g);
+            auto varLine = sstd_new<ConnectVisibleNodeLine>(
+                g[v0].item, g[v1].item);
+            thisLines.push_back(varLine);
+            thisScene->addItem(varLine);
+        }
+        inline DrawVisiter(QGraphicsScene * arg) : thisScene{ arg } {
+        }
+        inline ~DrawVisiter() {
+            for (auto & varI : thisLines) {
+                varI->visibleItemChanged();
+            }
+        }
+        mutable std::size_t thisCurrentRow{ 0 };
+        mutable qreal thisColumnPos{ -40 };
+        mutable qreal thisRowPos{ 0 };
+        QGraphicsScene * thisScene{ nullptr };
+        mutable std::vector< ConnectVisibleNodeLine * > thisLines;
+    };
+
+    BoostGraphDemo::BoostGraphDemo() :
+        SubWindowBasic(QStringLiteral("BoostGraphDemo")) {
+
+        auto varScene = this->scene();
+
+        using Graph = boost::adjacency_list<boost::listS, boost::vecS, boost::undirectedS, NodeData>;
+
+        Graph varGraph;
+
+        boost::add_edge(0, 1, varGraph);
+        boost::add_edge(0, 2, varGraph);
+        boost::add_edge(0, 3, varGraph);
+        boost::add_edge(2, 4, varGraph);
+        boost::add_edge(2, 5, varGraph);
+        boost::add_edge(2, 6, varGraph);
+        boost::add_edge(5, 7, varGraph);
+
+        boost::depth_first_search(varGraph, boost::visitor(DFSVisiter{ varGraph }));
+        boost::breadth_first_search(varGraph, 0, boost::visitor(BFSVisiter{}));
+
+        {
+            auto[varPos, varEnd] = boost::vertices(varGraph);
+            for (; varPos != varEnd; ++varPos) {
+                auto varItem = sstd_new<VisibleNodeItem>(
+                    QString::number(varGraph[*varPos].depth), 0, 0);
+                varGraph[*varPos].item = varItem;
+                varScene->addItem(varItem);
+            }
+        }
+
+        boost::breadth_first_search(varGraph, 0, boost::visitor(DrawVisiter{ varScene }));
+
+    }
 
     constexpr qreal globalVisibleNodeItemSize = 28;
 
@@ -78,24 +185,9 @@ namespace sstd {
 
     }
 
-    BoostGraphDemo::BoostGraphDemo() :
-        SubWindowBasic(QStringLiteral("BoostGraphDemo")) {
-
-        auto varScene = this->scene();
-
-        auto a = sstd_new< VisibleNodeItem>(QStringLiteral("B"), 0, 0);
-        auto b = sstd_new< VisibleNodeItem>(QStringLiteral("A"), 25, 25);
-        varScene->addItem(a);
-        varScene->addItem(b);
-        varScene->addItem(sstd_new<ConnectVisibleNodeLine>(a, b));
-
-    }
-
 }/*namespace sstd*/
 
-
-
-
+// https://www.boost.org/doc/libs/1_57_0/libs/graph/doc/graph_concepts.html
 
 
 
