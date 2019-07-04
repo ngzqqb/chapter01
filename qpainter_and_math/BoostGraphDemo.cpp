@@ -83,7 +83,6 @@ namespace sstd {
         boost::add_edge(0, 3, varGraph);
         boost::add_edge(2, 5, varGraph);
         boost::add_edge(2, 6, varGraph);
-        
 
         /*进行拓扑排序*/
         boost::depth_first_search(varGraph, boost::visitor(DFSVisiter{ varGraph }));
