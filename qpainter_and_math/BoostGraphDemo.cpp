@@ -77,12 +77,13 @@ namespace sstd {
 
         /*构造图*/
         boost::add_edge(0, 1, varGraph);
+        boost::add_edge(5, 7, varGraph);
         boost::add_edge(0, 2, varGraph);
-        boost::add_edge(0, 3, varGraph);
         boost::add_edge(2, 4, varGraph);
+        boost::add_edge(0, 3, varGraph);
         boost::add_edge(2, 5, varGraph);
         boost::add_edge(2, 6, varGraph);
-        boost::add_edge(5, 7, varGraph);
+        
 
         /*进行拓扑排序*/
         boost::depth_first_search(varGraph, boost::visitor(DFSVisiter{ varGraph }));
