@@ -34,15 +34,12 @@ namespace sstd {
         inline void tree_edge(const E & e, const G & g) const {
             const auto & v0 = boost::source(e, g);
             const auto & v1 = boost::target(e, g);
-            const_cast<G &>(g)[v1].breadth = g[v0].breadth + 1;
-        }
-    };
 
-    class DrawVisiter : public boost::default_bfs_visitor {
-    public:
-        template<typename V, typename G>
-        inline void discover_vertex(const V & v, const G & g) const {
-            auto varRow = g[v].breadth;
+            /*更新广度值*/
+            const auto varRow = g[v0].breadth + 1;
+            const_cast<G &>(g)[v1].breadth = varRow;
+
+            /*计算可见对象位置*/
             if (varRow != thisCurrentRow) {
                 thisColumnPos = 0;
                 thisRowPos += 36;
@@ -50,29 +47,23 @@ namespace sstd {
             } else {
                 thisColumnPos += 40;
             }
-            g[v].item->setPos(thisColumnPos, thisRowPos);
-        }
-        template<typename E, typename G>
-        inline void tree_edge(const E & e, const G & g) const {
-            const auto & v0 = boost::source(e, g);
-            const auto & v1 = boost::target(e, g);
+            g[v1].item->setPos(thisColumnPos, thisRowPos);
+
+            /*绘制连接线*/
             auto varLine = sstd_new<ConnectVisibleNodeLine>(
                 g[v0].item, g[v1].item);
-            thisLines.push_back(varLine);
             thisScene->addItem(varLine);
+
         }
-        inline DrawVisiter(QGraphicsScene * arg) : thisScene{ arg } {
+
+        inline BFSVisiter(QGraphicsScene * arg) :thisScene(arg) {
         }
-        inline ~DrawVisiter() {
-            for (auto & varI : thisLines) {
-                varI->visibleItemChanged();
-            }
-        }
+
+    private:
         mutable std::size_t thisCurrentRow{ 0 };
         mutable qreal thisColumnPos{ -40 };
         mutable qreal thisRowPos{ 0 };
         QGraphicsScene * thisScene{ nullptr };
-        mutable std::vector< ConnectVisibleNodeLine * > thisLines;
     };
 
     BoostGraphDemo::BoostGraphDemo() :
@@ -84,6 +75,7 @@ namespace sstd {
 
         Graph varGraph;
 
+        /*构造图*/
         boost::add_edge(0, 1, varGraph);
         boost::add_edge(0, 2, varGraph);
         boost::add_edge(0, 3, varGraph);
@@ -92,10 +84,10 @@ namespace sstd {
         boost::add_edge(2, 6, varGraph);
         boost::add_edge(5, 7, varGraph);
 
+        /*进行拓扑排序*/
         boost::depth_first_search(varGraph, boost::visitor(DFSVisiter{ varGraph }));
-        boost::breadth_first_search(varGraph, 0, boost::visitor(BFSVisiter{}));
 
-        {
+        {/*初始化可见元素*/
             auto[varPos, varEnd] = boost::vertices(varGraph);
             for (; varPos != varEnd; ++varPos) {
                 auto varItem = sstd_new<VisibleNodeItem>(
@@ -105,7 +97,8 @@ namespace sstd {
             }
         }
 
-        boost::breadth_first_search(varGraph, 0, boost::visitor(DrawVisiter{ varScene }));
+        /*绘制可见元素*/
+        boost::breadth_first_search(varGraph, 0, boost::visitor(BFSVisiter{ varScene }));
 
     }
 
