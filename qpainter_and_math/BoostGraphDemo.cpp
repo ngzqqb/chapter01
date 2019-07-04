@@ -170,8 +170,8 @@ namespace sstd {
             varDy /= varLineLength;
         }
 
-        varDx *= globalVisibleNodeItemSize * 0.5;
-        varDy *= globalVisibleNodeItemSize * 0.5;
+        varDx *= varOffset.x();
+        varDy *= varOffset.x();
 
         this->setLine(var0.x() - varDx, var0.y() - varDy,
             var1.x() + varDx, var1.y() + varDy);
@@ -180,6 +180,7 @@ namespace sstd {
 
 }/*namespace sstd*/
 
+/*endl_input_of_latex_for_clanguage_lick*/
 // https://www.boost.org/doc/libs/1_57_0/libs/graph/doc/graph_concepts.html
 
 
