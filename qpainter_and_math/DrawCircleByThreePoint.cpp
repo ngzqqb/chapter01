@@ -16,7 +16,7 @@ namespace sstd {
         const Circular_arc_2 varCircle(
             { argP0.x(),argP0.y() },
             { argP1.x(),argP1.y() },
-            { argP2.x(), argP2.y() });
+            { argP2.x(),argP2.y() });
 
         const auto & varCenterPoint = varCircle.center();
         const auto varRadius =
