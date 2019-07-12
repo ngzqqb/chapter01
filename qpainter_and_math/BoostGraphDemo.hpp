@@ -33,7 +33,7 @@ namespace sstd {
         sstd_class(ConnectVisibleNodeLine);
     };
 
-    class BoostGraphDemo final:
+    class BoostGraphDemo final :
         public SubWindowBasic {
         Q_OBJECT
     public:

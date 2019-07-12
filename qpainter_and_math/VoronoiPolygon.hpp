@@ -2,7 +2,7 @@
 
 #include "SubWindowBasic.hpp"
 
-namespace sstd{
+namespace sstd {
 
     class VoronoiPolygon final : public SubWindowBasic {
         Q_OBJECT
@@ -13,7 +13,7 @@ namespace sstd{
             return 512;
         }
         inline virtual std::optional<QPointF> bestCenter() const {
-            return QPointF{100,100};
+            return QPointF{ 100,0 };
         }
     private:
         sstd_class(VoronoiPolygon);
