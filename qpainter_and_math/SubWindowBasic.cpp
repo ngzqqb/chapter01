@@ -51,7 +51,7 @@ namespace sstd {
         QPainter varPainter{ &varWriter };
         varPainter.setRenderHints(renderHints());
         varScene->render(&varPainter,
-            {/*target*/ },
+            {/* target rectangle */ },
             cRect(bestCenter() ? *bestCenter() : varBoundingRect.center(),
                 varBestWidth, varBestHeight));
 
