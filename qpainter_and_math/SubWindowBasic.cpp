@@ -25,9 +25,9 @@ namespace sstd {
         auto varBoundingRect =
             varScene->itemsBoundingRect();
 
-        auto varBestWidth = std::min<qreal>(bestWidth(), varBoundingRect.width());
+        const auto varBestWidth = std::min<qreal>(bestWidth(), varBoundingRect.width());
         const auto varRate = varBestWidth / varBoundingRect.width();
-        auto varBestHeight = varBoundingRect.height() * varRate;
+        const auto varBestHeight = varBoundingRect.height() * varRate;
 
         QFile varPDFFile{ argFileName };
         if (false == varPDFFile.open(QIODevice::WriteOnly)) {
