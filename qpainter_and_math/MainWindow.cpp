@@ -7,6 +7,7 @@
 #include "CGALDemo.hpp"
 #include "NearestPoint.hpp"
 #include "BoostGraphDemo.hpp"
+#include "BoostMultiprecisionDemo.hpp"
 
 namespace sstd {
 
@@ -31,6 +32,7 @@ namespace sstd {
         theAddSubWindow<VoronoiPolygon>(this);
         theAddSubWindow<CGALDemo>(this);
         theAddSubWindow<BoostGraphDemo>(this);
+        theAddSubWindow<BoostMultiprecisionDemo>(this);
     }
 
 }/*namespace sstd*/
