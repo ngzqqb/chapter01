@@ -3,7 +3,9 @@
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Constrained_Delaunay_triangulation_2.h>
 #include <CGAL/Triangulation_face_base_with_info_2.h>
+#include <CGAL/Exact_circular_kernel_2.h>
 #include <CGAL/Polygon_2.h>
+#include "DrawCircleByThreePoint.hpp"
 
 namespace sstd {
 
@@ -73,11 +75,11 @@ namespace sstd {
         }
     }
 
-    /* 
+    /*
     1.将所有三角形域标记为-1；
     2.将所有与非限定性边相邻的三角形域标记为0；
     3.如果一个标记为-1的域与一个标记为非-1的域相邻于限定性边，则非-1域+1；
-    nesting_level为偶数，则为外，为奇数则为内。
+    对于限定性三角形，nesting_level为偶数，则为外，为奇数则为内。
     */
     inline void mark_domains(CDT& cdt) {
         for (CDT::All_faces_iterator it = cdt.all_faces_begin();
@@ -122,9 +124,9 @@ namespace sstd {
         drawPolygon(varScene,
             polygon1.vertices_begin(), polygon1.vertices_end(),
             globalPolygonBoundColor)->setZValue(100);
-       drawPolygon(varScene,
-           polygon2.vertices_begin(), polygon2.vertices_end(),
-           globalPolygonBoundColor)->setZValue(100);
+        drawPolygon(varScene,
+            polygon2.vertices_begin(), polygon2.vertices_end(),
+            globalPolygonBoundColor)->setZValue(100);
 
         CDT cdt;
         cdt.insert_constraint(polygon1.vertices_begin(), polygon1.vertices_end(),
@@ -150,9 +152,12 @@ namespace sstd {
                 varTriangle[varI].setY(varPoint.y());
             }
 
-            drawPolygon(varScene, varTriangle.begin(), varTriangle.end(), 
+            drawPolygon(varScene, varTriangle.begin(), varTriangle.end(),
                 { QColor{},2 }, QColor{ 200,200,200 });
-
+            drawCircleByThreePoint(varScene,
+                varTriangle[0], varTriangle[1], varTriangle[2],
+                { QColor{100,100,100},1.2 })
+                ->setZValue(998);
         }
 
     }
@@ -162,3 +167,4 @@ namespace sstd {
 /*endl_input_of_latex_for_clanguage_lick*/
 // https://doc.cgal.org/latest/Triangulation_2/
 // https://doc.cgal.org/latest/Triangulation_2/classCGAL_1_1Constrained__triangulation__2.html
+// https://doc.cgal.org/latest/Circular_kernel_2/index.html

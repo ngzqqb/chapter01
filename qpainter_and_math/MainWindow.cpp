@@ -18,6 +18,9 @@ namespace sstd {
         auto varSubWindow = arg->addSubWindow(varWindow);
         varSubWindow->setWindowTitle(varWindow->objectName());
         varSubWindow->resize(varWindow->bestWidth(), varWindow->bestHeight());
+        if (varWindow->bestCenter()) {
+            varWindow->centerOn(*varWindow->bestCenter());
+        }
         return varWindow;
     }
 

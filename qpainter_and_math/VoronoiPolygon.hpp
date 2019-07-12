@@ -12,7 +12,7 @@ namespace sstd {
         inline virtual int bestWidth() const override {
             return 512;
         }
-        inline virtual std::optional<QPointF> bestCenter() const {
+        inline std::optional<QPointF> bestCenter() const override {
             return QPointF{ 100,0 };
         }
     private:

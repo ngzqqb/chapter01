@@ -42,6 +42,9 @@ HEADERS += $$PWD/BoostGraphDemo.hpp
 SOURCES += $$PWD/BoostMultiprecisionDemo.cpp
 HEADERS += $$PWD/BoostMultiprecisionDemo.hpp
 
+SOURCES += $$PWD/DrawCircleByThreePoint.cpp
+HEADERS += $$PWD/DrawCircleByThreePoint.hpp
+
 DEFINES *= THE_USE_PDF_PRINTER=\\\"$$PWD\\\"
 
 include($$PWD/../../sstd_library/sstd_library.pri)
