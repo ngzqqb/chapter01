@@ -37,7 +37,8 @@ namespace sstd {
             theAddSubWindow<BoostGraphDemo>(this),
             theAddSubWindow<BoostMultiprecisionDemo>(this)
         };
-#if defined(THE_USE_PDF_PRINTER)
+#define THE_USE_PDF_PRINTER_VERSION (2u)
+#if defined(THE_USE_PDF_PRINTER) && (THE_USE_PDF_PRINTER_VERSION!=2u)
         /*用于本书打印 ... */
         const QDir varOutDir{ THE_USE_PDF_PRINTER };
         const auto varPDF = QStringLiteral(".pdf");
