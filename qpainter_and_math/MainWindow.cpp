@@ -14,7 +14,7 @@ namespace sstd {
 
     template<typename T>
     inline static SubWindowBasic * theAddSubWindow(MainWindow * arg) {
-        auto varWindow  = sstd_new< T >();
+        auto varWindow = sstd_new< T >();
         auto varSubWindow = arg->addSubWindow(varWindow);
         varSubWindow->setWindowTitle(varWindow->objectName());
         varSubWindow->resize(varWindow->bestWidth(), varWindow->bestHeight());
@@ -38,7 +38,7 @@ namespace sstd {
             theAddSubWindow<BoostMultiprecisionDemo>(this)
         };
 #define THE_USE_PDF_PRINTER_VERSION (3u)
-#if defined(THE_USE_PDF_PRINTER) && (THE_USE_PDF_PRINTER_VERSION!=2u)
+#if defined(THE_USE_PDF_PRINTER) && (THE_USE_PDF_PRINTER_VERSION!=3u)
         /*用于生成本书打印图片 ... */
         const QDir varOutDir{ THE_USE_PDF_PRINTER };
         const auto varPDF = QStringLiteral(".pdf");
