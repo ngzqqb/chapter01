@@ -19,11 +19,6 @@ namespace sstd {
         this->setRenderHints(theRenderHints());
     }
 
-    inline static QRectF cRect(const QPointF & p,
-        const qreal & w, const qreal & h) {
-        return{ p.x() - 0.5*w,p.y() - 0.5*h,w,h };
-    }
-
     void SubWindowBasic::printToPdf(const QString & argFileName) const {
 
         auto varScene = this->scene();
@@ -38,6 +33,11 @@ namespace sstd {
         if (false == varPDFFile.open(QIODevice::WriteOnly)) {
             return;
         }
+
+        auto cRect = [](const auto & p,
+            const qreal & w, const qreal & h)->QRectF {
+            return{ p.x() - 0.5f*w,p.y() - 0.5f*h,w,h };
+        };
 
         QPdfWriter varWriter{ &varPDFFile };
 
