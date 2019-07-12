@@ -5,6 +5,9 @@
 #include <sstream>
 #include <iostream>
 
+#include <string_view>
+using namespace std::string_view_literals;
+
 #include <sstd/boost/multiprecision/cpp_int.hpp>
 #include <sstd/boost/multiprecision/cpp_dec_float.hpp>
 
@@ -42,15 +45,15 @@ namespace sstd {
 
         qreal varHeight;
         {
-            const BInt varA{ "+123456789123456789123456789" };
-            const BInt varB{ "-789456123789456123789456123" };
+            const BInt varA{ "123456789123456789123456789"sv };
+            const BInt varB{ "-789456123789456123789456123"sv };
             const BInt varC = varA * varB;
             varHeight = formatText(varScene->addText(toQString(varC)))
                 ->boundingRect().height();
         }
 
         {
-            BFloat varA{ "1.0000000000000000000000000000000000002" };
+            BFloat varA{ "1.0000000000000000000000000000000000002"sv };
             for (auto varI = 0u; varI < 100u; ++varI) {
                 varA *= varA;
             }
