@@ -9,7 +9,7 @@ namespace sstd {
     public:
         CGALDemo();
         inline std::optional<QPointF> bestCenter() const override {
-            return QPointF{ 90,75 };
+            return QPointF{ 100,68 };
         }
     private:
         sstd_class(CGALDemo);
