@@ -31,6 +31,7 @@ namespace sstd {
     inline static auto formatText(T * arg) {
         arg->setTextWidth(230);
         arg->setFlag(QGraphicsItem::ItemIsMovable);
+        arg->setTextInteractionFlags(Qt::TextSelectableByMouse);
         return arg;
     }
 

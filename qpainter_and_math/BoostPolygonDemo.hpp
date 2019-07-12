@@ -4,7 +4,7 @@
 
 namespace sstd {
 
-    class BoostPolygonDemo : public SubWindowBasic {
+    class BoostPolygonDemo final : public SubWindowBasic {
         Q_OBJECT
     public:
         BoostPolygonDemo();

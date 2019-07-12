@@ -42,6 +42,8 @@ HEADERS += $$PWD/BoostGraphDemo.hpp
 SOURCES += $$PWD/BoostMultiprecisionDemo.cpp
 HEADERS += $$PWD/BoostMultiprecisionDemo.hpp
 
+DEFINES *= THE_USE_PDF_PRINTER=\\\"$$PWD\\\"
+
 include($$PWD/../../sstd_library/sstd_library.pri)
 include($$PWD/../../sstd_qt_qml_quick_library/sstd_qt_qml_quick_library.pri)
 include($$PWD/../../sstd_library/add_vc_debug_console.pri)

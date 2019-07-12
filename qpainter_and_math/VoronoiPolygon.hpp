@@ -4,7 +4,7 @@
 
 namespace sstd{
 
-    class VoronoiPolygon : public SubWindowBasic {
+    class VoronoiPolygon final : public SubWindowBasic {
         Q_OBJECT
     public:
         VoronoiPolygon();

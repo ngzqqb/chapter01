@@ -4,7 +4,7 @@
 
 namespace sstd{
 
-    class RTreeIndex : public SubWindowBasic {
+    class RTreeIndex final : public SubWindowBasic {
         Q_OBJECT
     public:
         RTreeIndex();

@@ -7,7 +7,7 @@ namespace sstd {
 
     class ConnectVisibleNodeLine;
 
-    class VisibleNodeItem :
+    class VisibleNodeItem final :
         public QGraphicsEllipseItem {
     public:
         VisibleNodeItem(const QString &, const qreal &, const qreal &);
@@ -21,7 +21,7 @@ namespace sstd {
         sstd_class(VisibleNodeItem);
     };
 
-    class ConnectVisibleNodeLine :
+    class ConnectVisibleNodeLine final :
         public QGraphicsLineItem {
     public:
         ConnectVisibleNodeLine(VisibleNodeItem*, VisibleNodeItem*);
@@ -33,7 +33,7 @@ namespace sstd {
         sstd_class(ConnectVisibleNodeLine);
     };
 
-    class BoostGraphDemo :
+    class BoostGraphDemo final:
         public SubWindowBasic {
         Q_OBJECT
     public:

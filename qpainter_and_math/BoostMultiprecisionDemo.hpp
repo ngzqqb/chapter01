@@ -4,7 +4,7 @@
 
 namespace sstd {
 
-    class BoostMultiprecisionDemo : public SubWindowBasic {
+    class BoostMultiprecisionDemo final : public SubWindowBasic {
         Q_OBJECT
     public:
         BoostMultiprecisionDemo();

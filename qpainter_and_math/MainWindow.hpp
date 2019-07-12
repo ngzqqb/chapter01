@@ -4,7 +4,7 @@
 
 namespace sstd {
 
-    class MainWindow : public QMdiArea {
+    class MainWindow final : public QMdiArea {
         Q_OBJECT
     public:
         MainWindow();

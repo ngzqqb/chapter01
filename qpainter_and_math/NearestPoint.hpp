@@ -4,7 +4,7 @@
 
 namespace sstd{
 
-    class NearestPoint : public SubWindowBasic {
+    class NearestPoint final : public SubWindowBasic {
         Q_OBJECT
     public:
         NearestPoint();

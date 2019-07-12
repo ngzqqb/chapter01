@@ -4,7 +4,7 @@
 
 namespace sstd {
 
-    class QRegionDemo : public SubWindowBasic {
+    class QRegionDemo final : public SubWindowBasic {
         Q_OBJECT
     public:
         QRegionDemo();

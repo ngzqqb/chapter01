@@ -8,15 +8,17 @@
 #include "NearestPoint.hpp"
 #include "BoostGraphDemo.hpp"
 #include "BoostMultiprecisionDemo.hpp"
+#include <array>
 
 namespace sstd {
 
     template<typename T>
-    inline static void theAddSubWindow(MainWindow * arg) {
-        auto varWindow = sstd_new< T >();
+    inline static SubWindowBasic * theAddSubWindow(MainWindow * arg) {
+        auto varWindow  = sstd_new< T >();
         auto varSubWindow = arg->addSubWindow(varWindow);
         varSubWindow->setWindowTitle(varWindow->objectName());
         varSubWindow->resize(varWindow->bestWidth(), varWindow->bestHeight());
+        return varWindow;
     }
 
     MainWindow::MainWindow() {
@@ -24,15 +26,26 @@ namespace sstd {
             auto varDesktop = qApp->desktop();
             this->resize(varDesktop->availableGeometry(this).size());
         }
-        theAddSubWindow<QRegionDemo>(this);
-        theAddSubWindow<BoostPolygonDemo>(this);
-        theAddSubWindow<BoostGeometryDemo>(this);
-        theAddSubWindow<RTreeIndex>(this);
-        theAddSubWindow<NearestPoint>(this);
-        theAddSubWindow<VoronoiPolygon>(this);
-        theAddSubWindow<CGALDemo>(this);
-        theAddSubWindow<BoostGraphDemo>(this);
-        theAddSubWindow<BoostMultiprecisionDemo>(this);
+        std::array varSubWindows{
+            theAddSubWindow<QRegionDemo>(this),
+            theAddSubWindow<BoostPolygonDemo>(this),
+            theAddSubWindow<BoostGeometryDemo>(this),
+            theAddSubWindow<RTreeIndex>(this),
+            theAddSubWindow<NearestPoint>(this),
+            theAddSubWindow<VoronoiPolygon>(this),
+            theAddSubWindow<CGALDemo>(this),
+            theAddSubWindow<BoostGraphDemo>(this),
+            theAddSubWindow<BoostMultiprecisionDemo>(this)
+        };
+#if defined(THE_USE_PDF_PRINTER)
+        /*用于本书打印 ... */
+        const QDir varOutDir{ THE_USE_PDF_PRINTER };
+        const auto varPDF = QStringLiteral(".pdf");
+        for (auto * varI : varSubWindows) {
+            varI->printToPdf(
+                varOutDir.absoluteFilePath(varI->objectName() + varPDF));
+        }
+#endif
     }
 
 }/*namespace sstd*/
