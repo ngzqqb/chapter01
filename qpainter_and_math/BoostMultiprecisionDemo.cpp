@@ -42,8 +42,8 @@ namespace sstd {
 
         qreal varHeight;
         {
-            const BInt varA{ "123456789123456789123456789" };
-            const BInt varB{ "789456123789456123789456123" };
+            const BInt varA{ "+123456789123456789123456789" };
+            const BInt varB{ "-789456123789456123789456123" };
             const BInt varC = varA * varB;
             varHeight = formatText(varScene->addText(toQString(varC)))
                 ->boundingRect().height();
@@ -55,7 +55,7 @@ namespace sstd {
                 varA *= varA;
             }
             formatText(varScene->addText(toQString<true>(varA)))
-                ->setY(varHeight+4.5);
+                ->setY(varHeight + 4.5);
         }
 
     }
