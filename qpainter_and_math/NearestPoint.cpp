@@ -53,20 +53,30 @@ namespace sstd {
         }
 
         const QPointF varPoint{ 52,75 };
-        varScene->addEllipse(-3, -3, 6, 6, {}, QColor{0,0,0})->setPos(varPoint);
+        {
+            auto varPointItem = varScene->addEllipse(-3, -3, 6, 6, {}, QColor{ 0,0,0 });
+            varPointItem->setPos(varPoint);
+            varPointItem->setZValue(static_cast<int>(varRTree.size() + 1));
+        }
 
         {
             auto varAns = varRTree.qbegin(bgi::nearest(Point{ varPoint.x(),varPoint.y() }, 8));
             auto varAnsEnd = varRTree.qend();
             int varIndex{ 0 };
+            auto varZValue = static_cast<int>(varRTree.size() + 1);
             for (;varAns!=varAnsEnd;++varAns) {
                 auto & varI = *varAns;
                 varI.second->setBrush(globalSelectColor);
                 varI.second->setPen(globalSelectColor);
-                varI.second->setZValue(100-varIndex);
+                varI.second->setZValue(--varZValue);
                 auto varText = varScene->addText(QString::number(++varIndex));
                 varText->setParentItem(varI.second);
-                varText->setPos(-varText->boundingRect().center());
+                {
+                    const QFontMetricsF varFontMetrics{ varText->font() };
+                    const auto varDescent = varFontMetrics.descent();
+                    auto varCenter = -varText->boundingRect().center();
+                    varText->setPos(varCenter.x(), varCenter.y() + varDescent);
+                }
             }
         }
 

@@ -16,15 +16,20 @@ namespace sstd {
             QPainter::HighQualityAntialiasing);
     }
 
+    inline static QRectF cRect(const QPointF & p,
+        const qreal & w, const qreal & h) {
+        return{ p.x() - 0.5*w,p.y() - 0.5*h,w,h };
+    }
+
     void SubWindowBasic::printToPdf(const QString & argFileName) const {
 
         auto varScene = this->scene();
         auto varBoundingRect =
             varScene->itemsBoundingRect();
 
-        const qreal varBestWidth = bestWidth();
-        const qreal varBestHeight = bestHeight();
-
+        auto varBestWidth = std::min<qreal>(bestWidth(), varBoundingRect.width());
+        const auto varRate = varBestWidth / varBoundingRect.width();
+        auto varBestHeight = varBoundingRect.height() * varRate;
 
         QFile varPDFFile{ argFileName };
         if (false == varPDFFile.open(QIODevice::WriteOnly)) {
@@ -36,14 +41,15 @@ namespace sstd {
         {
             varWriter.setMargins({ 0,0,0,0 });
             const QPageSize varSize{
-               varBoundingRect.size() ,QPageSize::Point };
+               QSizeF{ varBestWidth,varBestHeight } ,QPageSize::Point };
             varWriter.setPageSize(varSize);
         }
 
         QPainter varPainter{ &varWriter };
         varScene->render(&varPainter,
             {/*target*/ },
-            {/*source*/ });
+            cRect(bestCenter() ? *bestCenter() : varBoundingRect.center(),
+                varBestWidth, varBestHeight));
 
     }
 

@@ -15,6 +15,9 @@ namespace sstd {
         inline virtual int bestHeight() const {
             return 768 / 2;
         }
+        inline virtual std::optional<QPointF> bestCenter() const {
+            return {};
+        }
     public:
         virtual void printToPdf(const QString &) const ;
     private:

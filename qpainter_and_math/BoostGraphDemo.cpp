@@ -114,9 +114,15 @@ namespace sstd {
         this->setPos(argX, argY);
         auto varText = sstd_virtual_new<QGraphicsTextItem>(argText);
         varText->setParentItem(this);
-        varText->setPos(-varText->boundingRect().center());
+        {
+            const QFontMetricsF varFontMetrics{ varText->font() };
+            const auto varDescent = varFontMetrics.descent();
+            auto varCenter = -varText->boundingRect().center();
+            varText->setPos(varCenter.x(), varCenter.y()+ varDescent);
+        }
         this->setFlag(ItemIsMovable);
         this->setFlag(ItemSendsGeometryChanges);
+        this->setPen(QPen{ QColor{0,0,0},1.2 });
     }
 
     void VisibleNodeItem::updatePos(ConnectVisibleNodeLine * arg) {
