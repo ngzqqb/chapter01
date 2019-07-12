@@ -49,7 +49,7 @@ namespace sstd {
         }
 
         QPainter varPainter{ &varWriter };
-        varPainter.setRenderHints(theRenderHints());
+        varPainter.setRenderHints(renderHints());
         varScene->render(&varPainter,
             {/*target*/ },
             cRect(bestCenter() ? *bestCenter() : varBoundingRect.center(),
