@@ -62,7 +62,8 @@ namespace sstd {
                 varPoint1.setY(varRectangleData.low());
                 varPoint2.setY(varRectangleData.high());
             }
-            varScene->addRect({ varPoint1,varPoint2 }, QPen{ QColor(1,1,1) });
+            varScene->addRect({ varPoint1,varPoint2 }, QPen{ QColor(1,1,1) ,1.2f })
+                ->setZValue(10);
         }
 
         /*计算面积并显示*/

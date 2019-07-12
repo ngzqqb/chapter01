@@ -2,6 +2,13 @@
 
 namespace sstd {
 
+    inline static constexpr auto renderHints() {
+        return QPainter::Antialiasing |
+            QPainter::TextAntialiasing |
+            QPainter::SmoothPixmapTransform |
+            QPainter::HighQualityAntialiasing;
+    }
+
     SubWindowBasic::SubWindowBasic(const QString & arg) {
         this->setObjectName(arg);
         this->setAlignment(Qt::AlignCenter);
@@ -9,11 +16,7 @@ namespace sstd {
             auto varScene = sstd_virtual_new<QGraphicsScene>(this);
             this->setScene(varScene);
         }
-        this->setRenderHints(
-            QPainter::Antialiasing |
-            QPainter::TextAntialiasing |
-            QPainter::SmoothPixmapTransform |
-            QPainter::HighQualityAntialiasing);
+        this->setRenderHints(renderHints());
     }
 
     inline static QRectF cRect(const QPointF & p,
@@ -46,6 +49,7 @@ namespace sstd {
         }
 
         QPainter varPainter{ &varWriter };
+        varPainter.setRenderHints(renderHints());
         varScene->render(&varPainter,
             {/*target*/ },
             cRect(bestCenter() ? *bestCenter() : varBoundingRect.center(),
