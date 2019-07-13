@@ -12,3 +12,4 @@ SUBDIRS += qml_files_dir_loader
 SUBDIRS += qml_files_dir_loader_module
 SUBDIRS += ping_helper
 SUBDIRS += qpainter_and_math
+SUBDIRS += botan_rsa

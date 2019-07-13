@@ -1,0 +1,16 @@
+﻿
+#include <sstd_qt_qml_quick_library.hpp>
+
+namespace sstd {
+
+    class MainWindow final : public QGraphicsView {
+        Q_OBJECT
+    public:
+        MainWindow();
+    private:
+        sstd_class(MainWindow);
+    };
+
+}/*namespace sstd*/
+
+
