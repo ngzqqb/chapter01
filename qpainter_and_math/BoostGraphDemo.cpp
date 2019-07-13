@@ -118,13 +118,18 @@ namespace sstd {
             const QFontMetricsF varFontMetrics{ varText->font() };
             const auto varDescent = varFontMetrics.descent();
             auto varCenter = -varText->boundingRect().center();
-            varText->setPos(varCenter.x(), varCenter.y()+ varDescent);
+            varText->setPos(varCenter.x(), varCenter.y() + varDescent);
         }
         this->setFlag(ItemIsMovable);
         this->setFlag(ItemSendsGeometryChanges);
         this->setPen(QPen{ QColor{0,0,0},1.2 });
     }
 
+}/*namespace sstd*/
+
+/*endl_input_of_latex_for_clanguage_lick*/
+
+namespace sstd {
     void VisibleNodeItem::updatePos(ConnectVisibleNodeLine * arg) {
         arg->visibleItemChanged();
     }
