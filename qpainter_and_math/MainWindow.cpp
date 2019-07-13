@@ -8,6 +8,7 @@
 #include "NearestPoint.hpp"
 #include "BoostGraphDemo.hpp"
 #include "BoostMultiprecisionDemo.hpp"
+#include "BotanRSA.hpp"
 #include <array>
 
 namespace sstd {
@@ -38,7 +39,8 @@ namespace sstd {
             theAddSubWindow<VoronoiPolygon>(this),
             theAddSubWindow<CGALDemo>(this),
             theAddSubWindow<BoostGraphDemo>(this),
-            theAddSubWindow<BoostMultiprecisionDemo>(this)
+            theAddSubWindow<BoostMultiprecisionDemo>(this),
+            theAddSubWindow<BotanRSA>(this),
         };
 #define THE_USE_PDF_PRINTER_VERSION (3u)
 #if defined(THE_USE_PDF_PRINTER) && (THE_USE_PDF_PRINTER_VERSION!=3u)
