@@ -12,7 +12,6 @@ namespace sstd {
 
     template<typename T>
     inline static auto formatText(T * arg) {
-        arg->setTextWidth(460);
         arg->setFlag(QGraphicsItem::ItemIsMovable);
         arg->setTextInteractionFlags(Qt::TextSelectableByMouse);
         return arg;
@@ -41,7 +40,7 @@ namespace sstd {
             varPrivateKey = Botan::PKCS8::PEM_encode(varKey);
 
         } catch (const std::exception & e) {
-            qDebug() << e.what();
+            qWarning() << e.what();
             return;
         }
 
@@ -55,7 +54,7 @@ namespace sstd {
                 varValue.size(),
                 varRNG);
         } catch (const std::exception & e) {
-            qDebug() << e.what();
+            qWarning() << e.what();
             return;
         }
 
@@ -67,11 +66,12 @@ namespace sstd {
             Botan::PK_Decryptor_EME varDecode{ *varDecodeKey,varRNG,varAlg };
             varValueDecode = varDecode.decrypt(varValueEncode.data(), varValueEncode.size());
         } catch (const std::exception & e) {
-            qDebug() << e.what();
+            qWarning() << e.what();
             return;
         }
 
-        const std::string_view varAnsView{ reinterpret_cast<const char *>(varValueDecode.data()) ,
+        const std::string_view varAnsView{ 
+            reinterpret_cast<const char *>(varValueDecode.data()) ,
             varValueDecode.size()};
         
         auto varScene = this->scene();
@@ -83,10 +83,7 @@ namespace sstd {
         varString += toQString(varPrivateKey);
         varString += QChar('\n');
         varString += toQString(varAnsView);
-        qDebug() << formatText(varScene->addText(varString))->document()->size();
-
-
-
+        formatText(varScene->addText(varString));
     }
 
 }/*namespace sstd*/
