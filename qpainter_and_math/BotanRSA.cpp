@@ -70,10 +70,10 @@ namespace sstd {
             return;
         }
 
-        const std::string_view varAnsView{ 
+        const std::string_view varAnsView{
             reinterpret_cast<const char *>(varValueDecode.data()) ,
             varValueDecode.size()};
-        
+
         auto varScene = this->scene();
         auto varString = toQString(varValue);
         varString += QChar('\n');
