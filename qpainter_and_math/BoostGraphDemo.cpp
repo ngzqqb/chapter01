@@ -101,6 +101,11 @@ namespace sstd {
         boost::breadth_first_search(varGraph, 0, boost::visitor(BFSVisiter{ varScene }));
 
     }
+}/*namespace sstd*/
+
+/*endl_input_of_latex_for_clanguage_lick*/
+
+namespace sstd {
 
     constexpr qreal globalVisibleNodeItemSize = 28;
 
@@ -125,11 +130,6 @@ namespace sstd {
         this->setPen(QPen{ QColor{0,0,0},1.2 });
     }
 
-}/*namespace sstd*/
-
-/*endl_input_of_latex_for_clanguage_lick*/
-
-namespace sstd {
     void VisibleNodeItem::updatePos(ConnectVisibleNodeLine * arg) {
         arg->visibleItemChanged();
     }
