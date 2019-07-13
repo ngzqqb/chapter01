@@ -45,6 +45,9 @@ HEADERS += $$PWD/BoostMultiprecisionDemo.hpp
 SOURCES += $$PWD/DrawCircleByThreePoint.cpp
 HEADERS += $$PWD/DrawCircleByThreePoint.hpp
 
+SOURCES += $$PWD/BotanRSA.cpp
+HEADERS += $$PWD/BotanRSA.hpp
+
 DEFINES *= THE_USE_PDF_PRINTER=\\\"$$PWD\\\"
 
 include($$PWD/../../sstd_library/sstd_library.pri)
