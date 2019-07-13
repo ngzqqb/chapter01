@@ -16,6 +16,7 @@ namespace sstd {
     template<typename T>
     inline static SubWindowBasic * theAddSubWindow(MainWindow * arg) {
         auto varWindow = sstd_new< T >();
+        varWindow->resize(varWindow->bestWidth(), varWindow->bestHeight());
         auto varSubWindow = arg->addSubWindow(varWindow);
         varSubWindow->setWindowTitle(varWindow->objectName());
         varSubWindow->resize(varWindow->bestWidth(), varWindow->bestHeight());
