@@ -27,7 +27,7 @@ namespace sstd {
 
         std::string varPublicKey;
         std::string varPrivateKey;
-        const static auto varValue = u8R"(Hellow Botan!)"s;
+        const static auto varValue = u8R"(你好 Botan!)"s;
         std::vector<uint8_t> varValueEncode;
         Botan::secure_vector<uint8_t> varValueDecode;
         const static auto varAlg = "EME-PKCS1-v1_5"s;
@@ -72,7 +72,7 @@ namespace sstd {
 
         const std::string_view varAnsView{
             reinterpret_cast<const char *>(varValueDecode.data()) ,
-            varValueDecode.size()};
+            varValueDecode.size() };
 
         auto varScene = this->scene();
         auto varString = toQString(varValue);
