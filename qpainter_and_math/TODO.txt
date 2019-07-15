@@ -1,3 +1,26 @@
+
+
+
+\documentclass[UTF8]{ctexart}
+\usepackage{array}
+\begin{document}
+
+
+\begin{table}[h]
+\noindent\centering
+\begin{tabular}{m{1pt}l|l|lm{1pt}}
+\hline
+\rule{0pt}{1pt}&a & b & c&\rule{0pt}{1pt}\\
+\cline{2-4}
+\rule{0pt}{36pt}&e & f & g&\rule{0pt}{1pt}\\
+\cline{2-4}
+\rule{0pt}{72pt}&h & i & j&\rule{0pt}{1pt}
+\end{tabular}
+\end{table}
+
+\end{document}
+
+
 #include <QApplication>
 
 #include <QtCore/QtCore>
@@ -10,6 +33,8 @@ int main(int argc, char *argv[]) {
 
 
     QTextDocument varDocument;
+
+    {
     QTextTable * varTable{nullptr};
     varDocument.setTextWidth( 512 );
 
@@ -18,12 +43,14 @@ int main(int argc, char *argv[]) {
         QTextTableFormat  varTableFormat;
          varTableFormat.setCellSpacing( 0 );
         varTableFormat.setWidth( QTextLength{QTextLength::PercentageLength,100} );
-        varTableFormat.setBorderStyle(QTextFrameFormat::BorderStyle_Solid);
+        varTableFormat.setBorderStyle(QTextFrameFormat::BorderStyle_None);
+        varTableFormat.setBorder(0);
+        varTableFormat.setCellPadding(2);
         varTableFormat.setColumnWidthConstraints({
-        QTextLength{QTextLength::PercentageLength,25},
-        QTextLength{QTextLength::PercentageLength,25},
-        QTextLength{QTextLength::PercentageLength,25},
-        QTextLength{QTextLength::PercentageLength,25}
+        QTextLength{QTextLength::PercentageLength,1},
+        QTextLength{QTextLength::PercentageLength,49},
+        QTextLength{QTextLength::PercentageLength,49},
+        QTextLength{QTextLength::PercentageLength,1}
                                                  });
         varTable = varCursor.insertTable(32/*r*/,
                                          4/*c*/,
@@ -33,18 +60,58 @@ int main(int argc, char *argv[]) {
     {
         for(int varR = 0;varR<varTable->rows();++varR){
             for(int varC =0;varC<varTable->columns();++varC){
-                auto varCell = varTable->cellAt(varR,varC);
-                auto varCursor = varCell.firstCursorPosition();
-                varCursor.insertText( "A" );
 
+                if(varC == 3){
+                    continue;
+                }
+
+                auto varCell = varTable->cellAt(varR,varC);
+
+                auto varCursor = varCell.firstCursorPosition();
+                if(varC != 0){
+                varCursor.insertText( "A" );
+}
                 auto f = varCell.format();
                 f.setBackground(QColor(varC*16,std::rand()&255,255)) ;
-                varCell.setFormat(f);
+
+                auto cf = f.toTableCellFormat();
+                if( cf.isValid() && (varC == 0 )  ) {
+                cf.setBottomPadding( varR + 16  );
+                cf.setLeftPadding(0);
+                cf.setRightPadding(0);
+                cf.setBackground(Qt::transparent);
+
+                varCell.setFormat(cf);
+
+}else {         varCell.setFormat(f);
+                }
+
 
             }
         }
     }
 
+
+    QFile varf{"aabbc.pdf"};
+    varf.open( QIODevice::WriteOnly );
+
+    QPdfWriter w{&varf};
+    w.setResolution(  720 );
+    w.setMargins({0,0,0,0});
+    w.setPageSize(QPageSize{varDocument.size(),QPageSize::Point});
+
+
+    QPainter varp{ &w };
+    varp.scale(10,10);
+
+    if(false){
+        QPen varPen{ {} ,1};
+        varPen.setCosmetic(true);
+        varp.setPen(varPen);
+    }
+    varDocument.drawContents(&varp);
+
+}
 
     QTextEdit varEdit ;
     varEdit.setDocument(&varDocument);
@@ -54,4 +121,19 @@ int main(int argc, char *argv[]) {
 
     return a.exec();
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
