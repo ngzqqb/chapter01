@@ -1,0 +1,57 @@
+#include <QApplication>
+
+#include <QtCore/QtCore>
+#include <QtGui/QtGui>
+#include <QtWidgets/QtWidgets>
+
+
+int main(int argc, char *argv[]) {
+    QApplication a(argc, argv);
+
+
+    QTextDocument varDocument;
+    QTextTable * varTable{nullptr};
+    varDocument.setTextWidth( 512 );
+
+    {
+        QTextCursor varCursor{ &varDocument };
+        QTextTableFormat  varTableFormat;
+         varTableFormat.setCellSpacing( 0 );
+        varTableFormat.setWidth( QTextLength{QTextLength::PercentageLength,100} );
+        varTableFormat.setBorderStyle(QTextFrameFormat::BorderStyle_Solid);
+        varTableFormat.setColumnWidthConstraints({
+        QTextLength{QTextLength::PercentageLength,25},
+        QTextLength{QTextLength::PercentageLength,25},
+        QTextLength{QTextLength::PercentageLength,25},
+        QTextLength{QTextLength::PercentageLength,25}
+                                                 });
+        varTable = varCursor.insertTable(32/*r*/,
+                                         4/*c*/,
+                                         std::move(varTableFormat));
+    }
+
+    {
+        for(int varR = 0;varR<varTable->rows();++varR){
+            for(int varC =0;varC<varTable->columns();++varC){
+                auto varCell = varTable->cellAt(varR,varC);
+                auto varCursor = varCell.firstCursorPosition();
+                varCursor.insertText( "A" );
+
+                auto f = varCell.format();
+                f.setBackground(QColor(varC*16,std::rand()&255,255)) ;
+                varCell.setFormat(f);
+
+            }
+        }
+    }
+
+
+    QTextEdit varEdit ;
+    varEdit.setDocument(&varDocument);
+    varEdit.show();
+
+
+
+    return a.exec();
+}
+
