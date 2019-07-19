@@ -36,7 +36,7 @@ namespace sstd {
 
         auto cRect = [](const auto & p,
             const qreal & w, const qreal & h)->QRectF {
-            return{ p.x() - 0.5f*w,p.y() - 0.5f*h,w,h };
+            return{ std::fma(-0.5f,w,p.x()),std::fma(-0.5f,h,p.y()) ,w,h };
         };
 
         QPdfWriter varWriter{ &varPDFFile };
