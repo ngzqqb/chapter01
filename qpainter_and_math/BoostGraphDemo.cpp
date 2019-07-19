@@ -123,7 +123,7 @@ namespace sstd {
             const QFontMetricsF varFontMetrics{ varText->font() };
             const auto varDescent = varFontMetrics.descent();
             auto varCenter = -varText->boundingRect().center();
-            varText->setPos(varCenter.x(), varCenter.y() + varDescent);
+            varText->setPos(varCenter.x(), std::fma(0.5f, varDescent, varCenter.y()));
         }
         this->setFlag(ItemIsMovable);
         this->setFlag(ItemSendsGeometryChanges);
