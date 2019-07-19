@@ -64,7 +64,7 @@ namespace sstd {
             auto varAnsEnd = varRTree.qend();
             int varIndex{ 0 };
             auto varZValue = static_cast<int>(varRTree.size() + 1);
-            for (;varAns!=varAnsEnd;++varAns) {
+            for (; varAns != varAnsEnd; ++varAns) {
                 auto & varI = *varAns;
                 varI.second->setBrush(globalSelectColor);
                 varI.second->setPen(globalSelectColor);
