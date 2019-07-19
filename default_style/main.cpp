@@ -3,9 +3,8 @@
 
 int main(int argc, char ** argv) {
 
-    sstd::QtApplication varApplication{ argc,argv,{
-            sstd::replaceFileName(argv[0],
-                QStringLiteral("appqml/default_style/qtquickcontrols2.conf"))
+    sstd::QtApplication varApplication{ argc,argv,{sstd::replaceFileName(argv[0],
+        QStringLiteral("appqml/default_style/qtquickcontrols2.conf"))
     } };
 
     QQmlApplicationEngine varEngine;
